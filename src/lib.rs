@@ -44,7 +44,15 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
 
                 // 01100 Add register               ADD (register) on page A6-102
                 0b01100 => {
-                    unimplemented!()
+                    // A6.7.3 ADD (register) encoding T1
+                    let rm = ((instr >> 6) & 0b111) as u8;
+                    let rn = ((instr >> 3) & 0b111) as u8;
+                    let rd = (instr & 0b111) as u8;
+                    Thumb16::AddsRegT1(
+                        rm.try_into().unwrap(),
+                        rn.try_into().unwrap(),
+                        rd.try_into().unwrap(),
+                    )
                 }
 
                 // 01101 Subtract register          SUB (register) on page A6-165
@@ -58,7 +66,7 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
                     let imm3 = ((instr >> 6) & 0b111) as u8;
                     let rn = ((instr >> 3) & 0b111) as u8;
                     let rd = ((instr >> 0) & 0b111) as u8;
-                    Thumb16::AddsT1(imm3, rn.try_into().unwrap(), rd.try_into().unwrap())
+                    Thumb16::AddsImmT1(imm3, rn.try_into().unwrap(), rd.try_into().unwrap())
                 }
 
                 // 01111 Subtract 3-bit immediate   SUB (immediate) on page A6-164
@@ -68,7 +76,11 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
 
                 // 100xx Move                       MOV (immediate) on page A6-139
                 0b10000..=0b10011 => {
-                    unimplemented!()
+                    // A6.7.39 MOV (immediate) T1 Encoding
+                    let imm8: u8 = instr as u8;
+                    let rd = ((instr >> 8) & 0b111) as u8;
+
+                    Thumb16::MovesT1(rd.try_into().unwrap(), imm8)
                 }
 
                 // 101xx Compare                    CMP (immediate) on page A6-117
@@ -97,7 +109,10 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
             println!("index {}", dp_op_index);
             let dp_op = DpOpcode::try_from(dp_op_index).unwrap();
             println!("dp {:?}", dp_op);
-            unimplemented!()
+            let reg_3 = ((instr >> 3) & 0b111) as u8;
+            let reg_0 = (instr & 0b111) as u8;
+
+            Thumb16::DataProc(dp_op, reg_3.try_into().unwrap(), reg_0.try_into().unwrap())
         }
 
         // 010001 Special data instructions and branch and exchange on page A5-81

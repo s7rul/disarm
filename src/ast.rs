@@ -92,8 +92,11 @@ type Rm = Register;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Thumb16 {
-    AddsT1(Imm3, Rn, Rd),
+    AddsImmT1(Imm3, Rn, Rd),
     BxT1(Rm),
     CmpT1(Rn, Imm8),
     BT1(Cond, Imm8),
+    MovesT1(Rd, Imm8),
+    AddsRegT1(Rm, Rn, Rd),
+    DataProc(DpOpcode, Register, Register),
 }
