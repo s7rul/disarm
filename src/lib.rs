@@ -24,6 +24,7 @@ pub enum Cond {
 // A5.2.2 Data processing
 #[derive(Debug, PartialEq, Eq, TryFromPrimitive, IntoPrimitive)]
 #[repr(u8)]
+
 pub enum DpOpcode {
     AND,
     OR,
@@ -62,13 +63,36 @@ pub enum Instruction {
     Mvn,
 }
 
+#[derive(Debug, PartialEq, Eq, TryFromPrimitive, IntoPrimitive)]
+#[repr(u8)]
+pub enum Register {
+    R0,
+    R1,
+    R2,
+    R3,
+    R4,
+    R5,
+    R6,
+    R7,
+    R8,
+    R9,
+    R10,
+    R11,
+    R12,
+    MSP,
+    LR,
+    PC,
+}
+
 type Imm3 = u8;
-type Rn = u8;
-type Rd = u8;
+type Rn = Register;
+type Rd = Register;
+type Rm = Register;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Thumb16 {
     AddsT1(Imm3, Rn, Rd),
+    BxT1(Rm),
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -76,18 +100,20 @@ pub enum Error {
     ChunkNotLongEnough,
 }
 
-pub fn disassemble(chunk: &[u8]) -> Result<(Instruction, &[u8]), Error> {
+pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
     if chunk.len() < 2 {
         return Err(Error::ChunkNotLongEnough);
     }
 
     // perhaps better to use the `byteorder` crate
     let arr: [u8; 2] = chunk[0..=1].try_into().unwrap();
+    let rest = &chunk[2..];
     let instr = u16::from_le_bytes(arr);
 
     let op6 = instr >> 10; // b15..10
     println!("opcode {:06b}", op6);
-    match op6 {
+
+    let thumb16 = match op6 {
         // 00xxxx Shift (immediate), add, subtract, move, and compare on page A5-79
         0b000000..=0b001111 => {
             println!("00xxxx Shift (immediate), add, subtract, move, and compare on page A5-79");
@@ -124,9 +150,7 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Instruction, &[u8]), Error> {
                     let imm3 = ((instr >> 6) & 0b111) as u8;
                     let rn = ((instr >> 3) & 0b111) as u8;
                     let rd = ((instr >> 0) & 0b111) as u8;
-                    let op = Thumb16::AddsT1(imm3, rn, rd);
-                    println!("{:?}", op);
-                    unimplemented!()
+                    Thumb16::AddsT1(imm3, rn.try_into().unwrap(), rd.try_into().unwrap())
                 }
 
                 // 01111 Subtract 3-bit immediate   SUB (immediate) on page A6-164
@@ -153,7 +177,6 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Instruction, &[u8]), Error> {
                 }
                 _ => unimplemented!(),
             }
-            unimplemented!()
         }
 
         // 010000 Data processing on page A5-80
@@ -169,7 +192,46 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Instruction, &[u8]), Error> {
         // 010001 Special data instructions and branch and exchange on page A5-81
         0b010001 => {
             println!("010001 Special data instructions and branch and exchange on page A5-81");
-            unimplemented!()
+
+            let op4 = (instr >> 6) & 0b1111;
+
+            match op4 {
+                // 00xx Add Registers       ADD (register) on page A6-102
+                0b0000..=0b0011 => {
+                    unimplemented!()
+                }
+
+                // 0100 UNPREDICTABLE       -
+                0b0100 => {
+                    unimplemented!()
+                }
+                // 0101 Compare Registers   CMP (register) on page A6-118
+                0b0101 => {
+                    unimplemented!()
+                }
+
+                // 011x
+                0b0110..=0b0111 => {
+                    unimplemented!()
+                }
+
+                // 10xx Move Registers      MOV (register) on page A6-140
+                0b1000..=0b1011 => {
+                    unimplemented!()
+                }
+                // 110x Branch and Exchange BX on page A6-115
+                0b1100..=0b1101 => {
+                    let rm = ((instr >> 3) & 0b1111) as u8;
+                    assert!(instr & 0b111 == 0);
+                    Thumb16::BxT1(rm.try_into().unwrap())
+                }
+
+                // 111x Branch with Link and Exchange BLX (register) on page A6-114
+                0b1110..=0b1111 => {
+                    unimplemented!()
+                }
+                _ => unimplemented!(),
+            }
         }
 
         // 01001x Load from Literal Pool, see LDR (literal) on page A6-127
@@ -244,7 +306,8 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Instruction, &[u8]), Error> {
             println!("illegal opcode {:b}", op6);
             unimplemented!()
         }
-    }
+    };
+    Ok((thumb16, rest))
 }
 
 #[test]
@@ -254,8 +317,15 @@ fn test_inc() {
          100: 40 1c        	adds	r0, r0, #1
          102: 70 47        	bx	lr
     */
-    let chunk: &[u8] = &[0x40, 0x1c, 0x70, 0x47];
-    let dis = disassemble(chunk);
+    let mut chunk: &[u8] = &[0x40, 0x1c, 0x70, 0x47];
 
-    println!("dis {:?}", dis);
+    // ugly should use an iterator somehow
+    loop {
+        let (inst, rest) = disassemble(chunk).unwrap();
+        println!("{:?}", inst);
+        if rest.len() == 0 {
+            break;
+        };
+        chunk = rest
+    }
 }
