@@ -4,6 +4,12 @@
         "LDMIA",
         "STMEA",
         "STMIA",
-        "byteorder"
+        "armv",
+        "binutils",
+        "byteorder",
+        "insn",
+        "movs",
+        "mvns",
+        "objdump"
     ]
 }

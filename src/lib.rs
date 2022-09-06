@@ -1,99 +1,7 @@
-use num_enum::{IntoPrimitive, TryFromPrimitive};
-use std::convert::TryFrom;
+use std::convert::{TryFrom, TryInto};
 
-// A6.3 Conditional Execution
-#[derive(Debug, PartialEq, Eq)]
-pub enum Cond {
-    EQ = 0b0000,
-    NE = 0b0001,
-    CS = 0b0010,
-    CC = 0b0011,
-    MI = 0b0100,
-    PL = 0b0101,
-    VS = 0b0110,
-    VC = 0b0111,
-    HI = 0b1000,
-    LS = 0b1001,
-    GE = 0b1010,
-    LT = 0b1011,
-    GT = 0b1100,
-    LE = 0b1101,
-    None = 0b1110,
-}
-
-// A5.2.2 Data processing
-#[derive(Debug, PartialEq, Eq, TryFromPrimitive, IntoPrimitive)]
-#[repr(u8)]
-
-pub enum DpOpcode {
-    AND,
-    OR,
-    LSL,
-    LSR,
-    ASR,
-    ADC,
-    SBC,
-    ROR,
-    TST,
-    RSB,
-    CMP,
-    CMN,
-    ORR,
-    MUL,
-    BIC,
-    MVN,
-}
-
-#[derive(Debug, PartialEq, Eq)]
-pub enum Instruction {
-    And,
-    Or,
-    Lsl,
-    Lsr,
-    Asr,
-    Adc,
-    Sbc,
-    Ror,
-    Tst,
-    Rsb,
-    Cmp,
-    Orr,
-    Mul,
-    Bic,
-    Mvn,
-}
-
-#[derive(Debug, PartialEq, Eq, TryFromPrimitive, IntoPrimitive)]
-#[repr(u8)]
-pub enum Register {
-    R0,
-    R1,
-    R2,
-    R3,
-    R4,
-    R5,
-    R6,
-    R7,
-    R8,
-    R9,
-    R10,
-    R11,
-    R12,
-    MSP,
-    LR,
-    PC,
-}
-
-type Imm3 = u8;
-type Rn = Register;
-type Rd = Register;
-type Rm = Register;
-
-#[derive(Debug, PartialEq, Eq)]
-pub enum Thumb16 {
-    AddsT1(Imm3, Rn, Rd),
-    BxT1(Rm),
-}
+mod ast;
+use ast::*;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Error {
@@ -165,7 +73,10 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
 
                 // 101xx Compare                    CMP (immediate) on page A6-117
                 0b10100..=0b10111 => {
-                    unimplemented!()
+                    // A6.7.17 CMP (immediate)
+                    let imm8: u8 = instr as u8;
+                    let rn = ((instr >> 8) & 0b111) as u8;
+                    Thumb16::CmpT1(rn.try_into().unwrap(), imm8)
                 }
                 // 110xx Add 8-bit immediate        ADD (immediate) on page A6-101
                 0b11000..=0b11011 => {
@@ -293,7 +204,26 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
         // 1101xx Conditional branch, and Supervisor Call on page A5-84
         0b110100..=0b110111 => {
             println!("1101xx Conditional branch, and Supervisor Call on page A5-84");
-            unimplemented!()
+            let op4 = (instr >> 8) & 0b1111;
+            match op4 {
+                // 1110 Permanently UNDEFINED   UDF on page A6-171a
+                0b1110 => {
+                    unimplemented!()
+                }
+
+                // 1111 Supervisor Call         SVC on page A6-167
+                0b1111 => {
+                    unimplemented!()
+                }
+                // not 111x Conditional branch  B on page A6-110
+                _ => {
+                    // A6.7.10, Encoding T1
+                    let imm8: u8 = instr as u8;
+                    let cond: u8 = ((instr >> 8) & 0b1111) as u8;
+
+                    Thumb16::BT1(cond.try_into().unwrap(), imm8)
+                }
+            }
         }
 
         // 11100x Unconditional Branch, see B on page A6-110
@@ -318,6 +248,43 @@ fn test_inc() {
          102: 70 47        	bx	lr
     */
     let mut chunk: &[u8] = &[0x40, 0x1c, 0x70, 0x47];
+
+    // ugly should use an iterator somehow
+    loop {
+        let (inst, rest) = disassemble(chunk).unwrap();
+        println!("{:?}", inst);
+        if rest.len() == 0 {
+            break;
+        };
+        chunk = rest
+    }
+}
+
+#[test]
+fn test_cond() {
+    /*
+    00000104 <cond_function>:
+      104: 0a 28        	cmp	r0, #10
+      106: 02 d8        	bhi	0x10e <cond_function+0xa> @ imm = #4
+      108: 01 21        	movs	r1, #1
+      10a: 08 18        	adds	r0, r1, r0
+      10c: 70 47        	bx	lr
+      10e: 00 21        	movs	r1, #0
+      110: c9 43        	mvns	r1, r1
+      112: 08 18        	adds	r0, r1, r0
+      114: 70 47        	bx	lr
+     */
+    let mut chunk: &[u8] = &[
+        0x0a, 0x28, // cmp	r0, #10
+        0x02, 0xd8, // bhi	0x10e <cond_function+0xa> @ imm = #4
+        0x01, 0x21, // movs	r1, #1
+        0x08, 0x18, // adds	r0, r1, r0
+        0x70, 0x47, // bx	lr
+        0x00, 0x21, // movs	r1, #0
+        0xc9, 0x43, // mvns	r1, r1
+        0x08, 0x18, // adds	r0, r1, r0
+        0x70, 0x47, // bx	lr
+    ];
 
     // ugly should use an iterator somehow
     loop {
