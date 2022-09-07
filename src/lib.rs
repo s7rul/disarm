@@ -288,7 +288,8 @@ fn test_cond() {
       110: c9 43        	mvns	r1, r1
       112: 08 18        	adds	r0, r1, r0
       114: 70 47        	bx	lr
-     */
+    */
+
     let mut chunk: &[u8] = &[
         0x0a, 0x28, // cmp	r0, #10
         0x02, 0xd8, // bhi	0x10e <cond_function+0xa> @ imm = #4
@@ -310,4 +311,41 @@ fn test_cond() {
         };
         chunk = rest
     }
+}
+
+#[test]
+fn test_cond2() {
+    /*
+    00000116 <cond_function2>:
+     116: b0 b5        	push	{r4, r5, r7, lr}
+     118: 02 af        	add	r7, sp, #8
+     11a: 0c 46        	mov	r4, r1
+     11c: 05 46        	mov	r5, r0
+     11e: 05 21        	movs	r1, #5
+     120: 00 f0 e8 fb  	bl	0x8f4 <__aeabi_uidiv>   @ imm = #2000
+     124: a5 42        	cmp	r5, r4
+     126: 01 d8        	bhi	0x12c <cond_function2+0x16> @ imm = #2
+     128: 20 1a        	subs	r0, r4, r0
+     12a: b0 bd        	pop	{r4, r5, r7, pc}
+     12c: 60 00        	lsls	r0, r4, #1
+     12e: 40 19        	adds	r0, r0, r5
+     130: b0 bd        	pop	{r4, r5, r7, pc}
+    */
+
+    let mut chunk: &[u8] = &[
+        0xb0, 0xb5, // push	{r4, r5, r7, lr}
+        0x02, 0xaf, // add	r7, sp, #8
+        0x0c, 0x46, // mov	r4, r1
+        0x05, 0x46, // mov	r5, r0
+        0x05, 0x21, // movs	r1, #5
+        0x00, 0xf0, // bl	0x8f4 <__aeabi_uidiv>   @ imm = #2000
+        0xe8, 0xfb, //
+        0xa5, 0x42, // cmp	r5, r4
+        0x01, 0xd8, // bhi	0x12c <cond_function2+0x16> @ imm = #2
+        0x20, 0x1a, // subs	r0, r4, r0
+        0xb0, 0xbd, // pop	{r4, r5, r7, pc}
+        0x60, 0x00, // lsls	r0, r4, #1
+        0x40, 0x19, // adds	r0, r0, r5
+        0xb0, 0xbd, // pop	{r4, r5, r7, pc}
+    ];
 }

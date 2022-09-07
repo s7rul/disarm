@@ -4,13 +4,16 @@
         "LDMIA",
         "STMEA",
         "STMIA",
+        "aeabi",
         "armv",
         "binutils",
         "byteorder",
         "hprintln",
         "insn",
+        "lsls",
         "movs",
         "mvns",
-        "objdump"
+        "objdump",
+        "uidiv"
     ]
 }
