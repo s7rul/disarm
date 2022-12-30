@@ -4,1258 +4,1238 @@ inc:	file format elf32-littlearm
 Disassembly of section .text:
 
 000000b8 <__stext>:
-      b8: 0b 4c        	ldr	r4, [pc, #44]           @ 0xe8 <$d>
-      ba: a6 46        	mov	lr, r4
-      bc: 00 f0 65 fb  	bl	0x78a <__pre_init>      @ imm = #1738
-      c0: a6 46        	mov	lr, r4
-      c2: 0a 48        	ldr	r0, [pc, #40]           @ 0xec <$d+0x4>
-      c4: 0a 49        	ldr	r1, [pc, #40]           @ 0xf0 <$d+0x8>
-      c6: 00 22        	movs	r2, #0
-      c8: 81 42        	cmp	r1, r0
-      ca: 01 d0        	beq	0xd0 <__stext+0x18>     @ imm = #2
-      cc: 04 c0        	stm	r0!, {r2}
-      ce: fb e7        	b	0xc8 <__stext+0x10>     @ imm = #-10
-      d0: 08 48        	ldr	r0, [pc, #32]           @ 0xf4 <$d+0xc>
-      d2: 09 49        	ldr	r1, [pc, #36]           @ 0xf8 <$d+0x10>
-      d4: 09 4a        	ldr	r2, [pc, #36]           @ 0xfc <$d+0x14>
-      d6: 81 42        	cmp	r1, r0
-      d8: 02 d0        	beq	0xe0 <__stext+0x28>     @ imm = #4
-      da: 08 ca        	ldm	r2!, {r3}
-      dc: 08 c0        	stm	r0!, {r3}
-      de: fa e7        	b	0xd6 <__stext+0x1e>     @ imm = #-12
-      e0: 00 b5        	push	{lr}
-      e2: 00 f0 26 f8  	bl	0x132 <main>            @ imm = #76
-      e6: 00 de        	udf	#0
+      b8: 2400         	movs	r4, #0
+      ba: 43e4         	mvns	r4, r4
+      bc: 46a6         	mov	lr, r4
+      be: f000 fb4e    	bl	0x75e <__pre_init>      @ imm = #1692
+      c2: 46a6         	mov	lr, r4
+      c4: 4809         	ldr	r0, [pc, #36]           @ 0xec <$d.21>
+      c6: 490a         	ldr	r1, [pc, #40]           @ 0xf0 <$d.21+0x4>
+      c8: 2200         	movs	r2, #0
+      ca: 4281         	cmp	r1, r0
+      cc: d001         	beq	0xd2 <__stext+0x1a>     @ imm = #2
+      ce: c004         	stm	r0!, {r2}
+      d0: e7fb         	b	0xca <__stext+0x12>     @ imm = #-10
+      d2: 4808         	ldr	r0, [pc, #32]           @ 0xf4 <$d.21+0x8>
+      d4: 4908         	ldr	r1, [pc, #32]           @ 0xf8 <$d.21+0xc>
+      d6: 4a09         	ldr	r2, [pc, #36]           @ 0xfc <$d.21+0x10>
+      d8: 4281         	cmp	r1, r0
+      da: d002         	beq	0xe2 <__stext+0x2a>     @ imm = #4
+      dc: ca08         	ldm	r2!, {r3}
+      de: c008         	stm	r0!, {r3}
+      e0: e7fa         	b	0xd8 <__stext+0x20>     @ imm = #-12
+      e2: b500         	push	{lr}
+      e4: f000 f825    	bl	0x132 <main>            @ imm = #74
+      e8: de00         	udf	#0
+      ea: 0000         	movs	r0, r0
 
-000000e8 <$d>:
-      e8:	ff ff ff ff	.word	0xffffffff
-      ec:	00 00 00 20	.word	0x20000000
-      f0:	08 00 00 20	.word	0x20000008
-      f4:	00 00 00 20	.word	0x20000000
-      f8:	00 00 00 20	.word	0x20000000
-      fc:	14 0c 00 00	.word	0x00000c14
+000000ec <$d.21>:
+      ec: 00 00 00 20  	.word	0x20000000
+      f0: 08 00 00 20  	.word	0x20000008
+      f4: 00 00 00 20  	.word	0x20000000
+      f8: 00 00 00 20  	.word	0x20000000
+      fc: e8 0b 00 00  	.word	0x00000be8
 
 00000100 <inc_function>:
-     100: 40 1c        	adds	r0, r0, #1
-     102: 70 47        	bx	lr
+     100: 1c40         	adds	r0, r0, #1
+     102: 4770         	bx	lr
 
 00000104 <cond_function>:
-     104: 0a 28        	cmp	r0, #10
-     106: 02 d8        	bhi	0x10e <cond_function+0xa> @ imm = #4
-     108: 01 21        	movs	r1, #1
-     10a: 08 18        	adds	r0, r1, r0
-     10c: 70 47        	bx	lr
-     10e: 00 21        	movs	r1, #0
-     110: c9 43        	mvns	r1, r1
-     112: 08 18        	adds	r0, r1, r0
-     114: 70 47        	bx	lr
+     104: 280a         	cmp	r0, #10
+     106: d802         	bhi	0x10e <cond_function+0xa> @ imm = #4
+     108: 2101         	movs	r1, #1
+     10a: 1808         	adds	r0, r1, r0
+     10c: 4770         	bx	lr
+     10e: 2100         	movs	r1, #0
+     110: 43c9         	mvns	r1, r1
+     112: 1808         	adds	r0, r1, r0
+     114: 4770         	bx	lr
 
 00000116 <cond_function2>:
-     116: b0 b5        	push	{r4, r5, r7, lr}
-     118: 02 af        	add	r7, sp, #8
-     11a: 0c 46        	mov	r4, r1
-     11c: 05 46        	mov	r5, r0
-     11e: 05 21        	movs	r1, #5
-     120: 00 f0 e8 fb  	bl	0x8f4 <__aeabi_uidiv>   @ imm = #2000
-     124: a5 42        	cmp	r5, r4
-     126: 01 d8        	bhi	0x12c <cond_function2+0x16> @ imm = #2
-     128: 20 1a        	subs	r0, r4, r0
-     12a: b0 bd        	pop	{r4, r5, r7, pc}
-     12c: 60 00        	lsls	r0, r4, #1
-     12e: 40 19        	adds	r0, r0, r5
-     130: b0 bd        	pop	{r4, r5, r7, pc}
+     116: b5b0         	push	{r4, r5, r7, lr}
+     118: af02         	add	r7, sp, #8
+     11a: 460c         	mov	r4, r1
+     11c: 4605         	mov	r5, r0
+     11e: 2105         	movs	r1, #5
+     120: f000 fbd2    	bl	0x8c8 <__aeabi_uidiv>   @ imm = #1956
+     124: 42a5         	cmp	r5, r4
+     126: d801         	bhi	0x12c <cond_function2+0x16> @ imm = #2
+     128: 1a20         	subs	r0, r4, r0
+     12a: bdb0         	pop	{r4, r5, r7, pc}
+     12c: 0060         	lsls	r0, r4, #1
+     12e: 1940         	adds	r0, r0, r5
+     130: bdb0         	pop	{r4, r5, r7, pc}
 
 00000132 <main>:
-     132: 80 b5        	push	{r7, lr}
-     134: 00 af        	add	r7, sp, #0
-     136: 00 f0 01 f8  	bl	0x13c <inc::__cortex_m_rt_main::h2ce682e83d39bdf4> @ imm = #2
-     13a: fe de        	trap
+     132: b580         	push	{r7, lr}
+     134: af00         	add	r7, sp, #0
+     136: f000 f801    	bl	0x13c <inc::__cortex_m_rt_main::h11ef4a6c36885f4c> @ imm = #2
+     13a: defe         	trap
 
-0000013c <inc::__cortex_m_rt_main::h2ce682e83d39bdf4>:
-     13c: 80 b5        	push	{r7, lr}
-     13e: 00 af        	add	r7, sp, #0
-     140: 8a b0        	sub	sp, #40
-     142: 01 24        	movs	r4, #1
-     144: 20 46        	mov	r0, r4
-     146: ff f7 db ff  	bl	0x100 <inc_function>    @ imm = #-74
-     14a: 02 90        	str	r0, [sp, #8]
-     14c: 7e 48        	ldr	r0, [pc, #504]          @ 0x348 <$d.5>
-     14e: 01 90        	str	r0, [sp, #4]
-     150: 02 a8        	add	r0, sp, #8
-     152: 00 90        	str	r0, [sp]
-     154: 00 f0 cb fb  	bl	0x8ee <__primask_r>     @ imm = #1942
-     158: 05 46        	mov	r5, r0
-     15a: 25 40        	ands	r5, r4
-     15c: 00 f0 c3 fb  	bl	0x8e6 <__cpsid>         @ imm = #1926
-     160: 7a 4e        	ldr	r6, [pc, #488]          @ 0x34c <$d.5+0x4>
-     162: 30 68        	ldr	r0, [r6]
-     164: 01 28        	cmp	r0, #1
-     166: 0c d0        	beq	0x182 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x46> @ imm = #24
-     168: 03 20        	movs	r0, #3
-     16a: 06 90        	str	r0, [sp, #24]
-     16c: 04 20        	movs	r0, #4
-     16e: 05 90        	str	r0, [sp, #20]
-     170: 77 48        	ldr	r0, [pc, #476]          @ 0x350 <$d.5+0x8>
-     172: 04 90        	str	r0, [sp, #16]
-     174: 04 a9        	add	r1, sp, #16
-     176: 20 46        	mov	r0, r4
-     178: ab be        	bkpt	#171
-     17a: 41 1c        	adds	r1, r0, #1
-     17c: 11 d0        	beq	0x1a2 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x66> @ imm = #34
-     17e: 34 60        	str	r4, [r6]
-     180: 70 60        	str	r0, [r6, #4]
-     182: 30 1d        	adds	r0, r6, #4
-     184: 03 90        	str	r0, [sp, #12]
-     186: 09 94        	str	r4, [sp, #36]
-     188: 68 46        	mov	r0, sp
-     18a: 08 90        	str	r0, [sp, #32]
-     18c: 00 20        	movs	r0, #0
-     18e: 07 90        	str	r0, [sp, #28]
-     190: 06 90        	str	r0, [sp, #24]
-     192: 02 20        	movs	r0, #2
-     194: 05 90        	str	r0, [sp, #20]
-     196: 6f 48        	ldr	r0, [pc, #444]          @ 0x354 <$d.5+0xc>
-     198: 04 90        	str	r0, [sp, #16]
-     19a: 03 a8        	add	r0, sp, #12
-     19c: 04 a9        	add	r1, sp, #16
-     19e: 00 f0 41 fa  	bl	0x624 <core::fmt::write::he9beb2966ab2d949> @ imm = #1154
-     1a2: 00 2d        	cmp	r5, #0
-     1a4: 01 d1        	bne	0x1aa <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x6e> @ imm = #2
-     1a6: 00 f0 a0 fb  	bl	0x8ea <__cpsie>         @ imm = #1856
-     1aa: 20 46        	mov	r0, r4
-     1ac: ff f7 aa ff  	bl	0x104 <cond_function>   @ imm = #-172
-     1b0: 02 90        	str	r0, [sp, #8]
-     1b2: 65 48        	ldr	r0, [pc, #404]          @ 0x348 <$d.5>
-     1b4: 01 90        	str	r0, [sp, #4]
-     1b6: 02 a8        	add	r0, sp, #8
-     1b8: 00 90        	str	r0, [sp]
-     1ba: 00 f0 98 fb  	bl	0x8ee <__primask_r>     @ imm = #1840
-     1be: 05 46        	mov	r5, r0
-     1c0: 25 40        	ands	r5, r4
-     1c2: 00 f0 90 fb  	bl	0x8e6 <__cpsid>         @ imm = #1824
-     1c6: 30 68        	ldr	r0, [r6]
-     1c8: 01 28        	cmp	r0, #1
-     1ca: 0c d0        	beq	0x1e6 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0xaa> @ imm = #24
-     1cc: 03 20        	movs	r0, #3
-     1ce: 06 90        	str	r0, [sp, #24]
-     1d0: 04 20        	movs	r0, #4
-     1d2: 05 90        	str	r0, [sp, #20]
-     1d4: 5e 48        	ldr	r0, [pc, #376]          @ 0x350 <$d.5+0x8>
-     1d6: 04 90        	str	r0, [sp, #16]
-     1d8: 04 a9        	add	r1, sp, #16
-     1da: 20 46        	mov	r0, r4
-     1dc: ab be        	bkpt	#171
-     1de: 41 1c        	adds	r1, r0, #1
-     1e0: 11 d0        	beq	0x206 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0xca> @ imm = #34
-     1e2: 34 60        	str	r4, [r6]
-     1e4: 70 60        	str	r0, [r6, #4]
-     1e6: 30 1d        	adds	r0, r6, #4
-     1e8: 03 90        	str	r0, [sp, #12]
-     1ea: 09 94        	str	r4, [sp, #36]
-     1ec: 68 46        	mov	r0, sp
-     1ee: 08 90        	str	r0, [sp, #32]
-     1f0: 00 20        	movs	r0, #0
-     1f2: 07 90        	str	r0, [sp, #28]
-     1f4: 06 90        	str	r0, [sp, #24]
-     1f6: 02 20        	movs	r0, #2
-     1f8: 05 90        	str	r0, [sp, #20]
-     1fa: 57 48        	ldr	r0, [pc, #348]          @ 0x358 <$d.5+0x10>
-     1fc: 04 90        	str	r0, [sp, #16]
-     1fe: 03 a8        	add	r0, sp, #12
-     200: 04 a9        	add	r1, sp, #16
-     202: 00 f0 0f fa  	bl	0x624 <core::fmt::write::he9beb2966ab2d949> @ imm = #1054
-     206: 00 2d        	cmp	r5, #0
-     208: 01 d1        	bne	0x20e <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0xd2> @ imm = #2
-     20a: 00 f0 6e fb  	bl	0x8ea <__cpsie>         @ imm = #1756
-     20e: 0b 20        	movs	r0, #11
-     210: ff f7 78 ff  	bl	0x104 <cond_function>   @ imm = #-272
-     214: 02 90        	str	r0, [sp, #8]
-     216: 4c 48        	ldr	r0, [pc, #304]          @ 0x348 <$d.5>
-     218: 01 90        	str	r0, [sp, #4]
-     21a: 02 a8        	add	r0, sp, #8
-     21c: 00 90        	str	r0, [sp]
-     21e: 00 f0 66 fb  	bl	0x8ee <__primask_r>     @ imm = #1740
-     222: 05 46        	mov	r5, r0
-     224: 25 40        	ands	r5, r4
-     226: 00 f0 5e fb  	bl	0x8e6 <__cpsid>         @ imm = #1724
-     22a: 30 68        	ldr	r0, [r6]
-     22c: 01 28        	cmp	r0, #1
-     22e: 0c d0        	beq	0x24a <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x10e> @ imm = #24
-     230: 03 20        	movs	r0, #3
-     232: 06 90        	str	r0, [sp, #24]
-     234: 04 20        	movs	r0, #4
-     236: 05 90        	str	r0, [sp, #20]
-     238: 45 48        	ldr	r0, [pc, #276]          @ 0x350 <$d.5+0x8>
-     23a: 04 90        	str	r0, [sp, #16]
-     23c: 04 a9        	add	r1, sp, #16
-     23e: 20 46        	mov	r0, r4
-     240: ab be        	bkpt	#171
-     242: 41 1c        	adds	r1, r0, #1
-     244: 11 d0        	beq	0x26a <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x12e> @ imm = #34
-     246: 34 60        	str	r4, [r6]
-     248: 70 60        	str	r0, [r6, #4]
-     24a: 30 1d        	adds	r0, r6, #4
-     24c: 03 90        	str	r0, [sp, #12]
-     24e: 09 94        	str	r4, [sp, #36]
-     250: 68 46        	mov	r0, sp
-     252: 08 90        	str	r0, [sp, #32]
-     254: 00 20        	movs	r0, #0
-     256: 07 90        	str	r0, [sp, #28]
-     258: 06 90        	str	r0, [sp, #24]
-     25a: 02 20        	movs	r0, #2
-     25c: 05 90        	str	r0, [sp, #20]
-     25e: 3f 48        	ldr	r0, [pc, #252]          @ 0x35c <$d.5+0x14>
-     260: 04 90        	str	r0, [sp, #16]
-     262: 03 a8        	add	r0, sp, #12
-     264: 04 a9        	add	r1, sp, #16
-     266: 00 f0 dd f9  	bl	0x624 <core::fmt::write::he9beb2966ab2d949> @ imm = #954
-     26a: 00 2d        	cmp	r5, #0
-     26c: 01 d1        	bne	0x272 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x136> @ imm = #2
-     26e: 00 f0 3c fb  	bl	0x8ea <__cpsie>         @ imm = #1656
-     272: 0b 21        	movs	r1, #11
-     274: 20 46        	mov	r0, r4
-     276: ff f7 4e ff  	bl	0x116 <cond_function2>  @ imm = #-356
-     27a: 02 90        	str	r0, [sp, #8]
-     27c: 32 48        	ldr	r0, [pc, #200]          @ 0x348 <$d.5>
-     27e: 01 90        	str	r0, [sp, #4]
-     280: 02 a8        	add	r0, sp, #8
-     282: 00 90        	str	r0, [sp]
-     284: 00 f0 33 fb  	bl	0x8ee <__primask_r>     @ imm = #1638
-     288: 05 46        	mov	r5, r0
-     28a: 25 40        	ands	r5, r4
-     28c: 00 f0 2b fb  	bl	0x8e6 <__cpsid>         @ imm = #1622
-     290: 30 68        	ldr	r0, [r6]
-     292: 01 28        	cmp	r0, #1
-     294: 0c d0        	beq	0x2b0 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x174> @ imm = #24
-     296: 03 20        	movs	r0, #3
-     298: 06 90        	str	r0, [sp, #24]
-     29a: 04 20        	movs	r0, #4
-     29c: 05 90        	str	r0, [sp, #20]
-     29e: 2c 48        	ldr	r0, [pc, #176]          @ 0x350 <$d.5+0x8>
-     2a0: 04 90        	str	r0, [sp, #16]
-     2a2: 04 a9        	add	r1, sp, #16
-     2a4: 20 46        	mov	r0, r4
-     2a6: ab be        	bkpt	#171
-     2a8: 41 1c        	adds	r1, r0, #1
-     2aa: 11 d0        	beq	0x2d0 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x194> @ imm = #34
-     2ac: 34 60        	str	r4, [r6]
-     2ae: 70 60        	str	r0, [r6, #4]
-     2b0: 30 1d        	adds	r0, r6, #4
-     2b2: 03 90        	str	r0, [sp, #12]
-     2b4: 09 94        	str	r4, [sp, #36]
-     2b6: 68 46        	mov	r0, sp
-     2b8: 08 90        	str	r0, [sp, #32]
-     2ba: 00 20        	movs	r0, #0
-     2bc: 07 90        	str	r0, [sp, #28]
-     2be: 06 90        	str	r0, [sp, #24]
-     2c0: 02 20        	movs	r0, #2
-     2c2: 05 90        	str	r0, [sp, #20]
-     2c4: 26 48        	ldr	r0, [pc, #152]          @ 0x360 <$d.5+0x18>
-     2c6: 04 90        	str	r0, [sp, #16]
-     2c8: 03 a8        	add	r0, sp, #12
-     2ca: 04 a9        	add	r1, sp, #16
-     2cc: 00 f0 aa f9  	bl	0x624 <core::fmt::write::he9beb2966ab2d949> @ imm = #852
-     2d0: 00 2d        	cmp	r5, #0
-     2d2: 01 d1        	bne	0x2d8 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x19c> @ imm = #2
-     2d4: 00 f0 09 fb  	bl	0x8ea <__cpsie>         @ imm = #1554
-     2d8: 0b 20        	movs	r0, #11
-     2da: 21 46        	mov	r1, r4
-     2dc: ff f7 1b ff  	bl	0x116 <cond_function2>  @ imm = #-458
-     2e0: 02 90        	str	r0, [sp, #8]
-     2e2: 19 48        	ldr	r0, [pc, #100]          @ 0x348 <$d.5>
-     2e4: 01 90        	str	r0, [sp, #4]
-     2e6: 02 a8        	add	r0, sp, #8
-     2e8: 00 90        	str	r0, [sp]
-     2ea: 00 f0 00 fb  	bl	0x8ee <__primask_r>     @ imm = #1536
-     2ee: 05 46        	mov	r5, r0
-     2f0: 25 40        	ands	r5, r4
-     2f2: 00 f0 f8 fa  	bl	0x8e6 <__cpsid>         @ imm = #1520
-     2f6: 30 68        	ldr	r0, [r6]
-     2f8: 01 28        	cmp	r0, #1
-     2fa: 0c d0        	beq	0x316 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x1da> @ imm = #24
-     2fc: 03 20        	movs	r0, #3
-     2fe: 06 90        	str	r0, [sp, #24]
-     300: 04 20        	movs	r0, #4
-     302: 05 90        	str	r0, [sp, #20]
-     304: 12 48        	ldr	r0, [pc, #72]           @ 0x350 <$d.5+0x8>
-     306: 04 90        	str	r0, [sp, #16]
-     308: 04 a9        	add	r1, sp, #16
-     30a: 20 46        	mov	r0, r4
-     30c: ab be        	bkpt	#171
-     30e: 41 1c        	adds	r1, r0, #1
-     310: 11 d0        	beq	0x336 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x1fa> @ imm = #34
-     312: 34 60        	str	r4, [r6]
-     314: 70 60        	str	r0, [r6, #4]
-     316: 30 1d        	adds	r0, r6, #4
-     318: 03 90        	str	r0, [sp, #12]
-     31a: 09 94        	str	r4, [sp, #36]
-     31c: 68 46        	mov	r0, sp
-     31e: 08 90        	str	r0, [sp, #32]
-     320: 00 20        	movs	r0, #0
-     322: 07 90        	str	r0, [sp, #28]
-     324: 06 90        	str	r0, [sp, #24]
-     326: 02 20        	movs	r0, #2
-     328: 05 90        	str	r0, [sp, #20]
-     32a: 0e 48        	ldr	r0, [pc, #56]           @ 0x364 <$d.5+0x1c>
-     32c: 04 90        	str	r0, [sp, #16]
-     32e: 03 a8        	add	r0, sp, #12
-     330: 04 a9        	add	r1, sp, #16
-     332: 00 f0 77 f9  	bl	0x624 <core::fmt::write::he9beb2966ab2d949> @ imm = #750
-     336: 00 2d        	cmp	r5, #0
-     338: 01 d1        	bne	0x33e <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x202> @ imm = #2
-     33a: 00 f0 d6 fa  	bl	0x8ea <__cpsie>         @ imm = #1452
-     33e: 18 20        	movs	r0, #24
-     340: 09 49        	ldr	r1, [pc, #36]           @ 0x368 <$d.5+0x20>
-     342: ab be        	bkpt	#171
-     344: fe e7        	b	0x344 <inc::__cortex_m_rt_main::h2ce682e83d39bdf4+0x208> @ imm = #-4
-     346: c0 46        	mov	r8, r8
+0000013c <inc::__cortex_m_rt_main::h11ef4a6c36885f4c>:
+     13c: b580         	push	{r7, lr}
+     13e: af00         	add	r7, sp, #0
+     140: b08a         	sub	sp, #40
+     142: 2401         	movs	r4, #1
+     144: 4620         	mov	r0, r4
+     146: f7ff ffdb    	bl	0x100 <inc_function>    @ imm = #-74
+     14a: 9002         	str	r0, [sp, #8]
+     14c: 487b         	ldr	r0, [pc, #492]          @ 0x33c <$d.7>
+     14e: 9001         	str	r0, [sp, #4]
+     150: a802         	add	r0, sp, #8
+     152: 9000         	str	r0, [sp]
+     154: f000 fbb5    	bl	0x8c2 <__primask_r>     @ imm = #1898
+     158: 4605         	mov	r5, r0
+     15a: 4025         	ands	r5, r4
+     15c: f000 fbad    	bl	0x8ba <__cpsid>         @ imm = #1882
+     160: 4e77         	ldr	r6, [pc, #476]          @ 0x340 <$d.7+0x4>
+     162: 6830         	ldr	r0, [r6]
+     164: 2801         	cmp	r0, #1
+     166: d00c         	beq	0x182 <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x46> @ imm = #24
+     168: 2003         	movs	r0, #3
+     16a: 9006         	str	r0, [sp, #24]
+     16c: 2004         	movs	r0, #4
+     16e: 9005         	str	r0, [sp, #20]
+     170: 4874         	ldr	r0, [pc, #464]          @ 0x344 <$d.7+0x8>
+     172: 9004         	str	r0, [sp, #16]
+     174: a904         	add	r1, sp, #16
+     176: 4620         	mov	r0, r4
+     178: beab         	bkpt	#171
+     17a: 1c41         	adds	r1, r0, #1
+     17c: d010         	beq	0x1a0 <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x64> @ imm = #32
+     17e: 6034         	str	r4, [r6]
+     180: 6070         	str	r0, [r6, #4]
+     182: 1d30         	adds	r0, r6, #4
+     184: 9003         	str	r0, [sp, #12]
+     186: 9409         	str	r4, [sp, #36]
+     188: 4668         	mov	r0, sp
+     18a: 9008         	str	r0, [sp, #32]
+     18c: 2002         	movs	r0, #2
+     18e: 9007         	str	r0, [sp, #28]
+     190: 486d         	ldr	r0, [pc, #436]          @ 0x348 <$d.7+0xc>
+     192: 9006         	str	r0, [sp, #24]
+     194: 2000         	movs	r0, #0
+     196: 9004         	str	r0, [sp, #16]
+     198: a803         	add	r0, sp, #12
+     19a: a904         	add	r1, sp, #16
+     19c: f000 fa30    	bl	0x600 <core::fmt::write::h151b551c1a01ac04> @ imm = #1120
+     1a0: 2d00         	cmp	r5, #0
+     1a2: d101         	bne	0x1a8 <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x6c> @ imm = #2
+     1a4: f000 fb8b    	bl	0x8be <__cpsie>         @ imm = #1814
+     1a8: 4620         	mov	r0, r4
+     1aa: f7ff ffab    	bl	0x104 <cond_function>   @ imm = #-170
+     1ae: 9002         	str	r0, [sp, #8]
+     1b0: 4862         	ldr	r0, [pc, #392]          @ 0x33c <$d.7>
+     1b2: 9001         	str	r0, [sp, #4]
+     1b4: a802         	add	r0, sp, #8
+     1b6: 9000         	str	r0, [sp]
+     1b8: f000 fb83    	bl	0x8c2 <__primask_r>     @ imm = #1798
+     1bc: 4605         	mov	r5, r0
+     1be: 4025         	ands	r5, r4
+     1c0: f000 fb7b    	bl	0x8ba <__cpsid>         @ imm = #1782
+     1c4: 6830         	ldr	r0, [r6]
+     1c6: 2801         	cmp	r0, #1
+     1c8: d00c         	beq	0x1e4 <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0xa8> @ imm = #24
+     1ca: 2003         	movs	r0, #3
+     1cc: 9006         	str	r0, [sp, #24]
+     1ce: 2004         	movs	r0, #4
+     1d0: 9005         	str	r0, [sp, #20]
+     1d2: 485c         	ldr	r0, [pc, #368]          @ 0x344 <$d.7+0x8>
+     1d4: 9004         	str	r0, [sp, #16]
+     1d6: a904         	add	r1, sp, #16
+     1d8: 4620         	mov	r0, r4
+     1da: beab         	bkpt	#171
+     1dc: 1c41         	adds	r1, r0, #1
+     1de: d010         	beq	0x202 <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0xc6> @ imm = #32
+     1e0: 6034         	str	r4, [r6]
+     1e2: 6070         	str	r0, [r6, #4]
+     1e4: 1d30         	adds	r0, r6, #4
+     1e6: 9003         	str	r0, [sp, #12]
+     1e8: 9409         	str	r4, [sp, #36]
+     1ea: 4668         	mov	r0, sp
+     1ec: 9008         	str	r0, [sp, #32]
+     1ee: 2002         	movs	r0, #2
+     1f0: 9007         	str	r0, [sp, #28]
+     1f2: 4856         	ldr	r0, [pc, #344]          @ 0x34c <$d.7+0x10>
+     1f4: 9006         	str	r0, [sp, #24]
+     1f6: 2000         	movs	r0, #0
+     1f8: 9004         	str	r0, [sp, #16]
+     1fa: a803         	add	r0, sp, #12
+     1fc: a904         	add	r1, sp, #16
+     1fe: f000 f9ff    	bl	0x600 <core::fmt::write::h151b551c1a01ac04> @ imm = #1022
+     202: 2d00         	cmp	r5, #0
+     204: d101         	bne	0x20a <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0xce> @ imm = #2
+     206: f000 fb5a    	bl	0x8be <__cpsie>         @ imm = #1716
+     20a: 200b         	movs	r0, #11
+     20c: f7ff ff7a    	bl	0x104 <cond_function>   @ imm = #-268
+     210: 9002         	str	r0, [sp, #8]
+     212: 484a         	ldr	r0, [pc, #296]          @ 0x33c <$d.7>
+     214: 9001         	str	r0, [sp, #4]
+     216: a802         	add	r0, sp, #8
+     218: 9000         	str	r0, [sp]
+     21a: f000 fb52    	bl	0x8c2 <__primask_r>     @ imm = #1700
+     21e: 4605         	mov	r5, r0
+     220: 4025         	ands	r5, r4
+     222: f000 fb4a    	bl	0x8ba <__cpsid>         @ imm = #1684
+     226: 6830         	ldr	r0, [r6]
+     228: 2801         	cmp	r0, #1
+     22a: d00c         	beq	0x246 <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x10a> @ imm = #24
+     22c: 2003         	movs	r0, #3
+     22e: 9006         	str	r0, [sp, #24]
+     230: 2004         	movs	r0, #4
+     232: 9005         	str	r0, [sp, #20]
+     234: 4843         	ldr	r0, [pc, #268]          @ 0x344 <$d.7+0x8>
+     236: 9004         	str	r0, [sp, #16]
+     238: a904         	add	r1, sp, #16
+     23a: 4620         	mov	r0, r4
+     23c: beab         	bkpt	#171
+     23e: 1c41         	adds	r1, r0, #1
+     240: d010         	beq	0x264 <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x128> @ imm = #32
+     242: 6034         	str	r4, [r6]
+     244: 6070         	str	r0, [r6, #4]
+     246: 1d30         	adds	r0, r6, #4
+     248: 9003         	str	r0, [sp, #12]
+     24a: 9409         	str	r4, [sp, #36]
+     24c: 4668         	mov	r0, sp
+     24e: 9008         	str	r0, [sp, #32]
+     250: 2002         	movs	r0, #2
+     252: 9007         	str	r0, [sp, #28]
+     254: 483e         	ldr	r0, [pc, #248]          @ 0x350 <$d.7+0x14>
+     256: 9006         	str	r0, [sp, #24]
+     258: 2000         	movs	r0, #0
+     25a: 9004         	str	r0, [sp, #16]
+     25c: a803         	add	r0, sp, #12
+     25e: a904         	add	r1, sp, #16
+     260: f000 f9ce    	bl	0x600 <core::fmt::write::h151b551c1a01ac04> @ imm = #924
+     264: 2d00         	cmp	r5, #0
+     266: d101         	bne	0x26c <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x130> @ imm = #2
+     268: f000 fb29    	bl	0x8be <__cpsie>         @ imm = #1618
+     26c: 210b         	movs	r1, #11
+     26e: 4620         	mov	r0, r4
+     270: f7ff ff51    	bl	0x116 <cond_function2>  @ imm = #-350
+     274: 9002         	str	r0, [sp, #8]
+     276: 4831         	ldr	r0, [pc, #196]          @ 0x33c <$d.7>
+     278: 9001         	str	r0, [sp, #4]
+     27a: a802         	add	r0, sp, #8
+     27c: 9000         	str	r0, [sp]
+     27e: f000 fb20    	bl	0x8c2 <__primask_r>     @ imm = #1600
+     282: 4605         	mov	r5, r0
+     284: 4025         	ands	r5, r4
+     286: f000 fb18    	bl	0x8ba <__cpsid>         @ imm = #1584
+     28a: 6830         	ldr	r0, [r6]
+     28c: 2801         	cmp	r0, #1
+     28e: d00c         	beq	0x2aa <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x16e> @ imm = #24
+     290: 2003         	movs	r0, #3
+     292: 9006         	str	r0, [sp, #24]
+     294: 2004         	movs	r0, #4
+     296: 9005         	str	r0, [sp, #20]
+     298: 482a         	ldr	r0, [pc, #168]          @ 0x344 <$d.7+0x8>
+     29a: 9004         	str	r0, [sp, #16]
+     29c: a904         	add	r1, sp, #16
+     29e: 4620         	mov	r0, r4
+     2a0: beab         	bkpt	#171
+     2a2: 1c41         	adds	r1, r0, #1
+     2a4: d010         	beq	0x2c8 <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x18c> @ imm = #32
+     2a6: 6034         	str	r4, [r6]
+     2a8: 6070         	str	r0, [r6, #4]
+     2aa: 1d30         	adds	r0, r6, #4
+     2ac: 9003         	str	r0, [sp, #12]
+     2ae: 9409         	str	r4, [sp, #36]
+     2b0: 4668         	mov	r0, sp
+     2b2: 9008         	str	r0, [sp, #32]
+     2b4: 2002         	movs	r0, #2
+     2b6: 9007         	str	r0, [sp, #28]
+     2b8: 4826         	ldr	r0, [pc, #152]          @ 0x354 <$d.7+0x18>
+     2ba: 9006         	str	r0, [sp, #24]
+     2bc: 2000         	movs	r0, #0
+     2be: 9004         	str	r0, [sp, #16]
+     2c0: a803         	add	r0, sp, #12
+     2c2: a904         	add	r1, sp, #16
+     2c4: f000 f99c    	bl	0x600 <core::fmt::write::h151b551c1a01ac04> @ imm = #824
+     2c8: 2d00         	cmp	r5, #0
+     2ca: d101         	bne	0x2d0 <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x194> @ imm = #2
+     2cc: f000 faf7    	bl	0x8be <__cpsie>         @ imm = #1518
+     2d0: 200b         	movs	r0, #11
+     2d2: 4621         	mov	r1, r4
+     2d4: f7ff ff1f    	bl	0x116 <cond_function2>  @ imm = #-450
+     2d8: 9002         	str	r0, [sp, #8]
+     2da: 4818         	ldr	r0, [pc, #96]           @ 0x33c <$d.7>
+     2dc: 9001         	str	r0, [sp, #4]
+     2de: a802         	add	r0, sp, #8
+     2e0: 9000         	str	r0, [sp]
+     2e2: f000 faee    	bl	0x8c2 <__primask_r>     @ imm = #1500
+     2e6: 4605         	mov	r5, r0
+     2e8: 4025         	ands	r5, r4
+     2ea: f000 fae6    	bl	0x8ba <__cpsid>         @ imm = #1484
+     2ee: 6830         	ldr	r0, [r6]
+     2f0: 2801         	cmp	r0, #1
+     2f2: d00c         	beq	0x30e <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x1d2> @ imm = #24
+     2f4: 2003         	movs	r0, #3
+     2f6: 9006         	str	r0, [sp, #24]
+     2f8: 2004         	movs	r0, #4
+     2fa: 9005         	str	r0, [sp, #20]
+     2fc: 4811         	ldr	r0, [pc, #68]           @ 0x344 <$d.7+0x8>
+     2fe: 9004         	str	r0, [sp, #16]
+     300: a904         	add	r1, sp, #16
+     302: 4620         	mov	r0, r4
+     304: beab         	bkpt	#171
+     306: 1c41         	adds	r1, r0, #1
+     308: d010         	beq	0x32c <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x1f0> @ imm = #32
+     30a: 6034         	str	r4, [r6]
+     30c: 6070         	str	r0, [r6, #4]
+     30e: 1d30         	adds	r0, r6, #4
+     310: 9003         	str	r0, [sp, #12]
+     312: 9409         	str	r4, [sp, #36]
+     314: 4668         	mov	r0, sp
+     316: 9008         	str	r0, [sp, #32]
+     318: 2002         	movs	r0, #2
+     31a: 9007         	str	r0, [sp, #28]
+     31c: 480e         	ldr	r0, [pc, #56]           @ 0x358 <$d.7+0x1c>
+     31e: 9006         	str	r0, [sp, #24]
+     320: 2000         	movs	r0, #0
+     322: 9004         	str	r0, [sp, #16]
+     324: a803         	add	r0, sp, #12
+     326: a904         	add	r1, sp, #16
+     328: f000 f96a    	bl	0x600 <core::fmt::write::h151b551c1a01ac04> @ imm = #724
+     32c: 2d00         	cmp	r5, #0
+     32e: d101         	bne	0x334 <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x1f8> @ imm = #2
+     330: f000 fac5    	bl	0x8be <__cpsie>         @ imm = #1418
+     334: 2018         	movs	r0, #24
+     336: 4909         	ldr	r1, [pc, #36]           @ 0x35c <$d.7+0x20>
+     338: beab         	bkpt	#171
+     33a: e7fe         	b	0x33a <inc::__cortex_m_rt_main::h11ef4a6c36885f4c+0x1fe> @ imm = #-4
 
-00000348 <$d.5>:
-     348:	71 03 00 00	.word	0x00000371
-     34c:	00 00 00 20	.word	0x20000000
-     350:	10 0c 00 00	.word	0x00000c10
-     354:	a8 0a 00 00	.word	0x00000aa8
-     358:	c4 0a 00 00	.word	0x00000ac4
-     35c:	e0 0a 00 00	.word	0x00000ae0
-     360:	00 0b 00 00	.word	0x00000b00
-     364:	20 0b 00 00	.word	0x00000b20
-     368:	26 00 02 00	.word	0x00020026
+0000033c <$d.7>:
+     33c: 65 03 00 00  	.word	0x00000365
+     340: 00 00 00 20  	.word	0x20000000
+     344: e4 0b 00 00  	.word	0x00000be4
+     348: 7c 0a 00 00  	.word	0x00000a7c
+     34c: 98 0a 00 00  	.word	0x00000a98
+     350: b4 0a 00 00  	.word	0x00000ab4
+     354: d4 0a 00 00  	.word	0x00000ad4
+     358: f4 0a 00 00  	.word	0x00000af4
+     35c: 26 00 02 00  	.word	0x00020026
 
-0000036c <core::ops::function::FnOnce::call_once::hfdbdf61b6267721c>:
-     36c: 00 68        	ldr	r0, [r0]
-     36e: fe e7        	b	0x36e <core::ops::function::FnOnce::call_once::hfdbdf61b6267721c+0x2> @ imm = #-4
+00000360 <core::ops::function::FnOnce::call_once::h5654401cc15e01ff>:
+     360: 6800         	ldr	r0, [r0]
+     362: e7fe         	b	0x362 <core::ops::function::FnOnce::call_once::h5654401cc15e01ff+0x2> @ imm = #-4
 
-00000370 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc>:
-     370: f0 b5        	push	{r4, r5, r6, r7, lr}
-     372: 03 af        	add	r7, sp, #12
-     374: 93 b0        	sub	sp, #76
-     376: 06 91        	str	r1, [sp, #24]
-     378: 02 68        	ldr	r2, [r0]
-     37a: 95 49        	ldr	r1, [pc, #596]          @ 0x5d0 <$d.8>
-     37c: 27 25        	movs	r5, #39
-     37e: 8a 42        	cmp	r2, r1
-     380: 2d d3        	blo	0x3de <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x6e> @ imm = #90
-     382: 14 46        	mov	r4, r2
-     384: 08 95        	str	r5, [sp, #32]
-     386: 20 46        	mov	r0, r4
-     388: 91 49        	ldr	r1, [pc, #580]          @ 0x5d0 <$d.8>
-     38a: 00 f0 b3 fa  	bl	0x8f4 <__aeabi_uidiv>   @ imm = #1382
-     38e: 07 90        	str	r0, [sp, #28]
-     390: 91 49        	ldr	r1, [pc, #580]          @ 0x5d8 <$d.8+0x8>
-     392: 41 43        	muls	r1, r0, r1
-     394: 09 19        	adds	r1, r1, r4
-     396: 8a b2        	uxth	r2, r1
-     398: 92 08        	lsrs	r2, r2, #2
-     39a: 90 48        	ldr	r0, [pc, #576]          @ 0x5dc <$d.8+0xc>
-     39c: 42 43        	muls	r2, r0, r2
-     39e: 52 0c        	lsrs	r2, r2, #17
-     3a0: 53 00        	lsls	r3, r2, #1
-     3a2: 8f 48        	ldr	r0, [pc, #572]          @ 0x5e0 <$d.8+0x10>
-     3a4: c0 5c        	ldrb	r0, [r0, r3]
-     3a6: 09 ae        	add	r6, sp, #36
-     3a8: 76 19        	adds	r6, r6, r5
-     3aa: 35 1f        	subs	r5, r6, #4
-     3ac: 28 70        	strb	r0, [r5]
-     3ae: 8c 48        	ldr	r0, [pc, #560]          @ 0x5e0 <$d.8+0x10>
-     3b0: c0 18        	adds	r0, r0, r3
-     3b2: 40 78        	ldrb	r0, [r0, #1]
-     3b4: 68 70        	strb	r0, [r5, #1]
-     3b6: 08 9d        	ldr	r5, [sp, #32]
-     3b8: 86 48        	ldr	r0, [pc, #536]          @ 0x5d4 <$d.8+0x4>
-     3ba: 42 43        	muls	r2, r0, r2
-     3bc: 50 18        	adds	r0, r2, r1
-     3be: 80 b2        	uxth	r0, r0
-     3c0: 40 00        	lsls	r0, r0, #1
-     3c2: 87 4a        	ldr	r2, [pc, #540]          @ 0x5e0 <$d.8+0x10>
-     3c4: 11 5c        	ldrb	r1, [r2, r0]
-     3c6: 13 46        	mov	r3, r2
-     3c8: b2 1e        	subs	r2, r6, #2
-     3ca: 11 70        	strb	r1, [r2]
-     3cc: 18 18        	adds	r0, r3, r0
-     3ce: 40 78        	ldrb	r0, [r0, #1]
-     3d0: 50 70        	strb	r0, [r2, #1]
-     3d2: 07 9a        	ldr	r2, [sp, #28]
-     3d4: 2d 1f        	subs	r5, r5, #4
-     3d6: 83 48        	ldr	r0, [pc, #524]          @ 0x5e4 <$d.8+0x14>
-     3d8: 84 42        	cmp	r4, r0
-     3da: 14 46        	mov	r4, r2
-     3dc: d2 d8        	bhi	0x384 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x14> @ imm = #-92
-     3de: 63 2a        	cmp	r2, #99
-     3e0: 23 d9        	bls	0x42a <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0xba> @ imm = #70
-     3e2: 90 b2        	uxth	r0, r2
-     3e4: 80 08        	lsrs	r0, r0, #2
-     3e6: 7d 49        	ldr	r1, [pc, #500]          @ 0x5dc <$d.8+0xc>
-     3e8: 41 43        	muls	r1, r0, r1
-     3ea: 49 0c        	lsrs	r1, r1, #17
-     3ec: 63 20        	movs	r0, #99
-     3ee: c0 43        	mvns	r0, r0
-     3f0: 48 43        	muls	r0, r1, r0
-     3f2: 80 18        	adds	r0, r0, r2
-     3f4: 80 b2        	uxth	r0, r0
-     3f6: 40 00        	lsls	r0, r0, #1
-     3f8: 79 4a        	ldr	r2, [pc, #484]          @ 0x5e0 <$d.8+0x10>
-     3fa: 13 5c        	ldrb	r3, [r2, r0]
-     3fc: ad 1e        	subs	r5, r5, #2
-     3fe: 09 ac        	add	r4, sp, #36
-     400: 63 55        	strb	r3, [r4, r5]
-     402: 2e 46        	mov	r6, r5
-     404: 63 19        	adds	r3, r4, r5
-     406: 10 18        	adds	r0, r2, r0
-     408: 40 78        	ldrb	r0, [r0, #1]
-     40a: 58 70        	strb	r0, [r3, #1]
-     40c: 0a 29        	cmp	r1, #10
-     40e: 06 9d        	ldr	r5, [sp, #24]
-     410: 10 d3        	blo	0x434 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0xc4> @ imm = #32
-     412: 48 00        	lsls	r0, r1, #1
-     414: 72 49        	ldr	r1, [pc, #456]          @ 0x5e0 <$d.8+0x10>
-     416: 0a 5c        	ldrb	r2, [r1, r0]
-     418: b4 1e        	subs	r4, r6, #2
-     41a: 09 ab        	add	r3, sp, #36
-     41c: 1a 55        	strb	r2, [r3, r4]
-     41e: 08 94        	str	r4, [sp, #32]
-     420: 1a 19        	adds	r2, r3, r4
-     422: 08 18        	adds	r0, r1, r0
-     424: 40 78        	ldrb	r0, [r0, #1]
-     426: 50 70        	strb	r0, [r2, #1]
-     428: 09 e0        	b	0x43e <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0xce> @ imm = #18
-     42a: 2e 46        	mov	r6, r5
-     42c: 11 46        	mov	r1, r2
-     42e: 0a 29        	cmp	r1, #10
-     430: 06 9d        	ldr	r5, [sp, #24]
-     432: ee d2        	bhs	0x412 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0xa2> @ imm = #-36
-     434: 72 1e        	subs	r2, r6, #1
-     436: 30 31        	adds	r1, #48
-     438: 09 a8        	add	r0, sp, #36
-     43a: 08 92        	str	r2, [sp, #32]
-     43c: 81 54        	strb	r1, [r0, r2]
-     43e: 27 21        	movs	r1, #39
-     440: 28 68        	ldr	r0, [r5]
-     442: 01 22        	movs	r2, #1
-     444: 06 46        	mov	r6, r0
-     446: 05 92        	str	r2, [sp, #20]
-     448: 16 40        	ands	r6, r2
-     44a: 11 22        	movs	r2, #17
-     44c: 13 04        	lsls	r3, r2, #16
-     44e: 00 2e        	cmp	r6, #0
-     450: 02 93        	str	r3, [sp, #8]
-     452: 00 d0        	beq	0x456 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0xe6> @ imm = #0
-     454: 2b 23        	movs	r3, #43
-     456: 08 9a        	ldr	r2, [sp, #32]
-     458: 8c 1a        	subs	r4, r1, r2
-     45a: 09 a9        	add	r1, sp, #36
-     45c: 89 18        	adds	r1, r1, r2
-     45e: 04 91        	str	r1, [sp, #16]
-     460: 41 07        	lsls	r1, r0, #29
-     462: c9 17        	asrs	r1, r1, #31
-     464: 60 4a        	ldr	r2, [pc, #384]          @ 0x5e8 <$d.8+0x18>
-     466: 0a 40        	ands	r2, r1
-     468: 06 9d        	ldr	r5, [sp, #24]
-     46a: a9 68        	ldr	r1, [r5, #8]
-     46c: 00 29        	cmp	r1, #0
-     46e: 19 d0        	beq	0x4a4 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x134> @ imm = #50
-     470: 03 92        	str	r2, [sp, #12]
-     472: a1 19        	adds	r1, r4, r6
-     474: ea 68        	ldr	r2, [r5, #12]
-     476: 8a 42        	cmp	r2, r1
-     478: 1d d9        	bls	0x4b6 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x146> @ imm = #58
-     47a: 07 92        	str	r2, [sp, #28]
-     47c: 01 94        	str	r4, [sp, #4]
-     47e: 00 07        	lsls	r0, r0, #28
-     480: 2a d4        	bmi	0x4d8 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x168> @ imm = #84
-     482: 1d 46        	mov	r5, r3
-     484: 20 20        	movs	r0, #32
-     486: 06 9b        	ldr	r3, [sp, #24]
-     488: 1a 5c        	ldrb	r2, [r3, r0]
-     48a: 03 2a        	cmp	r2, #3
-     48c: 00 d1        	bne	0x490 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x120> @ imm = #0
-     48e: 01 22        	movs	r2, #1
-     490: 07 98        	ldr	r0, [sp, #28]
-     492: 40 1a        	subs	r0, r0, r1
-     494: 91 07        	lsls	r1, r2, #30
-     496: 44 d0        	beq	0x522 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x1b2> @ imm = #136
-     498: 01 2a        	cmp	r2, #1
-     49a: 44 d1        	bne	0x526 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x1b6> @ imm = #136
-     49c: 00 21        	movs	r1, #0
-     49e: 00 91        	str	r1, [sp]
-     4a0: 01 46        	mov	r1, r0
-     4a2: 44 e0        	b	0x52e <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x1be> @ imm = #136
-     4a4: 28 46        	mov	r0, r5
-     4a6: 19 46        	mov	r1, r3
-     4a8: 00 f0 a0 f8  	bl	0x5ec <core::fmt::Formatter::pad_integral::write_prefix::h97a383d13138fa8a> @ imm = #320
-     4ac: 00 28        	cmp	r0, #0
-     4ae: 09 d0        	beq	0x4c4 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x154> @ imm = #18
-     4b0: 05 98        	ldr	r0, [sp, #20]
-     4b2: 13 b0        	add	sp, #76
-     4b4: f0 bd        	pop	{r4, r5, r6, r7, pc}
-     4b6: 28 46        	mov	r0, r5
-     4b8: 19 46        	mov	r1, r3
-     4ba: 03 9a        	ldr	r2, [sp, #12]
-     4bc: 00 f0 96 f8  	bl	0x5ec <core::fmt::Formatter::pad_integral::write_prefix::h97a383d13138fa8a> @ imm = #300
-     4c0: 00 28        	cmp	r0, #0
-     4c2: f5 d1        	bne	0x4b0 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x140> @ imm = #-22
-     4c4: a8 69        	ldr	r0, [r5, #24]
-     4c6: e9 69        	ldr	r1, [r5, #28]
-     4c8: cb 68        	ldr	r3, [r1, #12]
-     4ca: 04 99        	ldr	r1, [sp, #16]
-     4cc: 22 46        	mov	r2, r4
-     4ce: 98 47        	blx	r3
-     4d0: 05 90        	str	r0, [sp, #20]
-     4d2: 05 98        	ldr	r0, [sp, #20]
-     4d4: 13 b0        	add	sp, #76
-     4d6: f0 bd        	pop	{r4, r5, r6, r7, pc}
-     4d8: 20 20        	movs	r0, #32
-     4da: 06 9d        	ldr	r5, [sp, #24]
-     4dc: 2c 5c        	ldrb	r4, [r5, r0]
-     4de: 01 21        	movs	r1, #1
-     4e0: 05 91        	str	r1, [sp, #20]
-     4e2: 29 54        	strb	r1, [r5, r0]
-     4e4: 68 68        	ldr	r0, [r5, #4]
-     4e6: 02 90        	str	r0, [sp, #8]
-     4e8: 30 20        	movs	r0, #48
-     4ea: 68 60        	str	r0, [r5, #4]
-     4ec: 28 46        	mov	r0, r5
-     4ee: 19 46        	mov	r1, r3
-     4f0: 03 9a        	ldr	r2, [sp, #12]
-     4f2: 00 f0 7b f8  	bl	0x5ec <core::fmt::Formatter::pad_integral::write_prefix::h97a383d13138fa8a> @ imm = #246
-     4f6: 00 28        	cmp	r0, #0
-     4f8: da d1        	bne	0x4b0 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x140> @ imm = #-76
-     4fa: 03 94        	str	r4, [sp, #12]
-     4fc: 28 46        	mov	r0, r5
-     4fe: 20 30        	adds	r0, #32
-     500: 00 90        	str	r0, [sp]
-     502: 08 98        	ldr	r0, [sp, #32]
-     504: 07 99        	ldr	r1, [sp, #28]
-     506: 40 18        	adds	r0, r0, r1
-     508: 86 1b        	subs	r6, r0, r6
-     50a: 26 3e        	subs	r6, #38
-     50c: ac 69        	ldr	r4, [r5, #24]
-     50e: ed 69        	ldr	r5, [r5, #28]
-     510: 76 1e        	subs	r6, r6, #1
-     512: 42 d0        	beq	0x59a <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x22a> @ imm = #132
-     514: 2a 69        	ldr	r2, [r5, #16]
-     516: 30 21        	movs	r1, #48
-     518: 20 46        	mov	r0, r4
-     51a: 90 47        	blx	r2
-     51c: 00 28        	cmp	r0, #0
-     51e: f7 d0        	beq	0x510 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x1a0> @ imm = #-18
-     520: c6 e7        	b	0x4b0 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x140> @ imm = #-116
-     522: 00 21        	movs	r1, #0
-     524: 02 e0        	b	0x52c <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x1bc> @ imm = #4
-     526: 41 08        	lsrs	r1, r0, #1
-     528: 40 1c        	adds	r0, r0, #1
-     52a: 40 08        	lsrs	r0, r0, #1
-     52c: 00 90        	str	r0, [sp]
-     52e: 4c 1c        	adds	r4, r1, #1
-     530: 5e 68        	ldr	r6, [r3, #4]
-     532: 98 69        	ldr	r0, [r3, #24]
-     534: 08 90        	str	r0, [sp, #32]
-     536: d8 69        	ldr	r0, [r3, #28]
-     538: 07 90        	str	r0, [sp, #28]
-     53a: 01 20        	movs	r0, #1
-     53c: 05 90        	str	r0, [sp, #20]
-     53e: 64 1e        	subs	r4, r4, #1
-     540: 07 d0        	beq	0x552 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x1e2> @ imm = #14
-     542: 07 98        	ldr	r0, [sp, #28]
-     544: 02 69        	ldr	r2, [r0, #16]
-     546: 08 98        	ldr	r0, [sp, #32]
-     548: 31 46        	mov	r1, r6
-     54a: 90 47        	blx	r2
-     54c: 00 28        	cmp	r0, #0
-     54e: f6 d0        	beq	0x53e <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x1ce> @ imm = #-20
-     550: ae e7        	b	0x4b0 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x140> @ imm = #-164
-     552: 02 98        	ldr	r0, [sp, #8]
-     554: 86 42        	cmp	r6, r0
-     556: 01 d1        	bne	0x55c <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x1ec> @ imm = #2
-     558: 00 21        	movs	r1, #0
-     55a: 00 91        	str	r1, [sp]
-     55c: 29 46        	mov	r1, r5
-     55e: 03 9a        	ldr	r2, [sp, #12]
-     560: 86 42        	cmp	r6, r0
-     562: a5 d0        	beq	0x4b0 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x140> @ imm = #-182
-     564: 06 98        	ldr	r0, [sp, #24]
-     566: 00 f0 41 f8  	bl	0x5ec <core::fmt::Formatter::pad_integral::write_prefix::h97a383d13138fa8a> @ imm = #130
-     56a: 00 28        	cmp	r0, #0
-     56c: a0 d1        	bne	0x4b0 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x140> @ imm = #-192
-     56e: 07 98        	ldr	r0, [sp, #28]
-     570: c3 68        	ldr	r3, [r0, #12]
-     572: 08 98        	ldr	r0, [sp, #32]
-     574: 04 99        	ldr	r1, [sp, #16]
-     576: 01 9a        	ldr	r2, [sp, #4]
-     578: 98 47        	blx	r3
-     57a: 00 28        	cmp	r0, #0
-     57c: 98 d1        	bne	0x4b0 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x140> @ imm = #-208
-     57e: 00 24        	movs	r4, #0
-     580: 00 9d        	ldr	r5, [sp]
-     582: a5 42        	cmp	r5, r4
-     584: 17 d0        	beq	0x5b6 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x246> @ imm = #46
-     586: 07 98        	ldr	r0, [sp, #28]
-     588: 02 69        	ldr	r2, [r0, #16]
-     58a: 08 98        	ldr	r0, [sp, #32]
-     58c: 31 46        	mov	r1, r6
-     58e: 90 47        	blx	r2
-     590: 64 1c        	adds	r4, r4, #1
-     592: 00 28        	cmp	r0, #0
-     594: f5 d0        	beq	0x582 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x212> @ imm = #-22
-     596: 60 1e        	subs	r0, r4, #1
-     598: 0e e0        	b	0x5b8 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x248> @ imm = #28
-     59a: eb 68        	ldr	r3, [r5, #12]
-     59c: 20 46        	mov	r0, r4
-     59e: 04 99        	ldr	r1, [sp, #16]
-     5a0: 01 9a        	ldr	r2, [sp, #4]
-     5a2: 98 47        	blx	r3
-     5a4: 00 28        	cmp	r0, #0
-     5a6: 06 98        	ldr	r0, [sp, #24]
-     5a8: 82 d1        	bne	0x4b0 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x140> @ imm = #-252
-     5aa: 03 99        	ldr	r1, [sp, #12]
-     5ac: 00 9a        	ldr	r2, [sp]
-     5ae: 11 70        	strb	r1, [r2]
-     5b0: 02 99        	ldr	r1, [sp, #8]
-     5b2: 41 60        	str	r1, [r0, #4]
-     5b4: 02 e0        	b	0x5bc <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x24c> @ imm = #4
-     5b6: 28 46        	mov	r0, r5
-     5b8: a8 42        	cmp	r0, r5
-     5ba: 04 d3        	blo	0x5c6 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x256> @ imm = #8
-     5bc: 00 20        	movs	r0, #0
-     5be: 05 90        	str	r0, [sp, #20]
-     5c0: 05 98        	ldr	r0, [sp, #20]
-     5c2: 13 b0        	add	sp, #76
-     5c4: f0 bd        	pop	{r4, r5, r6, r7, pc}
-     5c6: 01 20        	movs	r0, #1
-     5c8: 05 90        	str	r0, [sp, #20]
-     5ca: 05 98        	ldr	r0, [sp, #20]
-     5cc: 13 b0        	add	sp, #76
-     5ce: f0 bd        	pop	{r4, r5, r6, r7, pc}
+00000364 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252>:
+     364: b5f0         	push	{r4, r5, r6, r7, lr}
+     366: af03         	add	r7, sp, #12
+     368: b095         	sub	sp, #84
+     36a: 9107         	str	r1, [sp, #28]
+     36c: 6802         	ldr	r2, [r0]
+     36e: 498d         	ldr	r1, [pc, #564]          @ 0x5a4 <$d.10>
+     370: 2527         	movs	r5, #39
+     372: 428a         	cmp	r2, r1
+     374: d32d         	blo	0x3d2 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x6e> @ imm = #90
+     376: 4614         	mov	r4, r2
+     378: 950a         	str	r5, [sp, #40]
+     37a: 4620         	mov	r0, r4
+     37c: 4989         	ldr	r1, [pc, #548]          @ 0x5a4 <$d.10>
+     37e: f000 faa3    	bl	0x8c8 <__aeabi_uidiv>   @ imm = #1350
+     382: 9009         	str	r0, [sp, #36]
+     384: 4989         	ldr	r1, [pc, #548]          @ 0x5ac <$d.10+0x8>
+     386: 4341         	muls	r1, r0, r1
+     388: 1909         	adds	r1, r1, r4
+     38a: b28a         	uxth	r2, r1
+     38c: 0892         	lsrs	r2, r2, #2
+     38e: 4888         	ldr	r0, [pc, #544]          @ 0x5b0 <$d.10+0xc>
+     390: 4342         	muls	r2, r0, r2
+     392: 0c52         	lsrs	r2, r2, #17
+     394: 0053         	lsls	r3, r2, #1
+     396: 4887         	ldr	r0, [pc, #540]          @ 0x5b4 <$d.10+0x10>
+     398: 5cc0         	ldrb	r0, [r0, r3]
+     39a: ae0b         	add	r6, sp, #44
+     39c: 1976         	adds	r6, r6, r5
+     39e: 1f35         	subs	r5, r6, #4
+     3a0: 7028         	strb	r0, [r5]
+     3a2: 4884         	ldr	r0, [pc, #528]          @ 0x5b4 <$d.10+0x10>
+     3a4: 18c0         	adds	r0, r0, r3
+     3a6: 7840         	ldrb	r0, [r0, #1]
+     3a8: 7068         	strb	r0, [r5, #1]
+     3aa: 9d0a         	ldr	r5, [sp, #40]
+     3ac: 487e         	ldr	r0, [pc, #504]          @ 0x5a8 <$d.10+0x4>
+     3ae: 4342         	muls	r2, r0, r2
+     3b0: 1850         	adds	r0, r2, r1
+     3b2: b280         	uxth	r0, r0
+     3b4: 0040         	lsls	r0, r0, #1
+     3b6: 4a7f         	ldr	r2, [pc, #508]          @ 0x5b4 <$d.10+0x10>
+     3b8: 5c11         	ldrb	r1, [r2, r0]
+     3ba: 4613         	mov	r3, r2
+     3bc: 1eb2         	subs	r2, r6, #2
+     3be: 7011         	strb	r1, [r2]
+     3c0: 1818         	adds	r0, r3, r0
+     3c2: 7840         	ldrb	r0, [r0, #1]
+     3c4: 7050         	strb	r0, [r2, #1]
+     3c6: 9a09         	ldr	r2, [sp, #36]
+     3c8: 1f2d         	subs	r5, r5, #4
+     3ca: 487b         	ldr	r0, [pc, #492]          @ 0x5b8 <$d.10+0x14>
+     3cc: 4284         	cmp	r4, r0
+     3ce: 4614         	mov	r4, r2
+     3d0: d8d2         	bhi	0x378 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x14> @ imm = #-92
+     3d2: 2a63         	cmp	r2, #99
+     3d4: d922         	bls	0x41c <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0xb8> @ imm = #68
+     3d6: b290         	uxth	r0, r2
+     3d8: 0880         	lsrs	r0, r0, #2
+     3da: 4975         	ldr	r1, [pc, #468]          @ 0x5b0 <$d.10+0xc>
+     3dc: 4341         	muls	r1, r0, r1
+     3de: 0c49         	lsrs	r1, r1, #17
+     3e0: 2063         	movs	r0, #99
+     3e2: 43c0         	mvns	r0, r0
+     3e4: 4348         	muls	r0, r1, r0
+     3e6: 1880         	adds	r0, r0, r2
+     3e8: b280         	uxth	r0, r0
+     3ea: 0040         	lsls	r0, r0, #1
+     3ec: 4a71         	ldr	r2, [pc, #452]          @ 0x5b4 <$d.10+0x10>
+     3ee: 5c13         	ldrb	r3, [r2, r0]
+     3f0: 1ead         	subs	r5, r5, #2
+     3f2: ac0b         	add	r4, sp, #44
+     3f4: 5563         	strb	r3, [r4, r5]
+     3f6: 462e         	mov	r6, r5
+     3f8: 1963         	adds	r3, r4, r5
+     3fa: 1810         	adds	r0, r2, r0
+     3fc: 7840         	ldrb	r0, [r0, #1]
+     3fe: 7058         	strb	r0, [r3, #1]
+     400: 290a         	cmp	r1, #10
+     402: 9d07         	ldr	r5, [sp, #28]
+     404: d30f         	blo	0x426 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0xc2> @ imm = #30
+     406: 0048         	lsls	r0, r1, #1
+     408: 496a         	ldr	r1, [pc, #424]          @ 0x5b4 <$d.10+0x10>
+     40a: 5c0a         	ldrb	r2, [r1, r0]
+     40c: 1eb6         	subs	r6, r6, #2
+     40e: ab0b         	add	r3, sp, #44
+     410: 559a         	strb	r2, [r3, r6]
+     412: 199a         	adds	r2, r3, r6
+     414: 1808         	adds	r0, r1, r0
+     416: 7840         	ldrb	r0, [r0, #1]
+     418: 7050         	strb	r0, [r2, #1]
+     41a: e008         	b	0x42e <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0xca> @ imm = #16
+     41c: 462e         	mov	r6, r5
+     41e: 4611         	mov	r1, r2
+     420: 290a         	cmp	r1, #10
+     422: 9d07         	ldr	r5, [sp, #28]
+     424: d2ef         	bhs	0x406 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0xa2> @ imm = #-34
+     426: 1e76         	subs	r6, r6, #1
+     428: 3130         	adds	r1, #48
+     42a: a80b         	add	r0, sp, #44
+     42c: 5581         	strb	r1, [r0, r6]
+     42e: 2127         	movs	r1, #39
+     430: 69a8         	ldr	r0, [r5, #24]
+     432: 2201         	movs	r2, #1
+     434: 4604         	mov	r4, r0
+     436: 9209         	str	r2, [sp, #36]
+     438: 4014         	ands	r4, r2
+     43a: 2211         	movs	r2, #17
+     43c: 0412         	lsls	r2, r2, #16
+     43e: 2c00         	cmp	r4, #0
+     440: 9205         	str	r2, [sp, #20]
+     442: 9208         	str	r2, [sp, #32]
+     444: d001         	beq	0x44a <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0xe6> @ imm = #2
+     446: 222b         	movs	r2, #43
+     448: 9208         	str	r2, [sp, #32]
+     44a: 1b8b         	subs	r3, r1, r6
+     44c: a90b         	add	r1, sp, #44
+     44e: 1989         	adds	r1, r1, r6
+     450: 9106         	str	r1, [sp, #24]
+     452: 0741         	lsls	r1, r0, #29
+     454: 17c9         	asrs	r1, r1, #31
+     456: 4a59         	ldr	r2, [pc, #356]          @ 0x5bc <$d.10+0x18>
+     458: 400a         	ands	r2, r1
+     45a: 68a9         	ldr	r1, [r5, #8]
+     45c: 2900         	cmp	r1, #0
+     45e: d018         	beq	0x492 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x12e> @ imm = #48
+     460: 9604         	str	r6, [sp, #16]
+     462: 461e         	mov	r6, r3
+     464: 191b         	adds	r3, r3, r4
+     466: 68e9         	ldr	r1, [r5, #12]
+     468: 910a         	str	r1, [sp, #40]
+     46a: 4299         	cmp	r1, r3
+     46c: d912         	bls	0x494 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x130> @ imm = #36
+     46e: 9203         	str	r2, [sp, #12]
+     470: 0700         	lsls	r0, r0, #28
+     472: 9602         	str	r6, [sp, #8]
+     474: d421         	bmi	0x4ba <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x156> @ imm = #66
+     476: 2020         	movs	r0, #32
+     478: 5c2a         	ldrb	r2, [r5, r0]
+     47a: 2a03         	cmp	r2, #3
+     47c: d100         	bne	0x480 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x11c> @ imm = #0
+     47e: 2201         	movs	r2, #1
+     480: 980a         	ldr	r0, [sp, #40]
+     482: 1ac0         	subs	r0, r0, r3
+     484: 0791         	lsls	r1, r2, #30
+     486: d03f         	beq	0x508 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x1a4> @ imm = #126
+     488: 2a01         	cmp	r2, #1
+     48a: d140         	bne	0x50e <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x1aa> @ imm = #128
+     48c: 2100         	movs	r1, #0
+     48e: 9104         	str	r1, [sp, #16]
+     490: e042         	b	0x518 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x1b4> @ imm = #132
+     492: 461e         	mov	r6, r3
+     494: 682c         	ldr	r4, [r5]
+     496: 686d         	ldr	r5, [r5, #4]
+     498: 4620         	mov	r0, r4
+     49a: 4629         	mov	r1, r5
+     49c: 4613         	mov	r3, r2
+     49e: 9a08         	ldr	r2, [sp, #32]
+     4a0: f000 f88e    	bl	0x5c0 <core::fmt::Formatter::pad_integral::write_prefix::he320a72aeba9a6ca> @ imm = #284
+     4a4: 2800         	cmp	r0, #0
+     4a6: d105         	bne	0x4b4 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x150> @ imm = #10
+     4a8: 68eb         	ldr	r3, [r5, #12]
+     4aa: 4620         	mov	r0, r4
+     4ac: 9906         	ldr	r1, [sp, #24]
+     4ae: 4632         	mov	r2, r6
+     4b0: 4798         	blx	r3
+     4b2: 9009         	str	r0, [sp, #36]
+     4b4: 9809         	ldr	r0, [sp, #36]
+     4b6: b015         	add	sp, #84
+     4b8: bdf0         	pop	{r4, r5, r6, r7, pc}
+     4ba: 2020         	movs	r0, #32
+     4bc: 5c29         	ldrb	r1, [r5, r0]
+     4be: 9101         	str	r1, [sp, #4]
+     4c0: 2101         	movs	r1, #1
+     4c2: 9109         	str	r1, [sp, #36]
+     4c4: 5429         	strb	r1, [r5, r0]
+     4c6: 69e8         	ldr	r0, [r5, #28]
+     4c8: 9000         	str	r0, [sp]
+     4ca: 2030         	movs	r0, #48
+     4cc: 61e8         	str	r0, [r5, #28]
+     4ce: 6828         	ldr	r0, [r5]
+     4d0: 462e         	mov	r6, r5
+     4d2: 686d         	ldr	r5, [r5, #4]
+     4d4: 9005         	str	r0, [sp, #20]
+     4d6: 4629         	mov	r1, r5
+     4d8: 9a08         	ldr	r2, [sp, #32]
+     4da: 9b03         	ldr	r3, [sp, #12]
+     4dc: f000 f870    	bl	0x5c0 <core::fmt::Formatter::pad_integral::write_prefix::he320a72aeba9a6ca> @ imm = #224
+     4e0: 2800         	cmp	r0, #0
+     4e2: d1e7         	bne	0x4b4 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x150> @ imm = #-50
+     4e4: 4630         	mov	r0, r6
+     4e6: 3020         	adds	r0, #32
+     4e8: 9008         	str	r0, [sp, #32]
+     4ea: 980a         	ldr	r0, [sp, #40]
+     4ec: 9904         	ldr	r1, [sp, #16]
+     4ee: 1808         	adds	r0, r1, r0
+     4f0: 1b04         	subs	r4, r0, r4
+     4f2: 3c26         	subs	r4, #38
+     4f4: 9e05         	ldr	r6, [sp, #20]
+     4f6: 1e64         	subs	r4, r4, #1
+     4f8: d03f         	beq	0x57a <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x216> @ imm = #126
+     4fa: 692a         	ldr	r2, [r5, #16]
+     4fc: 2130         	movs	r1, #48
+     4fe: 4630         	mov	r0, r6
+     500: 4790         	blx	r2
+     502: 2800         	cmp	r0, #0
+     504: d0f7         	beq	0x4f6 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x192> @ imm = #-18
+     506: e7d5         	b	0x4b4 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x150> @ imm = #-86
+     508: 9004         	str	r0, [sp, #16]
+     50a: 4610         	mov	r0, r2
+     50c: e004         	b	0x518 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x1b4> @ imm = #8
+     50e: 0841         	lsrs	r1, r0, #1
+     510: 1c40         	adds	r0, r0, #1
+     512: 0840         	lsrs	r0, r0, #1
+     514: 9004         	str	r0, [sp, #16]
+     516: 4608         	mov	r0, r1
+     518: 1c45         	adds	r5, r0, #1
+     51a: 9807         	ldr	r0, [sp, #28]
+     51c: 69c1         	ldr	r1, [r0, #28]
+     51e: 910a         	str	r1, [sp, #40]
+     520: c850         	ldm	r0!, {r4, r6}
+     522: 2001         	movs	r0, #1
+     524: 9009         	str	r0, [sp, #36]
+     526: 1e6d         	subs	r5, r5, #1
+     528: d006         	beq	0x538 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x1d4> @ imm = #12
+     52a: 6932         	ldr	r2, [r6, #16]
+     52c: 4620         	mov	r0, r4
+     52e: 990a         	ldr	r1, [sp, #40]
+     530: 4790         	blx	r2
+     532: 2800         	cmp	r0, #0
+     534: d0f7         	beq	0x526 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x1c2> @ imm = #-18
+     536: e7bd         	b	0x4b4 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x150> @ imm = #-134
+     538: 9805         	ldr	r0, [sp, #20]
+     53a: 990a         	ldr	r1, [sp, #40]
+     53c: 4281         	cmp	r1, r0
+     53e: d0b9         	beq	0x4b4 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x150> @ imm = #-142
+     540: 4620         	mov	r0, r4
+     542: 4631         	mov	r1, r6
+     544: 9a08         	ldr	r2, [sp, #32]
+     546: 9b03         	ldr	r3, [sp, #12]
+     548: f000 f83a    	bl	0x5c0 <core::fmt::Formatter::pad_integral::write_prefix::he320a72aeba9a6ca> @ imm = #116
+     54c: 2800         	cmp	r0, #0
+     54e: d1b1         	bne	0x4b4 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x150> @ imm = #-158
+     550: 68f3         	ldr	r3, [r6, #12]
+     552: 4620         	mov	r0, r4
+     554: 9906         	ldr	r1, [sp, #24]
+     556: 9a02         	ldr	r2, [sp, #8]
+     558: 4798         	blx	r3
+     55a: 2800         	cmp	r0, #0
+     55c: d1aa         	bne	0x4b4 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x150> @ imm = #-172
+     55e: 2500         	movs	r5, #0
+     560: 9904         	ldr	r1, [sp, #16]
+     562: 42a9         	cmp	r1, r5
+     564: d017         	beq	0x596 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x232> @ imm = #46
+     566: 6932         	ldr	r2, [r6, #16]
+     568: 4620         	mov	r0, r4
+     56a: 990a         	ldr	r1, [sp, #40]
+     56c: 4790         	blx	r2
+     56e: 9904         	ldr	r1, [sp, #16]
+     570: 1c6d         	adds	r5, r5, #1
+     572: 2800         	cmp	r0, #0
+     574: d0f5         	beq	0x562 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x1fe> @ imm = #-22
+     576: 1e68         	subs	r0, r5, #1
+     578: e00e         	b	0x598 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x234> @ imm = #28
+     57a: 68eb         	ldr	r3, [r5, #12]
+     57c: 4630         	mov	r0, r6
+     57e: 9906         	ldr	r1, [sp, #24]
+     580: 9a02         	ldr	r2, [sp, #8]
+     582: 4798         	blx	r3
+     584: 2800         	cmp	r0, #0
+     586: d195         	bne	0x4b4 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x150> @ imm = #-214
+     588: 9801         	ldr	r0, [sp, #4]
+     58a: 9908         	ldr	r1, [sp, #32]
+     58c: 7008         	strb	r0, [r1]
+     58e: 9807         	ldr	r0, [sp, #28]
+     590: 9900         	ldr	r1, [sp]
+     592: 61c1         	str	r1, [r0, #28]
+     594: e002         	b	0x59c <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x238> @ imm = #4
+     596: 4608         	mov	r0, r1
+     598: 4288         	cmp	r0, r1
+     59a: d301         	blo	0x5a0 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x23c> @ imm = #2
+     59c: 2000         	movs	r0, #0
+     59e: e788         	b	0x4b2 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x14e> @ imm = #-240
+     5a0: 2001         	movs	r0, #1
+     5a2: e786         	b	0x4b2 <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::had6ea584fda2d252+0x14e> @ imm = #-244
 
-000005d0 <$d.8>:
-     5d0:	10 27 00 00	.word	0x00002710
-     5d4:	9c ff 00 00	.word	0x0000ff9c
-     5d8:	f0 d8 ff ff	.word	0xffffd8f0
-     5dc:	7b 14 00 00	.word	0x0000147b
-     5e0:	30 0b 00 00	.word	0x00000b30
-     5e4:	ff e0 f5 05	.word	0x05f5e0ff
-     5e8:	f8 0b 00 00	.word	0x00000bf8
+000005a4 <$d.10>:
+     5a4: 10 27 00 00  	.word	0x00002710
+     5a8: 9c ff 00 00  	.word	0x0000ff9c
+     5ac: f0 d8 00 00  	.word	0x0000d8f0
+     5b0: 7b 14 00 00  	.word	0x0000147b
+     5b4: 04 0b 00 00  	.word	0x00000b04
+     5b8: ff e0 f5 05  	.word	0x05f5e0ff
+     5bc: cc 0b 00 00  	.word	0x00000bcc
 
-000005ec <core::fmt::Formatter::pad_integral::write_prefix::h97a383d13138fa8a>:
-     5ec: b0 b5        	push	{r4, r5, r7, lr}
-     5ee: 02 af        	add	r7, sp, #8
-     5f0: 14 46        	mov	r4, r2
-     5f2: 05 46        	mov	r5, r0
-     5f4: 11 20        	movs	r0, #17
-     5f6: 00 04        	lsls	r0, r0, #16
-     5f8: 81 42        	cmp	r1, r0
-     5fa: 07 d0        	beq	0x60c <core::fmt::Formatter::pad_integral::write_prefix::h97a383d13138fa8a+0x20> @ imm = #14
-     5fc: a8 69        	ldr	r0, [r5, #24]
-     5fe: ea 69        	ldr	r2, [r5, #28]
-     600: 12 69        	ldr	r2, [r2, #16]
-     602: 90 47        	blx	r2
-     604: 00 28        	cmp	r0, #0
-     606: 01 d0        	beq	0x60c <core::fmt::Formatter::pad_integral::write_prefix::h97a383d13138fa8a+0x20> @ imm = #2
-     608: 01 20        	movs	r0, #1
-     60a: b0 bd        	pop	{r4, r5, r7, pc}
-     60c: 00 2c        	cmp	r4, #0
-     60e: 06 d0        	beq	0x61e <core::fmt::Formatter::pad_integral::write_prefix::h97a383d13138fa8a+0x32> @ imm = #12
-     610: a8 69        	ldr	r0, [r5, #24]
-     612: e9 69        	ldr	r1, [r5, #28]
-     614: cb 68        	ldr	r3, [r1, #12]
-     616: 00 22        	movs	r2, #0
-     618: 21 46        	mov	r1, r4
-     61a: 98 47        	blx	r3
-     61c: b0 bd        	pop	{r4, r5, r7, pc}
-     61e: 00 20        	movs	r0, #0
-     620: b0 bd        	pop	{r4, r5, r7, pc}
-     622: d4 d4        	bmi	0x5ce <core::fmt::num::imp::<impl core::fmt::Display for u32>::fmt::hb2b5d6cd3462e0cc+0x25e> @ imm = #-88
+000005c0 <core::fmt::Formatter::pad_integral::write_prefix::he320a72aeba9a6ca>:
+     5c0: b5f0         	push	{r4, r5, r6, r7, lr}
+     5c2: af03         	add	r7, sp, #12
+     5c4: b081         	sub	sp, #4
+     5c6: 461c         	mov	r4, r3
+     5c8: 460e         	mov	r6, r1
+     5ca: 4605         	mov	r5, r0
+     5cc: 2011         	movs	r0, #17
+     5ce: 0400         	lsls	r0, r0, #16
+     5d0: 4282         	cmp	r2, r0
+     5d2: d008         	beq	0x5e6 <core::fmt::Formatter::pad_integral::write_prefix::he320a72aeba9a6ca+0x26> @ imm = #16
+     5d4: 6933         	ldr	r3, [r6, #16]
+     5d6: 4628         	mov	r0, r5
+     5d8: 4611         	mov	r1, r2
+     5da: 4798         	blx	r3
+     5dc: 2800         	cmp	r0, #0
+     5de: d002         	beq	0x5e6 <core::fmt::Formatter::pad_integral::write_prefix::he320a72aeba9a6ca+0x26> @ imm = #4
+     5e0: 2001         	movs	r0, #1
+     5e2: b001         	add	sp, #4
+     5e4: bdf0         	pop	{r4, r5, r6, r7, pc}
+     5e6: 2c00         	cmp	r4, #0
+     5e8: d006         	beq	0x5f8 <core::fmt::Formatter::pad_integral::write_prefix::he320a72aeba9a6ca+0x38> @ imm = #12
+     5ea: 68f3         	ldr	r3, [r6, #12]
+     5ec: 2200         	movs	r2, #0
+     5ee: 4628         	mov	r0, r5
+     5f0: 4621         	mov	r1, r4
+     5f2: 4798         	blx	r3
+     5f4: b001         	add	sp, #4
+     5f6: bdf0         	pop	{r4, r5, r6, r7, pc}
+     5f8: 2000         	movs	r0, #0
+     5fa: b001         	add	sp, #4
+     5fc: bdf0         	pop	{r4, r5, r6, r7, pc}
+     5fe: d4d4         	bmi	0x5aa <$d.10+0x6>       @ imm = #-88
 
-00000624 <core::fmt::write::he9beb2966ab2d949>:
-     624: f0 b5        	push	{r4, r5, r6, r7, lr}
-     626: 03 af        	add	r7, sp, #12
-     628: 91 b0        	sub	sp, #68
-     62a: 20 23        	movs	r3, #32
-     62c: 08 ac        	add	r4, sp, #32
-     62e: 03 22        	movs	r2, #3
-     630: 07 94        	str	r4, [sp, #28]
-     632: e2 54        	strb	r2, [r4, r3]
-     634: 09 93        	str	r3, [sp, #36]
-     636: 00 22        	movs	r2, #0
-     638: 08 92        	str	r2, [sp, #32]
-     63a: 51 4b        	ldr	r3, [pc, #324]          @ 0x780 <$d.11>
-     63c: 0f 93        	str	r3, [sp, #60]
-     63e: 0e 90        	str	r0, [sp, #56]
-     640: 0c 92        	str	r2, [sp, #48]
-     642: 0a 92        	str	r2, [sp, #40]
-     644: 8d 68        	ldr	r5, [r1, #8]
-     646: 00 2d        	cmp	r5, #0
-     648: 60 d0        	beq	0x70c <core::fmt::write::he9beb2966ab2d949+0xe8> @ imm = #192
-     64a: c8 68        	ldr	r0, [r1, #12]
-     64c: 00 28        	cmp	r0, #0
-     64e: 14 46        	mov	r4, r2
-     650: 00 d1        	bne	0x654 <core::fmt::write::he9beb2966ab2d949+0x30> @ imm = #0
-     652: 80 e0        	b	0x756 <core::fmt::write::he9beb2966ab2d949+0x132> @ imm = #256
-     654: 02 92        	str	r2, [sp, #8]
-     656: 07 9a        	ldr	r2, [sp, #28]
-     658: 20 32        	adds	r2, #32
-     65a: 07 92        	str	r2, [sp, #28]
-     65c: 1f 22        	movs	r2, #31
-     65e: d3 06        	lsls	r3, r2, #27
-     660: 42 1e        	subs	r2, r0, #1
-     662: 9a 43        	bics	r2, r3
-     664: 52 1c        	adds	r2, r2, #1
-     666: 01 92        	str	r2, [sp, #4]
-     668: 40 01        	lsls	r0, r0, #5
-     66a: 04 90        	str	r0, [sp, #16]
-     66c: 06 91        	str	r1, [sp, #24]
-     66e: 0c 68        	ldr	r4, [r1]
-     670: 00 26        	movs	r6, #0
-     672: 05 95        	str	r5, [sp, #20]
-     674: 62 68        	ldr	r2, [r4, #4]
-     676: 00 2a        	cmp	r2, #0
-     678: 06 d0        	beq	0x688 <core::fmt::write::he9beb2966ab2d949+0x64> @ imm = #12
-     67a: 0f 98        	ldr	r0, [sp, #60]
-     67c: c3 68        	ldr	r3, [r0, #12]
-     67e: 21 68        	ldr	r1, [r4]
-     680: 0e 98        	ldr	r0, [sp, #56]
-     682: 98 47        	blx	r3
-     684: 00 28        	cmp	r0, #0
-     686: 75 d1        	bne	0x774 <core::fmt::write::he9beb2966ab2d949+0x150> @ imm = #234
-     688: aa 19        	adds	r2, r5, r6
-     68a: 10 7f        	ldrb	r0, [r2, #28]
-     68c: 07 99        	ldr	r1, [sp, #28]
-     68e: 08 70        	strb	r0, [r1]
-     690: 50 68        	ldr	r0, [r2, #4]
-     692: 09 90        	str	r0, [sp, #36]
-     694: 90 68        	ldr	r0, [r2, #8]
-     696: 08 90        	str	r0, [sp, #32]
-     698: 50 69        	ldr	r0, [r2, #20]
-     69a: 93 69        	ldr	r3, [r2, #24]
-     69c: 06 99        	ldr	r1, [sp, #24]
-     69e: 09 69        	ldr	r1, [r1, #16]
-     6a0: 00 25        	movs	r5, #0
-     6a2: 00 28        	cmp	r0, #0
-     6a4: 0d d0        	beq	0x6c2 <core::fmt::write::he9beb2966ab2d949+0x9e> @ imm = #26
-     6a6: 01 28        	cmp	r0, #1
-     6a8: 28 46        	mov	r0, r5
-     6aa: 0b d1        	bne	0x6c4 <core::fmt::write::he9beb2966ab2d949+0xa0> @ imm = #22
-     6ac: d8 00        	lsls	r0, r3, #3
-     6ae: 03 90        	str	r0, [sp, #12]
-     6b0: 08 18        	adds	r0, r1, r0
-     6b2: 40 68        	ldr	r0, [r0, #4]
-     6b4: 33 4b        	ldr	r3, [pc, #204]          @ 0x784 <$d.11+0x4>
-     6b6: 98 42        	cmp	r0, r3
-     6b8: 28 46        	mov	r0, r5
-     6ba: 03 d1        	bne	0x6c4 <core::fmt::write::he9beb2966ab2d949+0xa0> @ imm = #6
-     6bc: 03 98        	ldr	r0, [sp, #12]
-     6be: 08 58        	ldr	r0, [r1, r0]
-     6c0: 03 68        	ldr	r3, [r0]
-     6c2: 01 20        	movs	r0, #1
-     6c4: 0b 93        	str	r3, [sp, #44]
-     6c6: 0a 90        	str	r0, [sp, #40]
-     6c8: d0 68        	ldr	r0, [r2, #12]
-     6ca: 12 69        	ldr	r2, [r2, #16]
-     6cc: 00 28        	cmp	r0, #0
-     6ce: 09 d0        	beq	0x6e4 <core::fmt::write::he9beb2966ab2d949+0xc0> @ imm = #18
-     6d0: 01 28        	cmp	r0, #1
-     6d2: 09 d1        	bne	0x6e8 <core::fmt::write::he9beb2966ab2d949+0xc4> @ imm = #18
-     6d4: d0 00        	lsls	r0, r2, #3
-     6d6: 0a 18        	adds	r2, r1, r0
-     6d8: 52 68        	ldr	r2, [r2, #4]
-     6da: 2a 4b        	ldr	r3, [pc, #168]          @ 0x784 <$d.11+0x4>
-     6dc: 9a 42        	cmp	r2, r3
-     6de: 03 d1        	bne	0x6e8 <core::fmt::write::he9beb2966ab2d949+0xc4> @ imm = #6
-     6e0: 08 58        	ldr	r0, [r1, r0]
-     6e2: 02 68        	ldr	r2, [r0]
-     6e4: 01 25        	movs	r5, #1
-     6e6: ff e7        	b	0x6e8 <core::fmt::write::he9beb2966ab2d949+0xc4> @ imm = #-2
-     6e8: 0d 92        	str	r2, [sp, #52]
-     6ea: 0c 95        	str	r5, [sp, #48]
-     6ec: 05 9d        	ldr	r5, [sp, #20]
-     6ee: a8 59        	ldr	r0, [r5, r6]
-     6f0: c2 00        	lsls	r2, r0, #3
-     6f2: 88 58        	ldr	r0, [r1, r2]
-     6f4: 89 18        	adds	r1, r1, r2
-     6f6: 4a 68        	ldr	r2, [r1, #4]
-     6f8: 08 a9        	add	r1, sp, #32
-     6fa: 90 47        	blx	r2
-     6fc: 00 28        	cmp	r0, #0
-     6fe: 39 d1        	bne	0x774 <core::fmt::write::he9beb2966ab2d949+0x150> @ imm = #114
-     700: 20 36        	adds	r6, #32
-     702: 08 34        	adds	r4, #8
-     704: 04 98        	ldr	r0, [sp, #16]
-     706: b0 42        	cmp	r0, r6
-     708: b4 d1        	bne	0x674 <core::fmt::write::he9beb2966ab2d949+0x50> @ imm = #-152
-     70a: 21 e0        	b	0x750 <core::fmt::write::he9beb2966ab2d949+0x12c> @ imm = #66
-     70c: 48 69        	ldr	r0, [r1, #20]
-     70e: 00 28        	cmp	r0, #0
-     710: 14 46        	mov	r4, r2
-     712: 20 d0        	beq	0x756 <core::fmt::write::he9beb2966ab2d949+0x132> @ imm = #64
-     714: 02 92        	str	r2, [sp, #8]
-     716: 07 22        	movs	r2, #7
-     718: 52 07        	lsls	r2, r2, #29
-     71a: 40 1e        	subs	r0, r0, #1
-     71c: 90 43        	bics	r0, r2
-     71e: 46 1c        	adds	r6, r0, #1
-     720: 0c 68        	ldr	r4, [r1]
-     722: 06 91        	str	r1, [sp, #24]
-     724: 0d 69        	ldr	r5, [r1, #16]
-     726: 01 96        	str	r6, [sp, #4]
-     728: 62 68        	ldr	r2, [r4, #4]
-     72a: 00 2a        	cmp	r2, #0
-     72c: 06 d0        	beq	0x73c <core::fmt::write::he9beb2966ab2d949+0x118> @ imm = #12
-     72e: 0f 98        	ldr	r0, [sp, #60]
-     730: c3 68        	ldr	r3, [r0, #12]
-     732: 21 68        	ldr	r1, [r4]
-     734: 0e 98        	ldr	r0, [sp, #56]
-     736: 98 47        	blx	r3
-     738: 00 28        	cmp	r0, #0
-     73a: 1b d1        	bne	0x774 <core::fmt::write::he9beb2966ab2d949+0x150> @ imm = #54
-     73c: 05 cd        	ldm	r5!, {r0, r2}
-     73e: 08 a9        	add	r1, sp, #32
-     740: 08 3d        	subs	r5, #8
-     742: 90 47        	blx	r2
-     744: 00 28        	cmp	r0, #0
-     746: 15 d1        	bne	0x774 <core::fmt::write::he9beb2966ab2d949+0x150> @ imm = #42
-     748: 08 35        	adds	r5, #8
-     74a: 08 34        	adds	r4, #8
-     74c: 76 1e        	subs	r6, r6, #1
-     74e: eb d1        	bne	0x728 <core::fmt::write::he9beb2966ab2d949+0x104> @ imm = #-42
-     750: 02 9a        	ldr	r2, [sp, #8]
-     752: 06 99        	ldr	r1, [sp, #24]
-     754: 01 9c        	ldr	r4, [sp, #4]
-     756: 48 68        	ldr	r0, [r1, #4]
-     758: 84 42        	cmp	r4, r0
-     75a: 02 d2        	bhs	0x762 <core::fmt::write::he9beb2966ab2d949+0x13e> @ imm = #4
-     75c: e3 00        	lsls	r3, r4, #3
-     75e: 0a 68        	ldr	r2, [r1]
-     760: d2 18        	adds	r2, r2, r3
-     762: 84 42        	cmp	r4, r0
-     764: 09 d2        	bhs	0x77a <core::fmt::write::he9beb2966ab2d949+0x156> @ imm = #18
-     766: 0f 98        	ldr	r0, [sp, #60]
-     768: c3 68        	ldr	r3, [r0, #12]
-     76a: 06 ca        	ldm	r2, {r1, r2}
-     76c: 0e 98        	ldr	r0, [sp, #56]
-     76e: 98 47        	blx	r3
-     770: 00 28        	cmp	r0, #0
-     772: 02 d0        	beq	0x77a <core::fmt::write::he9beb2966ab2d949+0x156> @ imm = #4
-     774: 01 20        	movs	r0, #1
-     776: 11 b0        	add	sp, #68
-     778: f0 bd        	pop	{r4, r5, r6, r7, pc}
-     77a: 00 20        	movs	r0, #0
-     77c: 11 b0        	add	sp, #68
-     77e: f0 bd        	pop	{r4, r5, r6, r7, pc}
+00000600 <core::fmt::write::h151b551c1a01ac04>:
+     600: b5f0         	push	{r4, r5, r6, r7, lr}
+     602: af03         	add	r7, sp, #12
+     604: b08f         	sub	sp, #60
+     606: 2320         	movs	r3, #32
+     608: ac06         	add	r4, sp, #24
+     60a: 2203         	movs	r2, #3
+     60c: 9405         	str	r4, [sp, #20]
+     60e: 54e2         	strb	r2, [r4, r3]
+     610: 930d         	str	r3, [sp, #52]
+     612: 2300         	movs	r3, #0
+     614: 930c         	str	r3, [sp, #48]
+     616: 930a         	str	r3, [sp, #40]
+     618: 9308         	str	r3, [sp, #32]
+     61a: 4a4e         	ldr	r2, [pc, #312]          @ 0x754 <$d.13>
+     61c: 9207         	str	r2, [sp, #28]
+     61e: 9006         	str	r0, [sp, #24]
+     620: 680d         	ldr	r5, [r1]
+     622: 2d00         	cmp	r5, #0
+     624: d05d         	beq	0x6e2 <core::fmt::write::h151b551c1a01ac04+0xe2> @ imm = #186
+     626: 6848         	ldr	r0, [r1, #4]
+     628: 2800         	cmp	r0, #0
+     62a: d07e         	beq	0x72a <core::fmt::write::h151b551c1a01ac04+0x12a> @ imm = #252
+     62c: 9a05         	ldr	r2, [sp, #20]
+     62e: 3220         	adds	r2, #32
+     630: 9205         	str	r2, [sp, #20]
+     632: 221f         	movs	r2, #31
+     634: 06d3         	lsls	r3, r2, #27
+     636: 1e42         	subs	r2, r0, #1
+     638: 439a         	bics	r2, r3
+     63a: 1c52         	adds	r2, r2, #1
+     63c: 9200         	str	r2, [sp]
+     63e: 0140         	lsls	r0, r0, #5
+     640: 9002         	str	r0, [sp, #8]
+     642: 9104         	str	r1, [sp, #16]
+     644: 688c         	ldr	r4, [r1, #8]
+     646: 2600         	movs	r6, #0
+     648: 9503         	str	r5, [sp, #12]
+     64a: 6862         	ldr	r2, [r4, #4]
+     64c: 2a00         	cmp	r2, #0
+     64e: d006         	beq	0x65e <core::fmt::write::h151b551c1a01ac04+0x5e> @ imm = #12
+     650: 9807         	ldr	r0, [sp, #28]
+     652: 68c3         	ldr	r3, [r0, #12]
+     654: 6821         	ldr	r1, [r4]
+     656: 9806         	ldr	r0, [sp, #24]
+     658: 4798         	blx	r3
+     65a: 2800         	cmp	r0, #0
+     65c: d174         	bne	0x748 <core::fmt::write::h151b551c1a01ac04+0x148> @ imm = #232
+     65e: 19aa         	adds	r2, r5, r6
+     660: 7f10         	ldrb	r0, [r2, #28]
+     662: 9905         	ldr	r1, [sp, #20]
+     664: 7008         	strb	r0, [r1]
+     666: 6990         	ldr	r0, [r2, #24]
+     668: 900d         	str	r0, [sp, #52]
+     66a: 6950         	ldr	r0, [r2, #20]
+     66c: 900c         	str	r0, [sp, #48]
+     66e: 68d0         	ldr	r0, [r2, #12]
+     670: 6913         	ldr	r3, [r2, #16]
+     672: 9904         	ldr	r1, [sp, #16]
+     674: 6909         	ldr	r1, [r1, #16]
+     676: 2500         	movs	r5, #0
+     678: 2800         	cmp	r0, #0
+     67a: d00d         	beq	0x698 <core::fmt::write::h151b551c1a01ac04+0x98> @ imm = #26
+     67c: 2801         	cmp	r0, #1
+     67e: 4628         	mov	r0, r5
+     680: d10b         	bne	0x69a <core::fmt::write::h151b551c1a01ac04+0x9a> @ imm = #22
+     682: 00d8         	lsls	r0, r3, #3
+     684: 1808         	adds	r0, r1, r0
+     686: 9001         	str	r0, [sp, #4]
+     688: 6840         	ldr	r0, [r0, #4]
+     68a: 4b33         	ldr	r3, [pc, #204]          @ 0x758 <$d.13+0x4>
+     68c: 4298         	cmp	r0, r3
+     68e: 4628         	mov	r0, r5
+     690: d103         	bne	0x69a <core::fmt::write::h151b551c1a01ac04+0x9a> @ imm = #6
+     692: 9801         	ldr	r0, [sp, #4]
+     694: 6800         	ldr	r0, [r0]
+     696: 6803         	ldr	r3, [r0]
+     698: 2001         	movs	r0, #1
+     69a: 9309         	str	r3, [sp, #36]
+     69c: 9008         	str	r0, [sp, #32]
+     69e: 6850         	ldr	r0, [r2, #4]
+     6a0: 6892         	ldr	r2, [r2, #8]
+     6a2: 2800         	cmp	r0, #0
+     6a4: d009         	beq	0x6ba <core::fmt::write::h151b551c1a01ac04+0xba> @ imm = #18
+     6a6: 2801         	cmp	r0, #1
+     6a8: d109         	bne	0x6be <core::fmt::write::h151b551c1a01ac04+0xbe> @ imm = #18
+     6aa: 00d0         	lsls	r0, r2, #3
+     6ac: 1808         	adds	r0, r1, r0
+     6ae: 6842         	ldr	r2, [r0, #4]
+     6b0: 4b29         	ldr	r3, [pc, #164]          @ 0x758 <$d.13+0x4>
+     6b2: 429a         	cmp	r2, r3
+     6b4: d103         	bne	0x6be <core::fmt::write::h151b551c1a01ac04+0xbe> @ imm = #6
+     6b6: 6800         	ldr	r0, [r0]
+     6b8: 6802         	ldr	r2, [r0]
+     6ba: 2501         	movs	r5, #1
+     6bc: e7ff         	b	0x6be <core::fmt::write::h151b551c1a01ac04+0xbe> @ imm = #-2
+     6be: 920b         	str	r2, [sp, #44]
+     6c0: 950a         	str	r5, [sp, #40]
+     6c2: 9d03         	ldr	r5, [sp, #12]
+     6c4: 59a8         	ldr	r0, [r5, r6]
+     6c6: 00c2         	lsls	r2, r0, #3
+     6c8: 5888         	ldr	r0, [r1, r2]
+     6ca: 1889         	adds	r1, r1, r2
+     6cc: 684a         	ldr	r2, [r1, #4]
+     6ce: a906         	add	r1, sp, #24
+     6d0: 4790         	blx	r2
+     6d2: 2800         	cmp	r0, #0
+     6d4: d138         	bne	0x748 <core::fmt::write::h151b551c1a01ac04+0x148> @ imm = #112
+     6d6: 3620         	adds	r6, #32
+     6d8: 3408         	adds	r4, #8
+     6da: 9802         	ldr	r0, [sp, #8]
+     6dc: 42b0         	cmp	r0, r6
+     6de: d1b4         	bne	0x64a <core::fmt::write::h151b551c1a01ac04+0x4a> @ imm = #-152
+     6e0: e021         	b	0x726 <core::fmt::write::h151b551c1a01ac04+0x126> @ imm = #66
+     6e2: 6948         	ldr	r0, [r1, #20]
+     6e4: 2800         	cmp	r0, #0
+     6e6: d020         	beq	0x72a <core::fmt::write::h151b551c1a01ac04+0x12a> @ imm = #64
+     6e8: 690c         	ldr	r4, [r1, #16]
+     6ea: 2207         	movs	r2, #7
+     6ec: 0753         	lsls	r3, r2, #29
+     6ee: 1e42         	subs	r2, r0, #1
+     6f0: 439a         	bics	r2, r3
+     6f2: 1c52         	adds	r2, r2, #1
+     6f4: 9200         	str	r2, [sp]
+     6f6: 00c5         	lsls	r5, r0, #3
+     6f8: 9104         	str	r1, [sp, #16]
+     6fa: 688e         	ldr	r6, [r1, #8]
+     6fc: 6872         	ldr	r2, [r6, #4]
+     6fe: 2a00         	cmp	r2, #0
+     700: d006         	beq	0x710 <core::fmt::write::h151b551c1a01ac04+0x110> @ imm = #12
+     702: 9807         	ldr	r0, [sp, #28]
+     704: 68c3         	ldr	r3, [r0, #12]
+     706: 6831         	ldr	r1, [r6]
+     708: 9806         	ldr	r0, [sp, #24]
+     70a: 4798         	blx	r3
+     70c: 2800         	cmp	r0, #0
+     70e: d11b         	bne	0x748 <core::fmt::write::h151b551c1a01ac04+0x148> @ imm = #54
+     710: cc05         	ldm	r4!, {r0, r2}
+     712: a906         	add	r1, sp, #24
+     714: 3c08         	subs	r4, #8
+     716: 4790         	blx	r2
+     718: 2800         	cmp	r0, #0
+     71a: d115         	bne	0x748 <core::fmt::write::h151b551c1a01ac04+0x148> @ imm = #42
+     71c: 3408         	adds	r4, #8
+     71e: 3d08         	subs	r5, #8
+     720: 3608         	adds	r6, #8
+     722: 2d00         	cmp	r5, #0
+     724: d1ea         	bne	0x6fc <core::fmt::write::h151b551c1a01ac04+0xfc> @ imm = #-44
+     726: 9904         	ldr	r1, [sp, #16]
+     728: 9b00         	ldr	r3, [sp]
+     72a: 68c8         	ldr	r0, [r1, #12]
+     72c: 4283         	cmp	r3, r0
+     72e: d20e         	bhs	0x74e <core::fmt::write::h151b551c1a01ac04+0x14e> @ imm = #28
+     730: 460a         	mov	r2, r1
+     732: 00d8         	lsls	r0, r3, #3
+     734: 6892         	ldr	r2, [r2, #8]
+     736: 5811         	ldr	r1, [r2, r0]
+     738: 1810         	adds	r0, r2, r0
+     73a: 6842         	ldr	r2, [r0, #4]
+     73c: 9807         	ldr	r0, [sp, #28]
+     73e: 68c3         	ldr	r3, [r0, #12]
+     740: 9806         	ldr	r0, [sp, #24]
+     742: 4798         	blx	r3
+     744: 2800         	cmp	r0, #0
+     746: d002         	beq	0x74e <core::fmt::write::h151b551c1a01ac04+0x14e> @ imm = #4
+     748: 2001         	movs	r0, #1
+     74a: b00f         	add	sp, #60
+     74c: bdf0         	pop	{r4, r5, r6, r7, pc}
+     74e: 2000         	movs	r0, #0
+     750: b00f         	add	sp, #60
+     752: bdf0         	pop	{r4, r5, r6, r7, pc}
 
-00000780 <$d.11>:
-     780:	f8 0b 00 00	.word	0x00000bf8
-     784:	6d 03 00 00	.word	0x0000036d
+00000754 <$d.13>:
+     754: cc 0b 00 00  	.word	0x00000bcc
+     758: 61 03 00 00  	.word	0x00000361
 
-00000788 <WWDG>:
-     788: fe e7        	b	0x788 <WWDG>            @ imm = #-4
+0000075c <WWDG>:
+     75c: e7fe         	b	0x75c <WWDG>            @ imm = #-4
 
-0000078a <__pre_init>:
-     78a: 70 47        	bx	lr
+0000075e <__pre_init>:
+     75e: 4770         	bx	lr
 
-0000078c <core::ptr::drop_in_place<&mut cortex_m_semihosting::hio::HostStream>::h09e14c05280b3224>:
-     78c: 70 47        	bx	lr
+00000760 <core::ptr::drop_in_place<&mut cortex_m_semihosting::hio::HostStream>::h655d08a39c91d1ae>:
+     760: 4770         	bx	lr
 
-0000078e <<&mut W as core::fmt::Write>::write_str::h03f409bf3c95f967>:
-     78e: f0 b5        	push	{r4, r5, r6, r7, lr}
-     790: 03 af        	add	r7, sp, #12
-     792: 85 b0        	sub	sp, #20
-     794: 00 2a        	cmp	r2, #0
-     796: 33 d0        	beq	0x800 <<&mut W as core::fmt::Write>::write_str::h03f409bf3c95f967+0x72> @ imm = #102
-     798: 15 46        	mov	r5, r2
-     79a: 0c 46        	mov	r4, r1
-     79c: 00 68        	ldr	r0, [r0]
-     79e: 00 68        	ldr	r0, [r0]
-     7a0: 01 90        	str	r0, [sp, #4]
-     7a2: 02 ab        	add	r3, sp, #8
-     7a4: 07 c3        	stm	r3!, {r0, r1, r2}
-     7a6: 05 20        	movs	r0, #5
-     7a8: 02 a9        	add	r1, sp, #8
-     7aa: 00 90        	str	r0, [sp]
-     7ac: ab be        	bkpt	#171
-     7ae: 41 42        	rsbs	r1, r0, #0
-     7b0: 41 41        	adcs	r1, r0
-     7b2: 01 23        	movs	r3, #1
-     7b4: 90 42        	cmp	r0, r2
-     7b6: 1a 46        	mov	r2, r3
-     7b8: 00 d8        	bhi	0x7bc <<&mut W as core::fmt::Write>::write_str::h03f409bf3c95f967+0x2e> @ imm = #0
-     7ba: 00 22        	movs	r2, #0
-     7bc: 0a 43        	orrs	r2, r1
-     7be: 06 d0        	beq	0x7ce <<&mut W as core::fmt::Write>::write_str::h03f409bf3c95f967+0x40> @ imm = #12
-     7c0: 01 20        	movs	r0, #1
-     7c2: 48 40        	eors	r0, r1
-     7c4: 05 b0        	add	sp, #20
-     7c6: f0 bd        	pop	{r4, r5, r6, r7, pc}
-     7c8: 01 2e        	cmp	r6, #1
-     7ca: 15 46        	mov	r5, r2
-     7cc: f8 d0        	beq	0x7c0 <<&mut W as core::fmt::Write>::write_str::h03f409bf3c95f967+0x32> @ imm = #-16
-     7ce: 02 46        	mov	r2, r0
-     7d0: 01 98        	ldr	r0, [sp, #4]
-     7d2: 02 90        	str	r0, [sp, #8]
-     7d4: 04 92        	str	r2, [sp, #16]
-     7d6: a8 1a        	subs	r0, r5, r2
-     7d8: 24 18        	adds	r4, r4, r0
-     7da: 03 94        	str	r4, [sp, #12]
-     7dc: 02 a9        	add	r1, sp, #8
-     7de: 00 98        	ldr	r0, [sp]
-     7e0: ab be        	bkpt	#171
-     7e2: 41 42        	rsbs	r1, r0, #0
-     7e4: 41 41        	adcs	r1, r0
-     7e6: 82 42        	cmp	r2, r0
-     7e8: 04 d3        	blo	0x7f4 <<&mut W as core::fmt::Write>::write_str::h03f409bf3c95f967+0x66> @ imm = #8
-     7ea: 00 25        	movs	r5, #0
-     7ec: 00 28        	cmp	r0, #0
-     7ee: 1e 46        	mov	r6, r3
-     7f0: ea d0        	beq	0x7c8 <<&mut W as core::fmt::Write>::write_str::h03f409bf3c95f967+0x3a> @ imm = #-44
-     7f2: 03 e0        	b	0x7fc <<&mut W as core::fmt::Write>::write_str::h03f409bf3c95f967+0x6e> @ imm = #6
-     7f4: 01 25        	movs	r5, #1
-     7f6: 00 28        	cmp	r0, #0
-     7f8: 1e 46        	mov	r6, r3
-     7fa: e5 d0        	beq	0x7c8 <<&mut W as core::fmt::Write>::write_str::h03f409bf3c95f967+0x3a> @ imm = #-54
-     7fc: 2e 46        	mov	r6, r5
-     7fe: e3 e7        	b	0x7c8 <<&mut W as core::fmt::Write>::write_str::h03f409bf3c95f967+0x3a> @ imm = #-58
-     800: 00 20        	movs	r0, #0
-     802: 05 b0        	add	sp, #20
-     804: f0 bd        	pop	{r4, r5, r6, r7, pc}
+00000762 <<&mut W as core::fmt::Write>::write_str::h98e271708a6b2603>:
+     762: b5f0         	push	{r4, r5, r6, r7, lr}
+     764: af03         	add	r7, sp, #12
+     766: b085         	sub	sp, #20
+     768: 2a00         	cmp	r2, #0
+     76a: d033         	beq	0x7d4 <<&mut W as core::fmt::Write>::write_str::h98e271708a6b2603+0x72> @ imm = #102
+     76c: 4615         	mov	r5, r2
+     76e: 460c         	mov	r4, r1
+     770: 6800         	ldr	r0, [r0]
+     772: 6800         	ldr	r0, [r0]
+     774: 9001         	str	r0, [sp, #4]
+     776: ab02         	add	r3, sp, #8
+     778: c307         	stm	r3!, {r0, r1, r2}
+     77a: 2005         	movs	r0, #5
+     77c: a902         	add	r1, sp, #8
+     77e: 9000         	str	r0, [sp]
+     780: beab         	bkpt	#171
+     782: 4241         	rsbs	r1, r0, #0
+     784: 4141         	adcs	r1, r0
+     786: 2301         	movs	r3, #1
+     788: 4290         	cmp	r0, r2
+     78a: 461a         	mov	r2, r3
+     78c: d800         	bhi	0x790 <<&mut W as core::fmt::Write>::write_str::h98e271708a6b2603+0x2e> @ imm = #0
+     78e: 2200         	movs	r2, #0
+     790: 430a         	orrs	r2, r1
+     792: d006         	beq	0x7a2 <<&mut W as core::fmt::Write>::write_str::h98e271708a6b2603+0x40> @ imm = #12
+     794: 2001         	movs	r0, #1
+     796: 4048         	eors	r0, r1
+     798: b005         	add	sp, #20
+     79a: bdf0         	pop	{r4, r5, r6, r7, pc}
+     79c: 2e01         	cmp	r6, #1
+     79e: 4615         	mov	r5, r2
+     7a0: d0f8         	beq	0x794 <<&mut W as core::fmt::Write>::write_str::h98e271708a6b2603+0x32> @ imm = #-16
+     7a2: 4602         	mov	r2, r0
+     7a4: 9801         	ldr	r0, [sp, #4]
+     7a6: 9002         	str	r0, [sp, #8]
+     7a8: 9204         	str	r2, [sp, #16]
+     7aa: 1aa8         	subs	r0, r5, r2
+     7ac: 1824         	adds	r4, r4, r0
+     7ae: 9403         	str	r4, [sp, #12]
+     7b0: a902         	add	r1, sp, #8
+     7b2: 9800         	ldr	r0, [sp]
+     7b4: beab         	bkpt	#171
+     7b6: 4241         	rsbs	r1, r0, #0
+     7b8: 4141         	adcs	r1, r0
+     7ba: 4282         	cmp	r2, r0
+     7bc: d304         	blo	0x7c8 <<&mut W as core::fmt::Write>::write_str::h98e271708a6b2603+0x66> @ imm = #8
+     7be: 2500         	movs	r5, #0
+     7c0: 2800         	cmp	r0, #0
+     7c2: 461e         	mov	r6, r3
+     7c4: d0ea         	beq	0x79c <<&mut W as core::fmt::Write>::write_str::h98e271708a6b2603+0x3a> @ imm = #-44
+     7c6: e003         	b	0x7d0 <<&mut W as core::fmt::Write>::write_str::h98e271708a6b2603+0x6e> @ imm = #6
+     7c8: 2501         	movs	r5, #1
+     7ca: 2800         	cmp	r0, #0
+     7cc: 461e         	mov	r6, r3
+     7ce: d0e5         	beq	0x79c <<&mut W as core::fmt::Write>::write_str::h98e271708a6b2603+0x3a> @ imm = #-54
+     7d0: 462e         	mov	r6, r5
+     7d2: e7e3         	b	0x79c <<&mut W as core::fmt::Write>::write_str::h98e271708a6b2603+0x3a> @ imm = #-58
+     7d4: 2000         	movs	r0, #0
+     7d6: b005         	add	sp, #20
+     7d8: bdf0         	pop	{r4, r5, r6, r7, pc}
 
-00000806 <<&mut W as core::fmt::Write>::write_char::h2600d683bcf226b2>:
-     806: f0 b5        	push	{r4, r5, r6, r7, lr}
-     808: 03 af        	add	r7, sp, #12
-     80a: 84 b0        	sub	sp, #16
-     80c: 00 68        	ldr	r0, [r0]
-     80e: 00 22        	movs	r2, #0
-     810: 00 92        	str	r2, [sp]
-     812: 80 29        	cmp	r1, #128
-     814: 03 d2        	bhs	0x81e <<&mut W as core::fmt::Write>::write_char::h2600d683bcf226b2+0x18> @ imm = #6
-     816: 6a 46        	mov	r2, sp
-     818: 11 70        	strb	r1, [r2]
-     81a: 01 24        	movs	r4, #1
-     81c: 2f e0        	b	0x87e <<&mut W as core::fmt::Write>::write_char::h2600d683bcf226b2+0x78> @ imm = #94
-     81e: ca 0a        	lsrs	r2, r1, #11
-     820: 0a d1        	bne	0x838 <<&mut W as core::fmt::Write>::write_char::h2600d683bcf226b2+0x32> @ imm = #20
-     822: 3f 22        	movs	r2, #63
-     824: 0a 40        	ands	r2, r1
-     826: 80 32        	adds	r2, #128
-     828: 6b 46        	mov	r3, sp
-     82a: 5a 70        	strb	r2, [r3, #1]
-     82c: 89 09        	lsrs	r1, r1, #6
-     82e: c0 22        	movs	r2, #192
-     830: 0a 43        	orrs	r2, r1
-     832: 1a 70        	strb	r2, [r3]
-     834: 02 24        	movs	r4, #2
-     836: 22 e0        	b	0x87e <<&mut W as core::fmt::Write>::write_char::h2600d683bcf226b2+0x78> @ imm = #68
-     838: 0a 0c        	lsrs	r2, r1, #16
-     83a: 0e d1        	bne	0x85a <<&mut W as core::fmt::Write>::write_char::h2600d683bcf226b2+0x54> @ imm = #28
-     83c: 3f 22        	movs	r2, #63
-     83e: 0a 40        	ands	r2, r1
-     840: 80 32        	adds	r2, #128
-     842: 6b 46        	mov	r3, sp
-     844: 9a 70        	strb	r2, [r3, #2]
-     846: 0a 0b        	lsrs	r2, r1, #12
-     848: e0 24        	movs	r4, #224
-     84a: 14 43        	orrs	r4, r2
-     84c: 1c 70        	strb	r4, [r3]
-     84e: 09 05        	lsls	r1, r1, #20
-     850: 89 0e        	lsrs	r1, r1, #26
-     852: 80 31        	adds	r1, #128
-     854: 59 70        	strb	r1, [r3, #1]
-     856: 03 24        	movs	r4, #3
-     858: 11 e0        	b	0x87e <<&mut W as core::fmt::Write>::write_char::h2600d683bcf226b2+0x78> @ imm = #34
-     85a: 3f 23        	movs	r3, #63
-     85c: 0b 40        	ands	r3, r1
-     85e: 80 33        	adds	r3, #128
-     860: 6a 46        	mov	r2, sp
-     862: d3 70        	strb	r3, [r2, #3]
-     864: 8b 0c        	lsrs	r3, r1, #18
-     866: f0 24        	movs	r4, #240
-     868: 1c 43        	orrs	r4, r3
-     86a: 14 70        	strb	r4, [r2]
-     86c: 0b 05        	lsls	r3, r1, #20
-     86e: 9b 0e        	lsrs	r3, r3, #26
-     870: 80 33        	adds	r3, #128
-     872: 93 70        	strb	r3, [r2, #2]
-     874: 89 03        	lsls	r1, r1, #14
-     876: 89 0e        	lsrs	r1, r1, #26
-     878: 80 31        	adds	r1, #128
-     87a: 51 70        	strb	r1, [r2, #1]
-     87c: 04 24        	movs	r4, #4
-     87e: 03 68        	ldr	r3, [r0]
-     880: 03 94        	str	r4, [sp, #12]
-     882: 68 46        	mov	r0, sp
-     884: 02 90        	str	r0, [sp, #8]
-     886: 01 93        	str	r3, [sp, #4]
-     888: 05 22        	movs	r2, #5
-     88a: 01 a9        	add	r1, sp, #4
-     88c: 10 46        	mov	r0, r2
-     88e: ab be        	bkpt	#171
-     890: 41 42        	rsbs	r1, r0, #0
-     892: 41 41        	adcs	r1, r0
-     894: 45 1e        	subs	r5, r0, #1
-     896: a5 42        	cmp	r5, r4
-     898: 10 d2        	bhs	0x8bc <<&mut W as core::fmt::Write>::write_char::h2600d683bcf226b2+0xb6> @ imm = #32
-     89a: 6d 46        	mov	r5, sp
-     89c: 06 46        	mov	r6, r0
-     89e: 01 93        	str	r3, [sp, #4]
-     8a0: 03 90        	str	r0, [sp, #12]
-     8a2: 20 1a        	subs	r0, r4, r0
-     8a4: 2d 18        	adds	r5, r5, r0
-     8a6: 02 95        	str	r5, [sp, #8]
-     8a8: 01 a9        	add	r1, sp, #4
-     8aa: 10 46        	mov	r0, r2
-     8ac: ab be        	bkpt	#171
-     8ae: 41 42        	rsbs	r1, r0, #0
-     8b0: 41 41        	adcs	r1, r0
-     8b2: 00 28        	cmp	r0, #0
-     8b4: 02 d0        	beq	0x8bc <<&mut W as core::fmt::Write>::write_char::h2600d683bcf226b2+0xb6> @ imm = #4
-     8b6: 86 42        	cmp	r6, r0
-     8b8: 34 46        	mov	r4, r6
-     8ba: ef d2        	bhs	0x89c <<&mut W as core::fmt::Write>::write_char::h2600d683bcf226b2+0x96> @ imm = #-34
-     8bc: 01 20        	movs	r0, #1
-     8be: 48 40        	eors	r0, r1
-     8c0: 04 b0        	add	sp, #16
-     8c2: f0 bd        	pop	{r4, r5, r6, r7, pc}
+000007da <<&mut W as core::fmt::Write>::write_char::h9d14628470428668>:
+     7da: b5f0         	push	{r4, r5, r6, r7, lr}
+     7dc: af03         	add	r7, sp, #12
+     7de: b084         	sub	sp, #16
+     7e0: 6800         	ldr	r0, [r0]
+     7e2: 6803         	ldr	r3, [r0]
+     7e4: 2000         	movs	r0, #0
+     7e6: 9000         	str	r0, [sp]
+     7e8: 2980         	cmp	r1, #128
+     7ea: d203         	bhs	0x7f4 <<&mut W as core::fmt::Write>::write_char::h9d14628470428668+0x1a> @ imm = #6
+     7ec: 4668         	mov	r0, sp
+     7ee: 7001         	strb	r1, [r0]
+     7f0: 2401         	movs	r4, #1
+     7f2: e02f         	b	0x854 <<&mut W as core::fmt::Write>::write_char::h9d14628470428668+0x7a> @ imm = #94
+     7f4: 0ac8         	lsrs	r0, r1, #11
+     7f6: d10a         	bne	0x80e <<&mut W as core::fmt::Write>::write_char::h9d14628470428668+0x34> @ imm = #20
+     7f8: 203f         	movs	r0, #63
+     7fa: 4008         	ands	r0, r1
+     7fc: 3080         	adds	r0, #128
+     7fe: 466a         	mov	r2, sp
+     800: 7050         	strb	r0, [r2, #1]
+     802: 0988         	lsrs	r0, r1, #6
+     804: 21c0         	movs	r1, #192
+     806: 4301         	orrs	r1, r0
+     808: 7011         	strb	r1, [r2]
+     80a: 2402         	movs	r4, #2
+     80c: e022         	b	0x854 <<&mut W as core::fmt::Write>::write_char::h9d14628470428668+0x7a> @ imm = #68
+     80e: 0c08         	lsrs	r0, r1, #16
+     810: d10e         	bne	0x830 <<&mut W as core::fmt::Write>::write_char::h9d14628470428668+0x56> @ imm = #28
+     812: 203f         	movs	r0, #63
+     814: 4008         	ands	r0, r1
+     816: 3080         	adds	r0, #128
+     818: 466a         	mov	r2, sp
+     81a: 7090         	strb	r0, [r2, #2]
+     81c: 0b08         	lsrs	r0, r1, #12
+     81e: 24e0         	movs	r4, #224
+     820: 4304         	orrs	r4, r0
+     822: 7014         	strb	r4, [r2]
+     824: 0508         	lsls	r0, r1, #20
+     826: 0e80         	lsrs	r0, r0, #26
+     828: 3080         	adds	r0, #128
+     82a: 7050         	strb	r0, [r2, #1]
+     82c: 2403         	movs	r4, #3
+     82e: e011         	b	0x854 <<&mut W as core::fmt::Write>::write_char::h9d14628470428668+0x7a> @ imm = #34
+     830: 223f         	movs	r2, #63
+     832: 400a         	ands	r2, r1
+     834: 3280         	adds	r2, #128
+     836: 4668         	mov	r0, sp
+     838: 70c2         	strb	r2, [r0, #3]
+     83a: 050a         	lsls	r2, r1, #20
+     83c: 0e92         	lsrs	r2, r2, #26
+     83e: 3280         	adds	r2, #128
+     840: 7082         	strb	r2, [r0, #2]
+     842: 038a         	lsls	r2, r1, #14
+     844: 0e92         	lsrs	r2, r2, #26
+     846: 3280         	adds	r2, #128
+     848: 7042         	strb	r2, [r0, #1]
+     84a: 02c9         	lsls	r1, r1, #11
+     84c: 0f49         	lsrs	r1, r1, #29
+     84e: 31f0         	adds	r1, #240
+     850: 7001         	strb	r1, [r0]
+     852: 2404         	movs	r4, #4
+     854: 9403         	str	r4, [sp, #12]
+     856: 4668         	mov	r0, sp
+     858: 9002         	str	r0, [sp, #8]
+     85a: 9301         	str	r3, [sp, #4]
+     85c: 2205         	movs	r2, #5
+     85e: a901         	add	r1, sp, #4
+     860: 4610         	mov	r0, r2
+     862: beab         	bkpt	#171
+     864: 4241         	rsbs	r1, r0, #0
+     866: 4141         	adcs	r1, r0
+     868: 1e45         	subs	r5, r0, #1
+     86a: 42a5         	cmp	r5, r4
+     86c: d210         	bhs	0x890 <<&mut W as core::fmt::Write>::write_char::h9d14628470428668+0xb6> @ imm = #32
+     86e: 466d         	mov	r5, sp
+     870: 4606         	mov	r6, r0
+     872: 9301         	str	r3, [sp, #4]
+     874: 9003         	str	r0, [sp, #12]
+     876: 1a20         	subs	r0, r4, r0
+     878: 182d         	adds	r5, r5, r0
+     87a: 9502         	str	r5, [sp, #8]
+     87c: a901         	add	r1, sp, #4
+     87e: 4610         	mov	r0, r2
+     880: beab         	bkpt	#171
+     882: 4241         	rsbs	r1, r0, #0
+     884: 4141         	adcs	r1, r0
+     886: 2800         	cmp	r0, #0
+     888: d002         	beq	0x890 <<&mut W as core::fmt::Write>::write_char::h9d14628470428668+0xb6> @ imm = #4
+     88a: 4286         	cmp	r6, r0
+     88c: 4634         	mov	r4, r6
+     88e: d2ef         	bhs	0x870 <<&mut W as core::fmt::Write>::write_char::h9d14628470428668+0x96> @ imm = #-34
+     890: 2001         	movs	r0, #1
+     892: 4048         	eors	r0, r1
+     894: b004         	add	sp, #16
+     896: bdf0         	pop	{r4, r5, r6, r7, pc}
 
-000008c4 <<&mut W as core::fmt::Write>::write_fmt::hd31f7e06213b1f40>:
-     8c4: b0 b5        	push	{r4, r5, r7, lr}
-     8c6: 02 af        	add	r7, sp, #8
-     8c8: 88 b0        	sub	sp, #32
-     8ca: 00 68        	ldr	r0, [r0]
-     8cc: 01 90        	str	r0, [sp, #4]
-     8ce: 02 aa        	add	r2, sp, #8
-     8d0: 10 46        	mov	r0, r2
-     8d2: 38 c9        	ldm	r1!, {r3, r4, r5}
-     8d4: 38 c0        	stm	r0!, {r3, r4, r5}
-     8d6: 38 c9        	ldm	r1!, {r3, r4, r5}
-     8d8: 38 c0        	stm	r0!, {r3, r4, r5}
-     8da: 01 a8        	add	r0, sp, #4
-     8dc: 11 46        	mov	r1, r2
-     8de: ff f7 a1 fe  	bl	0x624 <core::fmt::write::he9beb2966ab2d949> @ imm = #-702
-     8e2: 08 b0        	add	sp, #32
-     8e4: b0 bd        	pop	{r4, r5, r7, pc}
+00000898 <<&mut W as core::fmt::Write>::write_fmt::h25aff5505ef532b7>:
+     898: b5b0         	push	{r4, r5, r7, lr}
+     89a: af02         	add	r7, sp, #8
+     89c: b088         	sub	sp, #32
+     89e: 6800         	ldr	r0, [r0]
+     8a0: 9001         	str	r0, [sp, #4]
+     8a2: aa02         	add	r2, sp, #8
+     8a4: 4610         	mov	r0, r2
+     8a6: c938         	ldm	r1!, {r3, r4, r5}
+     8a8: c038         	stm	r0!, {r3, r4, r5}
+     8aa: c938         	ldm	r1!, {r3, r4, r5}
+     8ac: c038         	stm	r0!, {r3, r4, r5}
+     8ae: a801         	add	r0, sp, #4
+     8b0: 4611         	mov	r1, r2
+     8b2: f7ff fea5    	bl	0x600 <core::fmt::write::h151b551c1a01ac04> @ imm = #-694
+     8b6: b008         	add	sp, #32
+     8b8: bdb0         	pop	{r4, r5, r7, pc}
 
-000008e6 <__cpsid>:
-     8e6: 72 b6        	cpsid i
-     8e8: 70 47        	bx	lr
+000008ba <__cpsid>:
+     8ba: b672         	cpsid i
+     8bc: 4770         	bx	lr
 
-000008ea <__cpsie>:
-     8ea: 62 b6        	cpsie i
-     8ec: 70 47        	bx	lr
+000008be <__cpsie>:
+     8be: b662         	cpsie i
+     8c0: 4770         	bx	lr
 
-000008ee <__primask_r>:
-     8ee: ef f3 10 80  	mrs	r0, primask
-     8f2: 70 47        	bx	lr
+000008c2 <__primask_r>:
+     8c2: f3ef 8010    	mrs	r0, primask
+     8c6: 4770         	bx	lr
 
-000008f4 <__aeabi_uidiv>:
-     8f4: 80 b5        	push	{r7, lr}
-     8f6: 00 af        	add	r7, sp, #0
-     8f8: 00 f0 01 f8  	bl	0x8fe <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd> @ imm = #2
-     8fc: 80 bd        	pop	{r7, pc}
+000008c8 <__aeabi_uidiv>:
+     8c8: b580         	push	{r7, lr}
+     8ca: af00         	add	r7, sp, #0
+     8cc: f000 f801    	bl	0x8d2 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33> @ imm = #2
+     8d0: bd80         	pop	{r7, pc}
 
-000008fe <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd>:
-     8fe: f0 b5        	push	{r4, r5, r6, r7, lr}
-     900: 03 af        	add	r7, sp, #12
-     902: 83 b0        	sub	sp, #12
-     904: 02 46        	mov	r2, r0
-     906: 88 42        	cmp	r0, r1
-     908: 03 d2        	bhs	0x912 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x14> @ imm = #6
-     90a: 00 20        	movs	r0, #0
-     90c: 11 46        	mov	r1, r2
-     90e: 03 b0        	add	sp, #12
-     910: f0 bd        	pop	{r4, r5, r6, r7, pc}
-     912: 15 0c        	lsrs	r5, r2, #16
-     914: a9 42        	cmp	r1, r5
-     916: 10 46        	mov	r0, r2
-     918: 39 d9        	bls	0x98e <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x90> @ imm = #114
-     91a: 06 0a        	lsrs	r6, r0, #8
-     91c: b1 42        	cmp	r1, r6
-     91e: 3a d9        	bls	0x996 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x98> @ imm = #116
-     920: 03 09        	lsrs	r3, r0, #4
-     922: 99 42        	cmp	r1, r3
-     924: 3b d9        	bls	0x99e <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0xa0> @ imm = #118
-     926: 01 93        	str	r3, [sp, #4]
-     928: 83 08        	lsrs	r3, r0, #2
-     92a: 99 42        	cmp	r1, r3
-     92c: 00 d8        	bhi	0x930 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x32> @ imm = #0
-     92e: 18 46        	mov	r0, r3
-     930: 02 93        	str	r3, [sp, #8]
-     932: 43 08        	lsrs	r3, r0, #1
-     934: 01 24        	movs	r4, #1
-     936: 00 20        	movs	r0, #0
-     938: 99 42        	cmp	r1, r3
-     93a: 23 46        	mov	r3, r4
-     93c: 00 d9        	bls	0x940 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x42> @ imm = #0
-     93e: 03 46        	mov	r3, r0
-     940: a9 42        	cmp	r1, r5
-     942: 25 46        	mov	r5, r4
-     944: 00 d9        	bls	0x948 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x4a> @ imm = #0
-     946: 05 46        	mov	r5, r0
-     948: 00 93        	str	r3, [sp]
-     94a: 2d 01        	lsls	r5, r5, #4
-     94c: b1 42        	cmp	r1, r6
-     94e: 26 46        	mov	r6, r4
-     950: 00 d9        	bls	0x954 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x56> @ imm = #0
-     952: 06 46        	mov	r6, r0
-     954: f3 00        	lsls	r3, r6, #3
-     956: 5d 19        	adds	r5, r3, r5
-     958: 01 9b        	ldr	r3, [sp, #4]
-     95a: 99 42        	cmp	r1, r3
-     95c: 23 46        	mov	r3, r4
-     95e: 00 d9        	bls	0x962 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x64> @ imm = #0
-     960: 03 46        	mov	r3, r0
-     962: 9b 00        	lsls	r3, r3, #2
-     964: eb 18        	adds	r3, r5, r3
-     966: 02 9d        	ldr	r5, [sp, #8]
-     968: a9 42        	cmp	r1, r5
-     96a: 25 46        	mov	r5, r4
-     96c: 00 d9        	bls	0x970 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x72> @ imm = #0
-     96e: 05 46        	mov	r5, r0
-     970: 68 00        	lsls	r0, r5, #1
-     972: 18 18        	adds	r0, r3, r0
-     974: 00 9b        	ldr	r3, [sp]
-     976: c3 18        	adds	r3, r0, r3
-     978: 9c 40        	lsls	r4, r3
-     97a: 0d 46        	mov	r5, r1
-     97c: 9d 40        	lsls	r5, r3
-     97e: 56 1b        	subs	r6, r2, r5
-     980: 8e 42        	cmp	r6, r1
-     982: 12 d2        	bhs	0x9aa <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0xac> @ imm = #36
-     984: 32 46        	mov	r2, r6
-     986: 20 46        	mov	r0, r4
-     988: 11 46        	mov	r1, r2
-     98a: 03 b0        	add	sp, #12
-     98c: f0 bd        	pop	{r4, r5, r6, r7, pc}
-     98e: 28 46        	mov	r0, r5
-     990: 06 0a        	lsrs	r6, r0, #8
-     992: b1 42        	cmp	r1, r6
-     994: c4 d8        	bhi	0x920 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x22> @ imm = #-120
-     996: 30 46        	mov	r0, r6
-     998: 03 09        	lsrs	r3, r0, #4
-     99a: 99 42        	cmp	r1, r3
-     99c: c3 d8        	bhi	0x926 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x28> @ imm = #-122
-     99e: 18 46        	mov	r0, r3
-     9a0: 01 93        	str	r3, [sp, #4]
-     9a2: 83 08        	lsrs	r3, r0, #2
-     9a4: 99 42        	cmp	r1, r3
-     9a6: c2 d9        	bls	0x92e <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x30> @ imm = #-124
-     9a8: c2 e7        	b	0x930 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x32> @ imm = #-124
-     9aa: 00 2d        	cmp	r5, #0
-     9ac: 03 d4        	bmi	0x9b6 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0xb8> @ imm = #6
-     9ae: 21 46        	mov	r1, r4
-     9b0: 20 46        	mov	r0, r4
-     9b2: 32 46        	mov	r2, r6
-     9b4: 15 e0        	b	0x9e2 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0xe4> @ imm = #42
-     9b6: 6d 08        	lsrs	r5, r5, #1
-     9b8: 72 1b        	subs	r2, r6, r5
-     9ba: 5b 1e        	subs	r3, r3, #1
-     9bc: 1f 20        	movs	r0, #31
-     9be: 01 93        	str	r3, [sp, #4]
-     9c0: 18 40        	ands	r0, r3
-     9c2: 02 90        	str	r0, [sp, #8]
-     9c4: 01 20        	movs	r0, #1
-     9c6: 02 9b        	ldr	r3, [sp, #8]
-     9c8: 98 40        	lsls	r0, r3
-     9ca: 00 2a        	cmp	r2, #0
-     9cc: 02 90        	str	r0, [sp, #8]
-     9ce: 00 da        	bge	0x9d2 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0xd4> @ imm = #0
-     9d0: 00 20        	movs	r0, #0
-     9d2: 00 2a        	cmp	r2, #0
-     9d4: 00 da        	bge	0x9d8 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0xda> @ imm = #0
-     9d6: 32 46        	mov	r2, r6
-     9d8: 20 43        	orrs	r0, r4
-     9da: 8a 42        	cmp	r2, r1
-     9dc: 02 99        	ldr	r1, [sp, #8]
-     9de: 01 9b        	ldr	r3, [sp, #4]
-     9e0: 94 d3        	blo	0x90c <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0xe> @ imm = #-216
-     9e2: 49 1e        	subs	r1, r1, #1
-     9e4: 00 2b        	cmp	r3, #0
-     9e6: 10 d0        	beq	0xa0a <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x10c> @ imm = #32
-     9e8: 03 26        	movs	r6, #3
-     9ea: 1e 40        	ands	r6, r3
-     9ec: 01 24        	movs	r4, #1
-     9ee: 64 1b        	subs	r4, r4, r5
-     9f0: 5d 1e        	subs	r5, r3, #1
-     9f2: 02 95        	str	r5, [sp, #8]
-     9f4: 00 2e        	cmp	r6, #0
-     9f6: 0a d0        	beq	0xa0e <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x110> @ imm = #20
-     9f8: 55 00        	lsls	r5, r2, #1
-     9fa: 2a 19        	adds	r2, r5, r4
-     9fc: 00 d4        	bmi	0xa00 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x102> @ imm = #0
-     9fe: 15 46        	mov	r5, r2
-     a00: 01 2e        	cmp	r6, #1
-     a02: 08 d1        	bne	0xa16 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x118> @ imm = #16
-     a04: 02 9e        	ldr	r6, [sp, #8]
-     a06: 32 46        	mov	r2, r6
-     a08: 14 e0        	b	0xa34 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x136> @ imm = #40
-     a0a: 15 46        	mov	r5, r2
-     a0c: 14 e0        	b	0xa38 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x13a> @ imm = #40
-     a0e: 15 46        	mov	r5, r2
-     a10: 1a 46        	mov	r2, r3
-     a12: 02 9e        	ldr	r6, [sp, #8]
-     a14: 0e e0        	b	0xa34 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x136> @ imm = #28
-     a16: 6d 00        	lsls	r5, r5, #1
-     a18: 2a 19        	adds	r2, r5, r4
-     a1a: 00 d4        	bmi	0xa1e <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x120> @ imm = #0
-     a1c: 15 46        	mov	r5, r2
-     a1e: 02 2e        	cmp	r6, #2
-     a20: 02 d1        	bne	0xa28 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x12a> @ imm = #4
-     a22: 9a 1e        	subs	r2, r3, #2
-     a24: 02 9e        	ldr	r6, [sp, #8]
-     a26: 05 e0        	b	0xa34 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x136> @ imm = #10
-     a28: 6d 00        	lsls	r5, r5, #1
-     a2a: 2a 19        	adds	r2, r5, r4
-     a2c: 02 9e        	ldr	r6, [sp, #8]
-     a2e: 00 d4        	bmi	0xa32 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x134> @ imm = #0
-     a30: 15 46        	mov	r5, r2
-     a32: da 1e        	subs	r2, r3, #3
-     a34: 03 2e        	cmp	r6, #3
-     a36: 0a d2        	bhs	0xa4e <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x150> @ imm = #20
-     a38: 1f 22        	movs	r2, #31
-     a3a: 13 40        	ands	r3, r2
-     a3c: 2a 46        	mov	r2, r5
-     a3e: da 40        	lsrs	r2, r3
-     a40: 29 40        	ands	r1, r5
-     a42: 08 43        	orrs	r0, r1
-     a44: 11 46        	mov	r1, r2
-     a46: 03 b0        	add	sp, #12
-     a48: f0 bd        	pop	{r4, r5, r6, r7, pc}
-     a4a: 12 1f        	subs	r2, r2, #4
-     a4c: f4 d0        	beq	0xa38 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x13a> @ imm = #-24
-     a4e: 6d 00        	lsls	r5, r5, #1
-     a50: 2e 19        	adds	r6, r5, r4
-     a52: 09 d5        	bpl	0xa68 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x16a> @ imm = #18
-     a54: 6d 00        	lsls	r5, r5, #1
-     a56: 2e 19        	adds	r6, r5, r4
-     a58: 0a d5        	bpl	0xa70 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x172> @ imm = #20
-     a5a: 6d 00        	lsls	r5, r5, #1
-     a5c: 2e 19        	adds	r6, r5, r4
-     a5e: 0b d5        	bpl	0xa78 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x17a> @ imm = #22
-     a60: 6d 00        	lsls	r5, r5, #1
-     a62: 2e 19        	adds	r6, r5, r4
-     a64: f1 d4        	bmi	0xa4a <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x14c> @ imm = #-30
-     a66: 0b e0        	b	0xa80 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x182> @ imm = #22
-     a68: 35 46        	mov	r5, r6
-     a6a: 6d 00        	lsls	r5, r5, #1
-     a6c: 2e 19        	adds	r6, r5, r4
-     a6e: f4 d4        	bmi	0xa5a <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x15c> @ imm = #-24
-     a70: 35 46        	mov	r5, r6
-     a72: 6d 00        	lsls	r5, r5, #1
-     a74: 2e 19        	adds	r6, r5, r4
-     a76: f3 d4        	bmi	0xa60 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x162> @ imm = #-26
-     a78: 35 46        	mov	r5, r6
-     a7a: 6d 00        	lsls	r5, r5, #1
-     a7c: 2e 19        	adds	r6, r5, r4
-     a7e: e4 d4        	bmi	0xa4a <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x14c> @ imm = #-56
-     a80: 35 46        	mov	r5, r6
-     a82: e2 e7        	b	0xa4a <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x14c> @ imm = #-60
+000008d2 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33>:
+     8d2: b5f0         	push	{r4, r5, r6, r7, lr}
+     8d4: af03         	add	r7, sp, #12
+     8d6: b083         	sub	sp, #12
+     8d8: 4602         	mov	r2, r0
+     8da: 4288         	cmp	r0, r1
+     8dc: d203         	bhs	0x8e6 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x14> @ imm = #6
+     8de: 2000         	movs	r0, #0
+     8e0: 4611         	mov	r1, r2
+     8e2: b003         	add	sp, #12
+     8e4: bdf0         	pop	{r4, r5, r6, r7, pc}
+     8e6: 0c15         	lsrs	r5, r2, #16
+     8e8: 42a9         	cmp	r1, r5
+     8ea: 4610         	mov	r0, r2
+     8ec: d939         	bls	0x962 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x90> @ imm = #114
+     8ee: 0a06         	lsrs	r6, r0, #8
+     8f0: 42b1         	cmp	r1, r6
+     8f2: d93a         	bls	0x96a <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x98> @ imm = #116
+     8f4: 0903         	lsrs	r3, r0, #4
+     8f6: 4299         	cmp	r1, r3
+     8f8: d93b         	bls	0x972 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0xa0> @ imm = #118
+     8fa: 9301         	str	r3, [sp, #4]
+     8fc: 0883         	lsrs	r3, r0, #2
+     8fe: 4299         	cmp	r1, r3
+     900: d800         	bhi	0x904 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x32> @ imm = #0
+     902: 4618         	mov	r0, r3
+     904: 9302         	str	r3, [sp, #8]
+     906: 0843         	lsrs	r3, r0, #1
+     908: 2401         	movs	r4, #1
+     90a: 2000         	movs	r0, #0
+     90c: 4299         	cmp	r1, r3
+     90e: 4623         	mov	r3, r4
+     910: d900         	bls	0x914 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x42> @ imm = #0
+     912: 4603         	mov	r3, r0
+     914: 42a9         	cmp	r1, r5
+     916: 4625         	mov	r5, r4
+     918: d900         	bls	0x91c <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x4a> @ imm = #0
+     91a: 4605         	mov	r5, r0
+     91c: 9300         	str	r3, [sp]
+     91e: 012d         	lsls	r5, r5, #4
+     920: 42b1         	cmp	r1, r6
+     922: 4626         	mov	r6, r4
+     924: d900         	bls	0x928 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x56> @ imm = #0
+     926: 4606         	mov	r6, r0
+     928: 00f3         	lsls	r3, r6, #3
+     92a: 195d         	adds	r5, r3, r5
+     92c: 9b01         	ldr	r3, [sp, #4]
+     92e: 4299         	cmp	r1, r3
+     930: 4623         	mov	r3, r4
+     932: d900         	bls	0x936 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x64> @ imm = #0
+     934: 4603         	mov	r3, r0
+     936: 009b         	lsls	r3, r3, #2
+     938: 18eb         	adds	r3, r5, r3
+     93a: 9d02         	ldr	r5, [sp, #8]
+     93c: 42a9         	cmp	r1, r5
+     93e: 4625         	mov	r5, r4
+     940: d900         	bls	0x944 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x72> @ imm = #0
+     942: 4605         	mov	r5, r0
+     944: 0068         	lsls	r0, r5, #1
+     946: 1818         	adds	r0, r3, r0
+     948: 9b00         	ldr	r3, [sp]
+     94a: 18c3         	adds	r3, r0, r3
+     94c: 409c         	lsls	r4, r3
+     94e: 460d         	mov	r5, r1
+     950: 409d         	lsls	r5, r3
+     952: 1b56         	subs	r6, r2, r5
+     954: 428e         	cmp	r6, r1
+     956: d212         	bhs	0x97e <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0xac> @ imm = #36
+     958: 4632         	mov	r2, r6
+     95a: 4620         	mov	r0, r4
+     95c: 4611         	mov	r1, r2
+     95e: b003         	add	sp, #12
+     960: bdf0         	pop	{r4, r5, r6, r7, pc}
+     962: 4628         	mov	r0, r5
+     964: 0a06         	lsrs	r6, r0, #8
+     966: 42b1         	cmp	r1, r6
+     968: d8c4         	bhi	0x8f4 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x22> @ imm = #-120
+     96a: 4630         	mov	r0, r6
+     96c: 0903         	lsrs	r3, r0, #4
+     96e: 4299         	cmp	r1, r3
+     970: d8c3         	bhi	0x8fa <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x28> @ imm = #-122
+     972: 4618         	mov	r0, r3
+     974: 9301         	str	r3, [sp, #4]
+     976: 0883         	lsrs	r3, r0, #2
+     978: 4299         	cmp	r1, r3
+     97a: d9c2         	bls	0x902 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x30> @ imm = #-124
+     97c: e7c2         	b	0x904 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x32> @ imm = #-124
+     97e: 2d00         	cmp	r5, #0
+     980: d403         	bmi	0x98a <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0xb8> @ imm = #6
+     982: 4621         	mov	r1, r4
+     984: 4620         	mov	r0, r4
+     986: 4632         	mov	r2, r6
+     988: e015         	b	0x9b6 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0xe4> @ imm = #42
+     98a: 086d         	lsrs	r5, r5, #1
+     98c: 1b72         	subs	r2, r6, r5
+     98e: 1e5b         	subs	r3, r3, #1
+     990: 201f         	movs	r0, #31
+     992: 9301         	str	r3, [sp, #4]
+     994: 4018         	ands	r0, r3
+     996: 9002         	str	r0, [sp, #8]
+     998: 2001         	movs	r0, #1
+     99a: 9b02         	ldr	r3, [sp, #8]
+     99c: 4098         	lsls	r0, r3
+     99e: 2a00         	cmp	r2, #0
+     9a0: 9002         	str	r0, [sp, #8]
+     9a2: da00         	bge	0x9a6 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0xd4> @ imm = #0
+     9a4: 2000         	movs	r0, #0
+     9a6: 2a00         	cmp	r2, #0
+     9a8: da00         	bge	0x9ac <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0xda> @ imm = #0
+     9aa: 4632         	mov	r2, r6
+     9ac: 4320         	orrs	r0, r4
+     9ae: 428a         	cmp	r2, r1
+     9b0: 9902         	ldr	r1, [sp, #8]
+     9b2: 9b01         	ldr	r3, [sp, #4]
+     9b4: d394         	blo	0x8e0 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0xe> @ imm = #-216
+     9b6: 1e49         	subs	r1, r1, #1
+     9b8: 2b00         	cmp	r3, #0
+     9ba: d010         	beq	0x9de <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x10c> @ imm = #32
+     9bc: 2603         	movs	r6, #3
+     9be: 401e         	ands	r6, r3
+     9c0: 2401         	movs	r4, #1
+     9c2: 1b64         	subs	r4, r4, r5
+     9c4: 1e5d         	subs	r5, r3, #1
+     9c6: 9502         	str	r5, [sp, #8]
+     9c8: 2e00         	cmp	r6, #0
+     9ca: d00a         	beq	0x9e2 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x110> @ imm = #20
+     9cc: 0055         	lsls	r5, r2, #1
+     9ce: 1962         	adds	r2, r4, r5
+     9d0: d400         	bmi	0x9d4 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x102> @ imm = #0
+     9d2: 4615         	mov	r5, r2
+     9d4: 2e01         	cmp	r6, #1
+     9d6: d108         	bne	0x9ea <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x118> @ imm = #16
+     9d8: 9e02         	ldr	r6, [sp, #8]
+     9da: 4632         	mov	r2, r6
+     9dc: e014         	b	0xa08 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x136> @ imm = #40
+     9de: 4615         	mov	r5, r2
+     9e0: e014         	b	0xa0c <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x13a> @ imm = #40
+     9e2: 4615         	mov	r5, r2
+     9e4: 461a         	mov	r2, r3
+     9e6: 9e02         	ldr	r6, [sp, #8]
+     9e8: e00e         	b	0xa08 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x136> @ imm = #28
+     9ea: 006d         	lsls	r5, r5, #1
+     9ec: 1962         	adds	r2, r4, r5
+     9ee: d400         	bmi	0x9f2 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x120> @ imm = #0
+     9f0: 4615         	mov	r5, r2
+     9f2: 2e02         	cmp	r6, #2
+     9f4: d102         	bne	0x9fc <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x12a> @ imm = #4
+     9f6: 1e9a         	subs	r2, r3, #2
+     9f8: 9e02         	ldr	r6, [sp, #8]
+     9fa: e005         	b	0xa08 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x136> @ imm = #10
+     9fc: 006d         	lsls	r5, r5, #1
+     9fe: 1962         	adds	r2, r4, r5
+     a00: 9e02         	ldr	r6, [sp, #8]
+     a02: d400         	bmi	0xa06 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x134> @ imm = #0
+     a04: 4615         	mov	r5, r2
+     a06: 1eda         	subs	r2, r3, #3
+     a08: 2e03         	cmp	r6, #3
+     a0a: d20a         	bhs	0xa22 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x150> @ imm = #20
+     a0c: 221f         	movs	r2, #31
+     a0e: 4013         	ands	r3, r2
+     a10: 462a         	mov	r2, r5
+     a12: 40da         	lsrs	r2, r3
+     a14: 4029         	ands	r1, r5
+     a16: 4308         	orrs	r0, r1
+     a18: 4611         	mov	r1, r2
+     a1a: b003         	add	sp, #12
+     a1c: bdf0         	pop	{r4, r5, r6, r7, pc}
+     a1e: 1f12         	subs	r2, r2, #4
+     a20: d0f4         	beq	0xa0c <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x13a> @ imm = #-24
+     a22: 006d         	lsls	r5, r5, #1
+     a24: 1966         	adds	r6, r4, r5
+     a26: d509         	bpl	0xa3c <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x16a> @ imm = #18
+     a28: 006d         	lsls	r5, r5, #1
+     a2a: 1966         	adds	r6, r4, r5
+     a2c: d50a         	bpl	0xa44 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x172> @ imm = #20
+     a2e: 006d         	lsls	r5, r5, #1
+     a30: 1966         	adds	r6, r4, r5
+     a32: d50b         	bpl	0xa4c <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x17a> @ imm = #22
+     a34: 006d         	lsls	r5, r5, #1
+     a36: 1966         	adds	r6, r4, r5
+     a38: d4f1         	bmi	0xa1e <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x14c> @ imm = #-30
+     a3a: e00b         	b	0xa54 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x182> @ imm = #22
+     a3c: 4635         	mov	r5, r6
+     a3e: 006d         	lsls	r5, r5, #1
+     a40: 1966         	adds	r6, r4, r5
+     a42: d4f4         	bmi	0xa2e <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x15c> @ imm = #-24
+     a44: 4635         	mov	r5, r6
+     a46: 006d         	lsls	r5, r5, #1
+     a48: 1966         	adds	r6, r4, r5
+     a4a: d4f3         	bmi	0xa34 <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x162> @ imm = #-26
+     a4c: 4635         	mov	r5, r6
+     a4e: 006d         	lsls	r5, r5, #1
+     a50: 1966         	adds	r6, r4, r5
+     a52: d4e4         	bmi	0xa1e <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x14c> @ imm = #-56
+     a54: 4635         	mov	r5, r6
+     a56: e7e2         	b	0xa1e <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x14c> @ imm = #-60
 
-00000a84 <HardFaultTrampoline>:
-     a84: 70 46        	mov	r0, lr
-     a86: 04 21        	movs	r1, #4
-     a88: 08 42        	tst	r0, r1
-     a8a: 02 d1        	bne	0xa92 <HardFaultTrampoline+0xe> @ imm = #4
-     a8c: ef f3 08 80  	mrs	r0, msp
-     a90: 02 e0        	b	0xa98 <HardFault_>      @ imm = #4
-     a92: ef f3 09 80  	mrs	r0, psp
-     a96: ff e7        	b	0xa98 <HardFault_>      @ imm = #-2
+00000a58 <HardFaultTrampoline>:
+     a58: 4670         	mov	r0, lr
+     a5a: 2104         	movs	r1, #4
+     a5c: 4208         	tst	r0, r1
+     a5e: d102         	bne	0xa66 <HardFaultTrampoline+0xe> @ imm = #4
+     a60: f3ef 8008    	mrs	r0, msp
+     a64: e002         	b	0xa6c <HardFault_>      @ imm = #4
+     a66: f3ef 8009    	mrs	r0, psp
+     a6a: e7ff         	b	0xa6c <HardFault_>      @ imm = #-2
 
-00000a98 <HardFault_>:
-     a98: fe e7        	b	0xa98 <HardFault_>      @ imm = #-4
-     a9a: d4 d4        	bmi	0xa46 <compiler_builtins::int::specialized_div_rem::u32_div_rem::h3b6f635e3a820bbd+0x148> @ imm = #-88
+00000a6c <HardFault_>:
+     a6c: e7fe         	b	0xa6c <HardFault_>      @ imm = #-4
+     a6e: d4d4         	bmi	0xa1a <compiler_builtins::int::specialized_div_rem::u32_div_rem::hb434f7fcf1efcc33+0x148> @ imm = #-88

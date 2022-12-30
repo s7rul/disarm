@@ -1,4 +1,5 @@
 use std::convert::{TryFrom, TryInto};
+use elf::{*, endian::AnyEndian};
 
 mod ast;
 use ast::*;
@@ -6,6 +7,72 @@ use ast::*;
 #[derive(Debug, PartialEq, Eq)]
 pub enum Error {
     ChunkNotLongEnough,
+}
+
+pub fn read_elf_file(path: &str) {
+    println!("Trying to read elf file {path}.");
+    let path = std::path::PathBuf::from(path);
+    let file_data = match std::fs::read(path) {
+        Ok(x) => x,
+        Err(e) => {
+            println!("Could not read file.");
+            return
+        },
+    };
+
+    let file = match ElfBytes::<AnyEndian>::minimal_parse(file_data.as_slice()) {
+        Ok(x) => x,
+        Err(_) => {
+            println!("unable to parse file");
+            return
+        }
+    };
+
+    // find the .text section offset and size to extract program information
+    let text_header = match file.section_header_by_name(".text") {
+        Ok(x) => {
+            match x {
+                Some(n) => n,
+                None => {
+                    println!("No section .text found");
+                    return
+                }
+            }
+        },
+        Err(_) => {
+            println!("Unable to parse section table.");
+            return;
+        }
+    };
+
+    let offset = text_header.sh_offset;
+    let size = text_header.sh_size;
+
+    println!("Offset: {offset:#x} size: {size:#x}");
+
+    let text_data = match file.section_data(&text_header){
+        Ok(x) => match x.1 {
+            Some(_) => {
+                println!(".text data is compressed aborting");
+                return
+            },
+            None => x.0
+        },
+        Err(_) => {
+            println!("unable to parse");
+            return
+        }
+    };
+
+    let mut chunk = text_data;
+    loop {
+        let (inst, rest) = disassemble(chunk).unwrap();
+        println!("{:?}", inst);
+        if rest.len() == 0 {
+            break;
+        }
+        chunk = rest;
+    }
 }
 
 pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {

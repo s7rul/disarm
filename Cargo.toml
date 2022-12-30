@@ -8,3 +8,5 @@ edition = "2021"
 [dependencies]
 byteorder = "1.4.3"
 num_enum = "0.5.7"
+elf = "0.7.0"
+gimli = "0.27.0"
