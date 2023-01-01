@@ -86,7 +86,7 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
     let instr = u16::from_le_bytes(arr);
 
     let op6 = instr >> 10; // b15..10
-    println!("opcode {:06b}", op6);
+    println!("instruction {:016b} opcode {:06b}", instr, op6);
 
     let thumb16 = match op6 {
         // 00xxxx Shift (immediate), add, subtract, move, and compare on page A5-79
@@ -147,7 +147,7 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
                     let imm8: u8 = instr as u8;
                     let rd = ((instr >> 8) & 0b111) as u8;
 
-                    Thumb16::MovesT1(rd.try_into().unwrap(), imm8)
+                    Thumb16::MovsImmT1(rd.try_into().unwrap(), imm8)
                 }
 
                 // 101xx Compare                    CMP (immediate) on page A6-117
@@ -187,6 +187,7 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
             println!("010001 Special data instructions and branch and exchange on page A5-81");
 
             let op4 = (instr >> 6) & 0b1111;
+            println!("Op4: {:04b}", op4);
 
             match op4 {
                 // 00xx Add Registers       ADD (register) on page A6-102
@@ -210,7 +211,9 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
 
                 // 10xx Move Registers      MOV (register) on page A6-140
                 0b1000..=0b1011 => {
-                    unimplemented!()
+                    let rm = ((instr >> 3) & 0b1111) as u8;
+                    let rd = (((instr >> 4) & 0b1000) | (instr & 0b111)) as u8;
+                    Thumb16::MovT1(rm.try_into().unwrap(), rd.try_into().unwrap())
                 }
                 // 110x Branch and Exchange BX on page A6-115
                 0b1100..=0b1101 => {

@@ -96,7 +96,8 @@ pub enum Thumb16 {
     BxT1(Rm),
     CmpT1(Rn, Imm8),
     BT1(Cond, Imm8),
-    MovesT1(Rd, Imm8),
+    MovsImmT1(Rd, Imm8),
     AddsRegT1(Rm, Rn, Rd),
     DataProc(DpOpcode, Register, Register),
+    MovT1(Rm, Rd),
 }
