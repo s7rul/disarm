@@ -87,7 +87,7 @@ pub enum Register {
 type Imm3 = u8;
 type Imm8 = u8;
 type Imm32 = u32;
-type Imm32Signed = i32;
+type Imm32S = i32;
 type RegisterList = u16;
 type Rn = Register;
 type Rd = Register;
@@ -106,7 +106,7 @@ pub enum Thumb16 {
     MovT1(Rm, Rd),
     LdrImmT1(Rt, Imm32),
     Stm(Rn, RegisterList),
-    BT2(Imm32Signed),
+    BT2(Imm32),
     Ldm(Rn, RegisterList),
 }
 
