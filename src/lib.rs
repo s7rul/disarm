@@ -315,7 +315,35 @@ fn disassemble16(instr: u16) -> Thumb16 {
         // 1011xx Miscellaneous 16-bit instructions on page A5-83
         0b101100..=0b101111 => {
             println!("1011xx Miscellaneous 16-bit instructions on page A5-83");
-            unimplemented!()
+            let op = ((instr >> 5) & 0b1111111);
+            println!("OP: {op:07b}");
+            match op {
+                0b0000000..=0b0000011 => { // Add Immediate to SP A6-104
+                    unimplemented!()
+                },
+                0b0000100..=0b0000111 => { // Subtract Immediate from SP A6-166
+                    unimplemented!()
+                },
+                0b0010000..=0b0010001 => { // Signed Extend Halfword A6-169
+                    unimplemented!()
+                },
+                0b0010010..=0b0010011 => { // Signed Extend Byte A6-169
+                    unimplemented!()
+                },
+                0b0010100..=0b0010101 => { // Unsigned Extend Halfword A6-173
+                    unimplemented!()
+                },
+                0b0010110..=0b0010111 => { // Unsigned Extend Byte A6-172
+                    unimplemented!()
+                },
+                0b0100000..=0b0101111 => { // Push Multiple Registers A6-149
+                    let registers = (((instr >> 8) & 0b1) << 14) | (instr & 0xff);
+                    Thumb16::Push(registers)
+                },
+                _ => {
+                    unimplemented!()
+                }
+            }
         }
 
         // 11000x Store multiple registers, see STM, STMIA, STMEA on page A6-157
@@ -344,10 +372,12 @@ fn disassemble16(instr: u16) -> Thumb16 {
         0b110100..=0b110111 => {
             println!("1101xx Conditional branch, and Supervisor Call on page A5-84");
             let op4 = (instr >> 8) & 0b1111;
+            println!("OP: {op4:04b}");
             match op4 {
                 // 1110 Permanently UNDEFINED   UDF on page A6-171a
                 0b1110 => {
-                    unimplemented!()
+                    let imm32 = (instr & 0xff) as u32;
+                    Thumb16::UdfT1(imm32)
                 }
 
                 // 1111 Supervisor Call         SVC on page A6-167

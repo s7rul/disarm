@@ -108,6 +108,8 @@ pub enum Thumb16 {
     Stm(Rn, RegisterList),
     BT2(Imm32),
     Ldm(Rn, RegisterList),
+    Push(RegisterList),
+    UdfT1(Imm32),
 }
 
 #[derive(Debug, PartialEq, Eq)]
