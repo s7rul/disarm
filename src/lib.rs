@@ -368,7 +368,7 @@ fn disassemble16(instr: u16) -> Thumb16 {
         // 11100x Unconditional Branch, see B on page A6-110
         0b111000..=0b111001 => {
             println!("11100x Unconditional Branch, see B on page A6-110");
-            let imm32 = ((instr & 0b11111111111) << 1) as u32;
+            let imm32 = (((((instr & 0b11111111111) << 1) as i32) << 20) >> 20);
             Thumb16::BT2(imm32)
         }
 
