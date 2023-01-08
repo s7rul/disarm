@@ -75,16 +75,58 @@ pub fn read_elf_file(path: &str) {
     }
 }
 
-pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
-    if chunk.len() < 2 {
-        return Err(Error::ChunkNotLongEnough);
-    }
+fn disassemble32(instr: u32) -> Thumb32 {
+    let op1 = (instr >> 27) & 0b11;
+    let op2 = (instr >> 15) & 0b1;
 
-    // perhaps better to use the `byteorder` crate
-    let arr: [u8; 2] = chunk[0..=1].try_into().unwrap();
-    let rest = &chunk[2..];
-    let instr = u16::from_le_bytes(arr);
+    println!("instr: {instr:032b}, op1: {op1:02b}, op2: {op2:01b}");
 
+    let thumb = match (op1, op2) {
+        (0b10, 0b1) => { // Branch and miscellaneous control A5.3.1
+            let op1 = (instr >> 19) & 0b1111111;
+            let op2 = (instr >> 12) & 0b111;
+
+            match (op1, op2) {
+                (0b1111111, 0b010) => { // always undefined
+                    println!("Undefined instruction");
+                    unimplemented!()
+                },
+                (0b0111000 | 0b0111001, 0b000 | 0b010) => { // MSR (register) B4.2.3
+                    unimplemented!()
+                },
+                (0b0111011, 0b000 | 0b010) => { // Miscellaneous control instructions A5.3.1
+                    unimplemented!()
+                },
+                (0b0111110 | 0b0111111, 0b000 | 0b010) => { // MRS B4.2.2
+                    unimplemented!()
+                },
+                (_, 0b101 | 0b111) => { // BL A6.7.13EOR
+                    let j1 = (instr >> 13) & 0b1;
+                    let j2 = (instr >> 11) & 0b1;
+                    let s = (instr >> 26) & 0b1;
+                    let imm10 = (instr >> 16) & 0b1111111111;
+                    let imm11 = instr & 0b11111111111;
+                    let i1 = (!(j1 ^ s)) & 0b1;
+                    let i2 = (!(j2 ^ s)) & 0b1;
+                    let imm32 = (((((s << 24) | (i1 << 23) | (i2 << 22) | (imm10 << 12) | (imm11 << 1)) << 7) as i32) >> 7) as u32;
+                    Thumb32::BlT1(imm32.try_into().unwrap())
+                },
+                _ => {
+                    println!("Undefined instruction");
+                    unimplemented!()
+                },
+            }
+        },
+        (_, _) => {
+            println!("Undefined instruction");
+            unimplemented!()
+        }
+    };
+
+    thumb
+}
+
+fn disassemble16(instr: u16) -> Thumb16 {
     let op6 = instr >> 10; // b15..10
     println!("instruction {:016b} opcode {:06b}", instr, op6);
 
@@ -130,10 +172,10 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
                 // 01110 Add 3-bit immediate        ADD (immediate) on page A6-101
                 0b01110 => {
                     // A6.7.2 ADD (immediate)
-                    let imm3 = ((instr >> 6) & 0b111) as u8;
+                    let imm32 = ((instr >> 6) & 0b111) as u32;
                     let rn = ((instr >> 3) & 0b111) as u8;
                     let rd = ((instr >> 0) & 0b111) as u8;
-                    Thumb16::AddsImmT1(imm3, rn.try_into().unwrap(), rd.try_into().unwrap())
+                    Thumb16::AddsImmT1(imm32, rn.try_into().unwrap(), rd.try_into().unwrap())
                 }
 
                 // 01111 Subtract 3-bit immediate   SUB (immediate) on page A6-164
@@ -144,18 +186,18 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
                 // 100xx Move                       MOV (immediate) on page A6-139
                 0b10000..=0b10011 => {
                     // A6.7.39 MOV (immediate) T1 Encoding
-                    let imm8: u8 = instr as u8;
+                    let imm32 = (instr & 0b11111111) as u32;
                     let rd = ((instr >> 8) & 0b111) as u8;
 
-                    Thumb16::MovsImmT1(rd.try_into().unwrap(), imm8)
+                    Thumb16::MovsImmT1(rd.try_into().unwrap(), imm32)
                 }
 
                 // 101xx Compare                    CMP (immediate) on page A6-117
                 0b10100..=0b10111 => {
                     // A6.7.17 CMP (immediate)
-                    let imm8: u8 = instr as u8;
+                    let imm32 = (instr & 0b11111111) as u32;
                     let rn = ((instr >> 8) & 0b111) as u8;
-                    Thumb16::CmpT1(rn.try_into().unwrap(), imm8)
+                    Thumb16::CmpImmT1(rn.try_into().unwrap(), imm32)
                 }
                 // 110xx Add 8-bit immediate        ADD (immediate) on page A6-101
                 0b11000..=0b11011 => {
@@ -233,7 +275,9 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
         // 01001x Load from Literal Pool, see LDR (literal) on page A6-127
         0b010010..=0b010011 => {
             println!("01001x Load from Literal Pool, see LDR (literal) on page A6-127");
-            unimplemented!()
+            let rt = ((instr >> 8) & 0b111) as u8;
+            let imm32 = (instr & 0b11111111) << 2;
+            Thumb16::LdrImmT1(rt.try_into().unwrap(), imm32.try_into().unwrap())
         }
 
         // 0101xx Load/store single data item on page A5-82
@@ -277,13 +321,23 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
         // 11000x Store multiple registers, see STM, STMIA, STMEA on page A6-157
         0b110000..=0b110001 => {
             println!("11000x Store multiple registers, see STM, STMIA, STMEA on page A6-157");
-            unimplemented!()
+            let rn = ((instr >> 8) & 0b111) as u8;
+            let registers: u16 = (instr & 0xff);
+            println!("Registers: {registers:016b}");
+            Thumb16::Stm(rn.try_into().unwrap(), registers)
         }
 
+        // Register lists
+        // {R2} = 0b0000000000000100
+        // {R3} = 0b0000000000001000
+        // 
         // 11001x Load multiple registers, see LDM, LDMIA, LDMFD on page A6-125
         0b110010..=0b110011 => {
             println!("11001x Load multiple registers, see LDM, LDMIA, LDMFD on page A6-125");
-            unimplemented!()
+            let rn = ((instr >> 8) & 0b111) as u8;
+            let registers: u16 = (instr & 0xff);
+            println!("Registers: {registers:016b}");
+            Thumb16::Ldm(rn.try_into().unwrap(), registers)
         }
 
         // 1101xx Conditional branch, and Supervisor Call on page A5-84
@@ -303,10 +357,10 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
                 // not 111x Conditional branch  B on page A6-110
                 _ => {
                     // A6.7.10, Encoding T1
-                    let imm8: u8 = instr as u8;
+                    let imm32 = ((instr & 0xff) << 1) as u32;
                     let cond: u8 = ((instr >> 8) & 0b1111) as u8;
 
-                    Thumb16::BT1(cond.try_into().unwrap(), imm8)
+                    Thumb16::BImmT1(cond.try_into().unwrap(), imm32)
                 }
             }
         }
@@ -314,7 +368,8 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
         // 11100x Unconditional Branch, see B on page A6-110
         0b111000..=0b111001 => {
             println!("11100x Unconditional Branch, see B on page A6-110");
-            unimplemented!()
+            let imm32 = ((instr & 0b11111111111) << 1) as u32;
+            Thumb16::BT2(imm32)
         }
 
         _ => {
@@ -322,7 +377,40 @@ pub fn disassemble(chunk: &[u8]) -> Result<(Thumb16, &[u8]), Error> {
             unimplemented!()
         }
     };
-    Ok((thumb16, rest))
+
+    thumb16
+}
+
+pub fn disassemble(chunk: &[u8]) -> Result<(Thumb, &[u8]), Error> {
+    if chunk.len() < 2 {
+        return Err(Error::ChunkNotLongEnough);
+    }
+
+    let first = chunk[1] >> 3;
+
+    let rest;
+
+    let thumb = match first {
+        0b11101..=0b11111 => { // 32 bit instruction
+            println!("32 bit instruction");
+            // perhaps better to use the `byteorder` crate
+            let arr0: [u8; 2] = chunk[0..=1].try_into().unwrap();
+            let arr1: [u8; 2] = chunk[2..=3].try_into().unwrap();
+            rest = &chunk[4..];
+            let instr = (u16::from_le_bytes(arr0) as u32) << 16 | (u16::from_le_bytes(arr1) as u32);
+            Thumb::Thumb32(disassemble32(instr))
+        },
+        _ => { // 16 bit instruction
+            println!("16 bit instruction");
+            // perhaps better to use the `byteorder` crate
+            let arr: [u8; 2] = chunk[0..=1].try_into().unwrap();
+            rest = &chunk[2..];
+            let instr = u16::from_le_bytes(arr);
+            Thumb::Thumb16(disassemble16(instr))
+        }
+    };
+
+    Ok((thumb, rest))
 }
 
 #[test]

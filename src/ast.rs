@@ -86,18 +86,36 @@ pub enum Register {
 
 type Imm3 = u8;
 type Imm8 = u8;
+type Imm32 = u32;
+type RegisterList = u16;
 type Rn = Register;
 type Rd = Register;
 type Rm = Register;
+type Rt = Register;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Thumb16 {
-    AddsImmT1(Imm3, Rn, Rd),
+    AddsImmT1(Imm32, Rn, Rd),
     BxT1(Rm),
-    CmpT1(Rn, Imm8),
-    BT1(Cond, Imm8),
-    MovsImmT1(Rd, Imm8),
+    CmpImmT1(Rn, Imm32),
+    BImmT1(Cond, Imm32),
+    MovsImmT1(Rd, Imm32),
     AddsRegT1(Rm, Rn, Rd),
     DataProc(DpOpcode, Register, Register),
     MovT1(Rm, Rd),
+    LdrImmT1(Rt, Imm32),
+    Stm(Rn, RegisterList),
+    BT2(Imm32),
+    Ldm(Rn, RegisterList),
+}
+
+#[derive(Debug, PartialEq, Eq)]
+pub enum Thumb32 {
+    BlT1(Imm32),
+}
+
+#[derive(Debug, PartialEq, Eq)]
+pub enum Thumb {
+    Thumb16(Thumb16),
+    Thumb32(Thumb32),
 }
