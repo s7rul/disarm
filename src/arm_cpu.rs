@@ -3,14 +3,22 @@ use disarm::{*, ast::*};
 mod arm_memmory;
 use arm_memmory::*;
 
+struct Flags {
+    n: bool, // N bit [31] Negative condition code flag. Set to bit [31] of the result of the instruction. If the result is regarded as a two's complement signed integer, then N is set to 1 if the result is negative and set to 0 if it is positive or zero.
+    z: bool, // Z bit [30] Zero condition code flag. Set to 1 if the result of the instruction is zero, and to 0 otherwise. A result of zero often indicates an equal result from a comparison. 
+    c: bool, // C, bit [29] Carry condition code flag. Set to 1 if the instruction results in a carry condition, for example an unsigned overflow on an addition.
+    v: bool, // V, bit [28] Overflow condition code flag. Set to 1 if the instruction results in an overflow condition, for example a signed overflow on an addition.
+}
+
 pub struct Cpu {
     registers: [u32;16],
+    flags: Flags,
     memmory: Memmory,
 }
 
 pub fn build() -> Cpu {
     let memmory = Memmory{data: vec![0 as u8;(u32::MAX as usize) + 1]};
-    Cpu { registers: [0;16], memmory: memmory}
+    Cpu { registers: [0;16], memmory: memmory, flags: Flags { n: false, z: false, c: false, v: false }}
 }
 
 impl Cpu {
@@ -82,4 +90,49 @@ impl Cpu {
         let i: u8 = register.into();
         self.registers[i as usize] = value;
     } 
+
+    fn execute(&mut self, instruction: Thumb) -> bool { // returns if pc should be incremented or not
+        let should_increment_PC = true;
+
+        match instruction {
+            Thumb::Thumb16(inst16) => {
+                match inst16 {
+                    Thumb16::AddsImmT1(_, _, _) => todo!(),
+                    Thumb16::BxT1(_) => todo!(),
+                    Thumb16::CmpImmT1(_, _) => todo!(),
+                    Thumb16::BImmT1(_, _) => todo!(),
+                    Thumb16::MovsImmT1(rd, imm32) => {
+                        /*if ConditionPassed() then
+                            EncodingSpecificOperations();
+                            result = imm32;
+                            R[d] = result;
+                            if setflags then
+                                APSR.N = result<31>;
+                                APSR.Z = IsZeroBit(result);
+                                APSR.C = carry;
+                                // APSR.V unchanged */
+                        
+                        self.write_register(rd, imm32);
+                        // setflags always false here in ARMv6-M.
+                    },
+                    Thumb16::AddsRegT1(_, _, _) => todo!(),
+                    Thumb16::DataProc(_, _, _) => todo!(),
+                    Thumb16::MovT1(_, _) => todo!(),
+                    Thumb16::LdrImmT1(_, _) => todo!(),
+                    Thumb16::Stm(_, _) => todo!(),
+                    Thumb16::BT2(_) => todo!(),
+                    Thumb16::Ldm(_, _) => todo!(),
+                    Thumb16::Push(_) => todo!(),
+                    Thumb16::UdfT1(_) => todo!(),
+                }
+            },
+            Thumb::Thumb32(inst32) {
+                match inst32 {
+                    Thumb32::BlT1(_) => todo!(),
+                }
+            }
+        }
+        
+        should_increment_PC
+    }
 }
