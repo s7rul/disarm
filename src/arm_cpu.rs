@@ -13,6 +13,7 @@ struct Flags {
 
 #[derive(Debug)]
 pub struct Cpu {
+    should_branch: bool,
     registers: [u32;16],
     flags: Flags,
     memmory: Memmory,
@@ -20,7 +21,7 @@ pub struct Cpu {
 
 pub fn build() -> Cpu {
     let memmory = Memmory{data: vec![0 as u8;(u32::MAX as usize) + 1]};
-    Cpu { registers: [0;16], memmory: memmory, flags: Flags { n: false, z: false, c: false, v: false }}
+    Cpu { should_branch: false, registers: [0;16], memmory: memmory, flags: Flags { n: false, z: false, c: false, v: false }}
 }
 
 impl Cpu {
@@ -42,6 +43,9 @@ impl Cpu {
     }
 
     pub fn tick(&mut self) {
+        // reset should branch
+        self.should_branch = false;
+
         let pc = self.registers[15];
         let data = self.memmory.read_4B(pc);
         let (instruction, rest) = match disassemble(&data) {
@@ -51,11 +55,11 @@ impl Cpu {
 
 
         println!("executing: {instruction:?}");
-        let should_increment_PC = self.execute(&instruction);
+        self.execute(&instruction);
 
         self.print_registers_and_flags();
 
-        if should_increment_PC {
+        if !self.should_branch {
             // increment PC
             match instruction {
                 Thumb::Thumb16(_) => {
@@ -92,7 +96,15 @@ impl Cpu {
 
     fn write_register(&mut self, register: Register, value: u32) {
         let i: u8 = register.into();
-        self.registers[i as usize] = value;
+
+        // special case for PC
+        if i == 15 {
+            self.should_branch = true; // if PC is written to always branch
+            let to_write = value & 0xfffffffe; // set lowest bit to 0 forcing alignment
+            self.registers[i as usize] = to_write;
+        } else {
+            self.registers[i as usize] = value;
+        }
     } 
 
     pub fn print_registers_and_flags(&self) {
@@ -104,9 +116,7 @@ impl Cpu {
         }
     }
 
-    fn execute(&mut self, instruction: &Thumb) -> bool { // returns if pc should be incremented or not
-        let should_increment_PC = true;
-
+    fn execute(&mut self, instruction: &Thumb) { // returns if pc should be incremented or not
         match instruction {
             Thumb::Thumb16(inst16) => {
                 match inst16 {
@@ -129,8 +139,13 @@ impl Cpu {
                         // setflags always false here in ARMv6-M.
                     },
                     Thumb16::AddsRegT1(_, _, _) => todo!(),
-                    Thumb16::DataProc(_, _, _) => todo!(),
-                    Thumb16::MovT1(_, _) => todo!(),
+                    Thumb16::DataProc(dp_op_code, r1, r2) => {
+                        self.do_data_proc(dp_op_code, r1, r2);
+                    },
+                    Thumb16::MovT1(rm, rd) => {
+                        let result = self.read_register(*rm);
+                        self.write_register(*rd, result);
+                    },
                     Thumb16::LdrImmT1(_, _) => todo!(),
                     Thumb16::Stm(_, _) => todo!(),
                     Thumb16::BT2(_) => todo!(),
@@ -145,7 +160,49 @@ impl Cpu {
                 }
             }
         }
-        
-        should_increment_PC
+    }
+
+    fn do_data_proc(&mut self, dp_op_code: &DpOpcode, r1: &Register, r2: &Register) {
+        match dp_op_code {
+            DpOpcode::AND => todo!(),
+            DpOpcode::OR => todo!(),
+            DpOpcode::LSL => todo!(),
+            DpOpcode::LSR => todo!(),
+            DpOpcode::ASR => todo!(),
+            DpOpcode::ADC => todo!(),
+            DpOpcode::SBC => todo!(),
+            DpOpcode::ROR => todo!(),
+            DpOpcode::TST => todo!(),
+            DpOpcode::RSB => todo!(),
+            DpOpcode::CMP => todo!(),
+            DpOpcode::CMN => todo!(),
+            DpOpcode::ORR => todo!(),
+            DpOpcode::MUL => todo!(),
+            DpOpcode::BIC => todo!(),
+            DpOpcode::MVN => {
+                self.do_mvn_register(*r1, *r2);
+            },
+        }
+    }
+
+    fn do_mvn_register(&mut self, rd: Register, rm: Register) {
+        /*
+        if ConditionPassed() then
+            EncodingSpecificOperations();
+            (shifted, carry) = Shift_C(R[m], shift_t, shift_n, APSR.C); // do not shift
+            result = NOT(shifted);
+            R[d] = result;
+            if setflags then // always true
+                APSR.N = result<31>;
+                APSR.Z = IsZeroBit(result);
+                APSR.C = carry;
+                // APSR.V unchanged§
+        */
+
+        let data_rm = self.read_register(rm);
+        let data_rd = !data_rm;
+        self.flags.z = data_rd == 0;
+        self.flags.c = false; // no carry science no shift
+        self.write_register(rd, data_rd);
     }
 }
