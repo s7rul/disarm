@@ -126,7 +126,7 @@ impl Cpu {
                     Thumb16::UdfT1(_) => todo!(),
                 }
             },
-            Thumb::Thumb32(inst32) {
+            Thumb::Thumb32(inst32) => {
                 match inst32 {
                     Thumb32::BlT1(_) => todo!(),
                 }
