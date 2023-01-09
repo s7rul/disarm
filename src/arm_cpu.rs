@@ -49,9 +49,11 @@ impl Cpu {
             Err(_) => panic!(),
         };
 
-        let should_increment_PC = true;
 
         println!("executing: {instruction:?}");
+        let should_increment_PC = self.execute(&instruction);
+
+        self.print_registers_and_flags();
 
         if should_increment_PC {
             // increment PC
@@ -93,7 +95,16 @@ impl Cpu {
         self.registers[i as usize] = value;
     } 
 
-    fn execute(&mut self, instruction: Thumb) -> bool { // returns if pc should be incremented or not
+    pub fn print_registers_and_flags(&self) {
+        println!("Flags N: {:?} Z: {:?} C: {:?} V:{:?}", self.flags.n, self.flags.z, self.flags.c, self.flags.v);
+        for (i, n) in self.registers.iter().enumerate() {
+            let reg: Register = (i as u8).try_into().unwrap();
+            let s = *n as i32;
+            println!("{reg:?}: {n:#x} signed: {s} unsigned: {n}")
+        }
+    }
+
+    fn execute(&mut self, instruction: &Thumb) -> bool { // returns if pc should be incremented or not
         let should_increment_PC = true;
 
         match instruction {
@@ -114,7 +125,7 @@ impl Cpu {
                                 APSR.C = carry;
                                 // APSR.V unchanged */
                         
-                        self.write_register(rd, imm32);
+                        self.write_register(*rd, *imm32);
                         // setflags always false here in ARMv6-M.
                     },
                     Thumb16::AddsRegT1(_, _, _) => todo!(),

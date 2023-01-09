@@ -63,7 +63,7 @@ pub enum Instruction {
     Mvn,
 }
 
-#[derive(Debug, PartialEq, Eq, TryFromPrimitive, IntoPrimitive)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, TryFromPrimitive, IntoPrimitive)]
 #[repr(u8)]
 pub enum Register {
     R0,
