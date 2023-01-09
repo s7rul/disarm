@@ -37,7 +37,7 @@ impl Cpu {
     pub fn start(&mut self, start_addr: u32) {
         self.write_register(Register::PC, start_addr);
 
-        for _ in 0..5 {
+        for _ in 0..500 {
             self.tick();
         }
     }
@@ -121,7 +121,9 @@ impl Cpu {
             Thumb::Thumb16(inst16) => {
                 match inst16 {
                     Thumb16::AddsImmT1(_, _, _) => todo!(),
-                    Thumb16::BxT1(_) => todo!(),
+                    Thumb16::BxT1(rm) => {
+                        self.do_bx(*rm);
+                    },
                     Thumb16::CmpImmT1(_, _) => todo!(),
                     Thumb16::BImmT1(_, _) => todo!(),
                     Thumb16::MovsImmT1(rd, imm32) => {
@@ -146,7 +148,9 @@ impl Cpu {
                         let result = self.read_register(*rm);
                         self.write_register(*rd, result);
                     },
-                    Thumb16::LdrImmT1(_, _) => todo!(),
+                    Thumb16::LdrImmT1(rt, imm32) => {
+                        self.do_ldr_imm(*rt, *imm32);
+                    },
                     Thumb16::Stm(_, _) => todo!(),
                     Thumb16::BT2(_) => todo!(),
                     Thumb16::Ldm(_, _) => todo!(),
@@ -220,4 +224,30 @@ impl Cpu {
         self.write_register(Register::LR, next_instr_addr | 0b1);
         self.write_register(Register::PC, imm32 + next_instr_addr);
     }
+
+    fn do_bx(&mut self, rm: Register) {
+        // this should do stuff with privileges but have not implemented yet
+        let addr = self.read_register(rm);
+        self.write_register(Register::PC, addr);
+    }
+
+    fn do_ldr_imm(&mut self, rt: Register, imm32: u32) {
+        /*
+        if ConditionPassed() then
+            EncodingSpecificOperations();
+            base = Align(PC,4);
+            address = if add then (base + imm32) else (base - imm32); // always add
+            R[t] = MemU[address,4];
+        */
+        let pc = self.read_register(Register::PC);
+        let base = align(pc, 4);
+        let addr = base + imm32;
+        let value = self.memmory.read_u32(addr);
+        self.write_register(rt, value);
+    }
+}
+
+// defined on page 344
+fn align(x: u32, y: u32) -> u32 {
+    y * (x / y)
 }

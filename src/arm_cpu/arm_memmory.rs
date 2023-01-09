@@ -19,4 +19,10 @@ impl Memmory {
         }
         ret
     }
+
+    pub fn read_u32(&self, addr: u32) -> u32 {
+        let chunk = self.read_4B(addr);
+        let value = u32::from_le_bytes(chunk);
+        value
+    }
 }
