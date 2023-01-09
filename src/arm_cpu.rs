@@ -127,18 +127,7 @@ impl Cpu {
                     Thumb16::CmpImmT1(_, _) => todo!(),
                     Thumb16::BImmT1(_, _) => todo!(),
                     Thumb16::MovsImmT1(rd, imm32) => {
-                        /*if ConditionPassed() then
-                            EncodingSpecificOperations();
-                            result = imm32;
-                            R[d] = result;
-                            if setflags then
-                                APSR.N = result<31>;
-                                APSR.Z = IsZeroBit(result);
-                                APSR.C = carry;
-                                // APSR.V unchanged */
-                        
-                        self.write_register(*rd, *imm32);
-                        // setflags always false here in ARMv6-M.
+                        self.do_movs_imm(*rd, *imm32);
                     },
                     Thumb16::AddsRegT1(_, _, _) => todo!(),
                     Thumb16::DataProc(dp_op_code, r1, r2) => {
@@ -180,7 +169,10 @@ impl Cpu {
             DpOpcode::ROR => todo!(),
             DpOpcode::TST => todo!(),
             DpOpcode::RSB => todo!(),
-            DpOpcode::CMP => todo!(),
+            DpOpcode::CMP => {
+                // r1 -> rm r2 -> rn
+                self.do_cmp_r(*r1, *r2);
+            },
             DpOpcode::CMN => todo!(),
             DpOpcode::ORR => todo!(),
             DpOpcode::MUL => todo!(),
@@ -244,6 +236,68 @@ impl Cpu {
         let addr = base + imm32;
         let value = self.memmory.read_u32(addr);
         self.write_register(rt, value);
+    }
+
+    fn do_cmp_r(&mut self, rm: Register, rn: Register) {
+        /*
+        if ConditionPassed() then
+            EncodingSpecificOperations();
+            shifted = Shift(R[m], shift_t, shift_n, APSR.C);
+            (result, carry, overflow) = AddWithCarry(R[n], NOT(shifted), ‘1’);
+            APSR.N = result<31>;
+            APSR.Z = IsZeroBit(result);
+            APSR.C = carry;
+            APSR.V = overflow;
+        */
+
+        let rn_val = self.read_register(rn);
+        let rm_val = self.read_register(rm);
+        self.add_with_carry_update_flags(rn_val, !rm_val, true);
+    }
+
+    fn add_with_carry_update_flags(&mut self, x: u32, y: u32, c: bool) -> u32 {
+        /*
+        (bits(N), bit, bit) AddWithCarry(bits(N) x, bits(N) y, bit carry_in)
+            unsigned_sum = UInt(x) + UInt(y) + UInt(carry_in);
+            signed_sum = SInt(x) + SInt(y) + UInt(carry_in);
+            result = unsigned_sum<N-1:0>; // same value as signed_sum<N-1:0>
+            carry_out = if UInt(result) == unsigned_sum then ‘0’ else ‘1’;
+            overflow = if SInt(result) == signed_sum then ‘0’ else ‘1’;
+            return (result, carry_out, overflow);
+        */
+        let u_sum = x as u64 + y as u64 + c as u64;
+        let s_sum = x as i64 + y as i64 + c as i64;
+        let result = u_sum as u32;
+
+        let carry_out = result as u64 == u_sum;
+        let overflow = (result as i32) as i64 == s_sum; // weird conversion to handle expansion properly
+
+        self.flags.c = carry_out;
+        self.flags.v = overflow;
+        self.flags.z = result == 0;
+        self.flags.n = (result as i32) < 0;
+        result
+    }
+
+    fn do_movs_imm(&mut self, rd: Register, imm32: u32) {
+        /*if ConditionPassed() then
+            EncodingSpecificOperations();
+            result = imm32;
+            R[d] = result;
+            if setflags then
+                APSR.N = result<31>;
+                APSR.Z = IsZeroBit(result);
+                APSR.C = carry;
+                // APSR.V unchanged */
+        
+        self.write_register(rd, imm32);
+        // setflags always true here in ARMv6-M.
+        self.set_flag_nz(imm32);
+    }
+
+    fn set_flag_nz(&mut self, result: u32) {
+        self.flags.z = result == 0;
+        self.flags.n = (result as i32) < 0;
     }
 }
 
