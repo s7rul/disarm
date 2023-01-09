@@ -3,6 +3,7 @@ use disarm::{*, ast::*};
 mod arm_memmory;
 use arm_memmory::*;
 
+#[derive(Debug)]
 struct Flags {
     n: bool, // N bit [31] Negative condition code flag. Set to bit [31] of the result of the instruction. If the result is regarded as a two's complement signed integer, then N is set to 1 if the result is negative and set to 0 if it is positive or zero.
     z: bool, // Z bit [30] Zero condition code flag. Set to 1 if the result of the instruction is zero, and to 0 otherwise. A result of zero often indicates an equal result from a comparison. 
@@ -10,6 +11,7 @@ struct Flags {
     v: bool, // V, bit [28] Overflow condition code flag. Set to 1 if the instruction results in an overflow condition, for example a signed overflow on an addition.
 }
 
+#[derive(Debug)]
 pub struct Cpu {
     registers: [u32;16],
     flags: Flags,
