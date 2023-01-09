@@ -1,30 +1,37 @@
 use std::convert::{TryFrom, TryInto};
 use elf::{*, endian::AnyEndian};
 
-mod ast;
+pub mod ast;
 use ast::*;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Error {
+    UnableToParseElf,
+    UnableToReadElf,
     ChunkNotLongEnough,
 }
 
-pub fn read_elf_file(path: &str) {
-    println!("Trying to read elf file {path}.");
-    let path = std::path::PathBuf::from(path);
-    let file_data = match std::fs::read(path) {
-        Ok(x) => x,
-        Err(e) => {
-            println!("Could not read file.");
-            return
-        },
-    };
+pub struct Program<'a> {
+    text: &'a [u8],
+    start_addr: u32,
+}
 
+impl Program<'_> {
+    pub fn get_start_addr(&self) -> u32 {
+        self.start_addr
+    }
+
+    pub fn get_text(&self) -> &[u8] {
+        self.text
+    }
+}
+
+pub fn read_elf_file<'a>(file_data: &'a Vec<u8>) -> Result<Program, Error> {
     let file = match ElfBytes::<AnyEndian>::minimal_parse(file_data.as_slice()) {
         Ok(x) => x,
         Err(_) => {
             println!("unable to parse file");
-            return
+            return Err(Error::UnableToParseElf)
         }
     };
 
@@ -35,18 +42,19 @@ pub fn read_elf_file(path: &str) {
                 Some(n) => n,
                 None => {
                     println!("No section .text found");
-                    return
+                    return Err(Error::UnableToParseElf)
                 }
             }
         },
         Err(_) => {
             println!("Unable to parse section table.");
-            return;
+            return Err(Error::UnableToParseElf);
         }
     };
 
     let offset = text_header.sh_offset;
     let size = text_header.sh_size;
+    let start_addr = text_header.sh_addr;
 
     println!("Offset: {offset:#x} size: {size:#x}");
 
@@ -54,25 +62,22 @@ pub fn read_elf_file(path: &str) {
         Ok(x) => match x.1 {
             Some(_) => {
                 println!(".text data is compressed aborting");
-                return
+                return Err(Error::UnableToParseElf)
             },
             None => x.0
         },
         Err(_) => {
             println!("unable to parse");
-            return
+            return Err(Error::UnableToParseElf)
         }
     };
 
     let mut chunk = text_data;
-    loop {
-        let (inst, rest) = disassemble(chunk).unwrap();
-        println!("{:?}", inst);
-        if rest.len() == 0 {
-            break;
-        }
-        chunk = rest;
-    }
+
+    Ok(Program{
+        start_addr: start_addr as u32,
+        text: text_data,
+    })
 }
 
 fn disassemble32(instr: u32) -> Thumb32 {
