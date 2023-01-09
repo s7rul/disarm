@@ -156,7 +156,9 @@ impl Cpu {
             },
             Thumb::Thumb32(inst32) => {
                 match inst32 {
-                    Thumb32::BlT1(_) => todo!(),
+                    Thumb32::BlT1(imm32) => {
+                        self.do_bl(*imm32);
+                    },
                 }
             }
         }
@@ -204,5 +206,18 @@ impl Cpu {
         self.flags.z = data_rd == 0;
         self.flags.c = false; // no carry science no shift
         self.write_register(rd, data_rd);
+    }
+
+    fn do_bl(&mut self, imm32: u32) {
+        /*
+        if ConditionPassed() then
+            EncodingSpecificOperations();
+            next_instr_addr = PC;
+            LR = next_instr_addr<31:1> : ‘1’;
+            BranchWritePC(PC + imm32);
+        */
+        let next_instr_addr = self.read_register(Register::PC);
+        self.write_register(Register::LR, next_instr_addr | 0b1);
+        self.write_register(Register::PC, imm32 + next_instr_addr);
     }
 }
