@@ -125,7 +125,9 @@ impl Cpu {
                         self.do_bx(*rm);
                     },
                     Thumb16::CmpImmT1(_, _) => todo!(),
-                    Thumb16::BImmT1(_, _) => todo!(),
+                    Thumb16::BImmT1(cond, imm32) => {
+                        self.do_bt1(*cond, *imm32);
+                    },
                     Thumb16::MovsImmT1(rd, imm32) => {
                         self.do_movs_imm(*rd, *imm32);
                     },
@@ -295,9 +297,71 @@ impl Cpu {
         self.set_flag_nz(imm32);
     }
 
+    fn do_bt1(&mut self, cond: Cond, imm32: u32) {
+        if self.condition_passed(cond) {
+            let pc = self.read_register(Register::PC);
+            self.write_register(Register::PC, pc + imm32);
+        }
+    }
+
     fn set_flag_nz(&mut self, result: u32) {
         self.flags.z = result == 0;
         self.flags.n = (result as i32) < 0;
+    }
+
+    fn condition_passed(&self, cond: Cond) -> bool {
+        /*
+        boolean ConditionPassed()
+            cond = CurrentCond();
+            // Evaluate base condition.
+            case cond<3:1> of
+                when ‘000’ result = (APSR.Z == ‘1’); // EQ or NE
+                when ‘001’ result = (APSR.C == ‘1’); // CS or CC
+                when ‘010’ result = (APSR.N == ‘1’); // MI or PL
+                when ‘011’ result = (APSR.V == ‘1’); // VS or VC
+                when ‘100’ result = (APSR.C == ‘1’) && (APSR.Z == ‘0’); // HI or LS
+                when ‘101’ result = (APSR.N == APSR.V); // GE or LT
+                when ‘110’ result = (APSR.N == APSR.V) && (APSR.Z == ‘0’); // GT or LE
+                when ‘111’ result = TRUE; // AL
+            // Condition flag values in the set ‘111x’ indicate the instruction is always executed.
+            // Otherwise, invert condition if necessary.
+            if cond<0> == ‘1’ && cond != ‘1111’ then
+                result = !result;
+            return result;
+        */
+        let result = match cond {
+            Cond::EQ | Cond::NE => {
+                self.flags.z
+            },
+            Cond::CS | Cond::CC => {
+                self.flags.c
+            },
+            Cond::MI | Cond::PL => {
+                self.flags.n
+            },
+            Cond::VS | Cond::VC => {
+                self.flags.v
+            },
+            Cond::HI | Cond::LS => {
+                self.flags.c && !self.flags.z
+            },
+            Cond::GE | Cond::LT => {
+                self.flags.n == self.flags.v
+            },
+            Cond::GT | Cond::LE => {
+                (self.flags.n == self.flags.v) && !self.flags.z
+            },
+            Cond::None => true
+        };
+        
+        match cond {
+            Cond::NE | Cond::CC | Cond::PL | Cond::VC | Cond::LS | Cond::LT | Cond::LE => {
+                !result
+            },
+            _ => {
+                result
+            }
+        }
     }
 }
 

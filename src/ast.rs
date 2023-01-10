@@ -1,7 +1,7 @@
 // A6.3 Conditional Execution
 use num_enum::{IntoPrimitive, TryFromPrimitive};
 
-#[derive(Debug, PartialEq, Eq, TryFromPrimitive, IntoPrimitive)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, TryFromPrimitive, IntoPrimitive)]
 #[repr(u8)]
 pub enum Cond {
     EQ = 0b0000,
