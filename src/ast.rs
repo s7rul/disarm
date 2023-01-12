@@ -84,15 +84,33 @@ pub enum Register {
     PC,
 }
 
+#[derive(Copy, Clone, Debug, PartialEq, Eq, TryFromPrimitive, IntoPrimitive)]
+#[repr(u8)]
+pub enum SpecialRegister {
+    APSR = 0,
+    IAPSR = 1,
+    EAPSR = 2,
+    XPSR = 3,
+    IPSR = 5,
+    EPSR = 6,
+    IEPSR = 7,
+    MSP = 8,
+    PSP = 9,
+    PRIMASK = 16,
+    CONTROL = 20,
+}
+
 type Imm3 = u8;
 type Imm8 = u8;
 type Imm32 = u32;
 type Imm32S = i32;
-type RegisterList = u16;
 type Rn = Register;
 type Rd = Register;
 type Rm = Register;
 type Rt = Register;
+
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+pub struct RegisterList(pub u16);
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Thumb16 {
@@ -110,15 +128,35 @@ pub enum Thumb16 {
     Ldm(Rn, RegisterList),
     Push(RegisterList),
     UdfT1(Imm32),
+    AddSpImmT1(Rd, Imm32),
+    SubSpSpImmT1(Imm32),
+    STRImmT2(Rt, Imm32),
+    Bkpt(Imm32),
 }
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Thumb32 {
     BlT1(Imm32),
+    MsrT1(Rn, SpecialRegister),
+    MrsT1(Rd, SpecialRegister),
 }
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Thumb {
     Thumb16(Thumb16),
     Thumb32(Thumb32),
+}
+
+impl RegisterList {
+    pub fn to_vec(&self) -> Vec<Register> {
+        let mut ret = vec![];
+
+        for i in 0..16 {
+            if (self.0 >> i) & 0b1 == 1 {
+                ret.push(i.try_into().unwrap());
+            }
+        }
+        
+        ret
+    }
 }

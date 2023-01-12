@@ -25,4 +25,9 @@ impl Memmory {
         let value = u32::from_le_bytes(chunk);
         value
     }
+
+    pub fn write_u32(&mut self, addr: u32, value: u32) {
+        let chunk = value.to_le_bytes();
+        self.write_chunk(addr, &chunk);
+    } 
 }

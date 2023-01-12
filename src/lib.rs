@@ -11,9 +11,11 @@ pub enum Error {
     ChunkNotLongEnough,
 }
 
+#[derive(Debug)]
 pub struct Program<'a> {
     text: &'a [u8],
     start_addr: u32,
+    start_stack: u32,
 }
 
 impl Program<'_> {
@@ -23,6 +25,14 @@ impl Program<'_> {
 
     pub fn get_text(&self) -> &[u8] {
         self.text
+    }
+
+    pub fn get_start_stack(&self) -> u32 {
+        self.start_stack
+    }
+
+    pub fn build(text: &[u8], start_addr: u32, start_stack: u32) -> Program {
+        Program { text: text, start_addr: start_addr, start_stack: start_stack }
     }
 }
 
@@ -74,9 +84,31 @@ pub fn read_elf_file<'a>(file_data: &'a Vec<u8>) -> Result<Program, Error> {
 
     let mut chunk = text_data;
 
+    let common = match file.find_common_data() {
+        Ok(x) => x,
+        Err(_) => {
+            println!("unable to parse");
+            return Err(Error::UnableToParseElf)
+        }
+    };
+
+    let (symtab, strtab) = (common.symtab.unwrap(), common.symtab_strs.unwrap());
+
+    let mut stack_start_symb: Option<symbol::Symbol> = None;
+
+    for n in symtab {
+        let name_idx = n.st_name;
+        let name = strtab.get(name_idx as usize).unwrap();
+
+        if name == "_stack_start" {
+            stack_start_symb = Some(n);
+        }
+    }
+
     Ok(Program{
         start_addr: start_addr as u32,
         text: text_data,
+        start_stack: stack_start_symb.unwrap().st_value as u32,
     })
 }
 
@@ -88,8 +120,9 @@ fn disassemble32(instr: u32) -> Thumb32 {
 
     let thumb = match (op1, op2) {
         (0b10, 0b1) => { // Branch and miscellaneous control A5.3.1
-            let op1 = (instr >> 19) & 0b1111111;
+            let op1 = (instr >> 20) & 0b1111111;
             let op2 = (instr >> 12) & 0b111;
+            println!("op1: {op1:02b}, op2: {op2:01b}");
 
             match (op1, op2) {
                 (0b1111111, 0b010) => { // always undefined
@@ -97,13 +130,17 @@ fn disassemble32(instr: u32) -> Thumb32 {
                     unimplemented!()
                 },
                 (0b0111000 | 0b0111001, 0b000 | 0b010) => { // MSR (register) B4.2.3
-                    unimplemented!()
+                    let rn = ((instr >> 16) & 0xf) as u8;
+                    let special = (instr & 0xff) as u8;
+                    Thumb32::MsrT1(rn.try_into().unwrap(), special.try_into().unwrap())
                 },
                 (0b0111011, 0b000 | 0b010) => { // Miscellaneous control instructions A5.3.1
                     unimplemented!()
                 },
                 (0b0111110 | 0b0111111, 0b000 | 0b010) => { // MRS B4.2.2
-                    unimplemented!()
+                    let rd = ((instr >> 8) & 0xf) as u8;
+                    let sr = (instr & 0xff) as u8;
+                    Thumb32::MrsT1(rd.try_into().unwrap(), sr.try_into().unwrap())
                 },
                 (_, 0b101 | 0b111) => { // BL A6.7.13EOR
                     let j1 = (instr >> 13) & 0b1;
@@ -288,7 +325,45 @@ fn disassemble16(instr: u16) -> Thumb16 {
         // 0101xx Load/store single data item on page A5-82
         0b010100..=0b010111 => {
             println!("0101xx Load/store single data item on page A5-82");
-            unimplemented!()
+            let opb = (instr >> 9) & 0b111;
+            println!("opa: 0101 opB: {opb:03b}");
+            match opb {
+                0b000 => {
+                    println!("0101 000 Store Register STR (register) on page A6-159");
+                    unimplemented!()
+                }
+                0b001 => {
+                    println!("0101 001 Store Register Halfword STRH (register) on page A6-163");
+                    unimplemented!()
+                }
+                0b010 => {
+                    println!("0101 010 Store Register Byte STRB (register) on page A6-161");
+                    unimplemented!()
+                }
+                0b011 => {
+                    println!("0101 011 Load Register Signed Byte LDRSB (register) on page A6-133");
+                    unimplemented!()
+                }
+                0b100 => {
+                    println!("0101 100 Load Register LDR (register) on page A6-128");
+                    unimplemented!()
+                }
+                0b101 => {
+                    println!("0101 101 Load Register Halfword LDRH (register) on page A6-132");
+                    unimplemented!()
+                }
+                0b110 => {
+                    println!("0101 110 Load Register Byte LDRB (register) on page A6-130");
+                    unimplemented!()
+                }
+                0b111 => {
+                    println!("0101 111 Load Register Signed Halfword LDRSH (register) on page A6-134");
+                    unimplemented!()
+                }
+                _ => {
+                    unimplemented!()
+                }
+            }
         }
 
         // 011xxx Load/store single data item on page A5-82
@@ -300,7 +375,31 @@ fn disassemble16(instr: u16) -> Thumb16 {
         // 011xxx Load/store single data item on page A5-82
         0b100000..=0b100111 => {
             println!("0101xx Load/store single data item on page A5-82");
-            unimplemented!()
+            let opa = (instr >> 12);
+            let opb = (instr >> 9) & 0b111;
+            println!("opa: {opa:04b} opB: {opb:03b}");
+
+            match (opa, opb) {
+                (0b1000, 0b0..=0b011) => {
+                    println!("1000 0xx Store Register Halfword STRH (immediate) on page A6-162");
+                    unimplemented!()
+                }
+                (0b1000, 0b100..=0b111) => {
+                    println!("1000 1xx Load Register Halfword LDRH (immediate) on page A6-131");
+                    unimplemented!()
+                }
+                (0b1001, 0b000..=0b011) => {
+                    println!("1001 0xx Store Register SP relative STR (immediate) on page A6-158");
+                    let rt = (instr >> 8) & 0b111;
+                    let imm32 = ((instr & 0xff) << 2) as u32;
+                    Thumb16::STRImmT2((rt as u8).try_into().unwrap(), imm32)
+                }
+                (0b1001, 0b100..=0b111) => {
+                    println!("1001 1xx Load Register SP relative LDR (immediate) on page A6-126");
+                    unimplemented!()
+                }
+                (_, _) => unimplemented!()
+            }
         }
 
         // 10100x Generate PC-relative address, see ADR on page A6-106
@@ -314,7 +413,10 @@ fn disassemble16(instr: u16) -> Thumb16 {
             println!(
                 "10101x Generate SP-relative address, see ADD (SP plus immediate) on page A6-104"
             );
-            unimplemented!()
+            // T1 encoding
+            let rd = (instr >> 8) & 0b111;
+            let imm32 = ((instr & 0xff) << 2) as u32;
+            Thumb16::AddSpImmT1((rd as u8).try_into().unwrap(), imm32)
         }
 
         // 1011xx Miscellaneous 16-bit instructions on page A5-83
@@ -327,7 +429,8 @@ fn disassemble16(instr: u16) -> Thumb16 {
                     unimplemented!()
                 },
                 0b0000100..=0b0000111 => { // Subtract Immediate from SP A6-166
-                    unimplemented!()
+                    let imm32 = (instr & 0b1111111) as u32;
+                    Thumb16::SubSpSpImmT1(imm32)
                 },
                 0b0010000..=0b0010001 => { // Signed Extend Halfword A6-169
                     unimplemented!()
@@ -343,8 +446,12 @@ fn disassemble16(instr: u16) -> Thumb16 {
                 },
                 0b0100000..=0b0101111 => { // Push Multiple Registers A6-149
                     let registers = (((instr >> 8) & 0b1) << 14) | (instr & 0xff);
-                    Thumb16::Push(registers)
+                    Thumb16::Push(RegisterList(registers))
                 },
+                0b1110000..=0b1110111 => { // BKPT
+                    let imm32 = (instr & 0xff) as u32;
+                    Thumb16::Bkpt(imm32)
+                }
                 _ => {
                     unimplemented!()
                 }
@@ -357,7 +464,7 @@ fn disassemble16(instr: u16) -> Thumb16 {
             let rn = ((instr >> 8) & 0b111) as u8;
             let registers: u16 = (instr & 0xff);
             println!("Registers: {registers:016b}");
-            Thumb16::Stm(rn.try_into().unwrap(), registers)
+            Thumb16::Stm(rn.try_into().unwrap(), RegisterList(registers))
         }
 
         // Register lists
@@ -370,7 +477,7 @@ fn disassemble16(instr: u16) -> Thumb16 {
             let rn = ((instr >> 8) & 0b111) as u8;
             let registers: u16 = (instr & 0xff);
             println!("Registers: {registers:016b}");
-            Thumb16::Ldm(rn.try_into().unwrap(), registers)
+            Thumb16::Ldm(rn.try_into().unwrap(), RegisterList(registers))
         }
 
         // 1101xx Conditional branch, and Supervisor Call on page A5-84
