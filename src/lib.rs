@@ -1,6 +1,8 @@
 use std::convert::{TryFrom, TryInto};
 use elf::{*, endian::AnyEndian};
 
+pub mod arm_cpu;
+
 pub mod ast;
 use ast::*;
 

@@ -1,7 +1,7 @@
-use disarm::{*, ast::*};
-
 mod arm_memmory;
 use arm_memmory::*;
+
+use crate::{ast::{Thumb, Thumb16, Register, SpecialRegister, Thumb32, DpOpcode, Cond, RegisterList}, disassemble, Program};
 
 macro_rules! deprecated {
     () => {
@@ -65,6 +65,7 @@ impl Cpu {
         };
 
         if matches!(instruction, Thumb::Thumb16(Thumb16::Bkpt(_))) {
+            println!("Reached Break point");
             return false
         }
 
@@ -623,8 +624,8 @@ fn align(x: u32, y: u32) -> u32 {
 #[test]
 fn demo_test() {
     let mut chunk: &[u8] = &[
-        //0x09, 0x20, // mov r0, #9
-        0x0a, 0x20, // mov r0, #10
+        0x09, 0x20, // mov r0, #9
+        //0x0a, 0x20, // mov r0, #10
         //0x0e, 0x20, // mov r0, #14
         0x0a, 0x28, // cmp	r0, #10
         0x02, 0xd8, // bhi	0x10e <cond_function+0xa> @ imm = #4
